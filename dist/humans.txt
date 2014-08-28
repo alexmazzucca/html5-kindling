@@ -1,0 +1,10 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Alex Mazzucca -- Front-end Development -- @alexmazzucca
+
+# TECHNOLOGY COLOPHON
+
+    CSS3, HTML5, jQuery, Modernizr, Normalize.css
