@@ -2955,7 +2955,7 @@
 	"\/src\/index.md": {
 		"enableFootnoteSupport": 0,
 		"enableSmartyPants": 1,
-		"expandTabs": 1,
+		"expandTabs": 0,
 		"fileType": 4096,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
