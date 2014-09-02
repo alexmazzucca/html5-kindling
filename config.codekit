@@ -3570,7 +3570,7 @@
 	"markdownEnableFootnotes": 0,
 	"markdownEnableSmartyPants": 1,
 	"markdownExpandTabs": 1,
-	"reloadFileURLs": 0,
+	"reloadFileURLs": 1,
 	"sassAutoOutputPathEnabled": 1,
 	"sassAutoOutputPathFilenamePattern": "*.css",
 	"sassAutoOutputPathRelativePath": "..\/css",
@@ -3759,7 +3759,7 @@
 			}
 		},
 	"uglifyReservedNamesString": "$",
-	"websiteRelativeRoot": ""
+	"websiteRelativeRoot": "dist\/"
 	},
 "settingsFileVersion": "2"
 }
