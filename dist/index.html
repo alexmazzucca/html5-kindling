@@ -1,32 +1,20 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
+        <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+        <title><?php wp_title(''); ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta content="" property="og:site_name" />
-        <meta content="" property="og:title" />
-        <meta content="" property="og:description" />
-        <meta content="/icons/og-1200x600.png" property="og:image" />
-        <meta content="" property="og:url" />
-        <meta content="website" property="og:type" />
-        
-        <meta content="" name="twitter:url" />
-        <meta content="" name="twitter:title" />
+        <!--Icons-->
+        <!--realfavicongenerator.net-->
 
-        <link rel="shortcut icon" href="/icons/favicon.ico" />
-        <link rel="apple-touch-icon-precomposed" href="/icons/apple-touch-icon-152x152.png">
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="msapplication-TileImage" content="/icons/mstile-144x144.png">
+        <!--Fonts-->
 
-        <link rel="stylesheet" href="css/main.min.css">
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <?php wp_head(); ?>
     </head>
     <body>
         <!--[if lt IE 7]>
