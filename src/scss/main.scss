@@ -2,33 +2,146 @@
 @import 'html5bp';
 
 /*-------------------------------------
-Starter Sass Stuff
+Global
 -------------------------------------*/
+
+/*
+Colors go here!
+*/
 
 $color: #FFFFFF;
 
-header {
-    color: $color;
+.container {
+    width: 960px;
+    padding:0 20px;
+    box-sizing: border-box;
 }
 
-nav.main {
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
+.container:before,
+.container:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.container:after {
+    clear: both;
+}
+
+a {
+    -webkit-transition: background-color 0.3s ease-out, color 0.3s ease;
+    -moz-transition: background-color 0.3s ease-out, color 0.3s ease;
+    -ms-transition: background-color 0.3s ease-out, color 0.3s ease;
+    -o-transition: background-color 0.3s ease-out, color 0.3s ease;
+    transition: background-color 0.3s ease-out, color 0.3s ease;
+}
+
+nav ul {
+    margin:0;
+    padding:0;
+    list-style: none;
+    overflow: auto;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+sup, sub {
+    vertical-align: baseline;
+    font-size: .65em;
+    position: relative;
+    top: -0.4em;
+}
+
+sub { 
+    top: 0.4em; 
+}
+
+/*
+Columns
+*/
+
+.column-array {
+    overflow: auto;
+}
+
+.column-array .column {
+    float: left;
+}
+
+.column-array > .column > div {
+    margin-left: 30px;
+}
+
+/*
+<div class="column-array three">
+<div class="column">
+<div class="no-delete">
+<!--One-->
+</div>
+</div>
+<div class="column">
+<div class="no-delete">
+<!--Two-->
+</div>
+</div>
+<div class="column">
+<div class="no-delete">
+<!--Three-->
+</div>
+</div>
+</div>
+*/
+
+/*
+3-Column Structures
+*/
+
+.column-array.three > .column {
+    width: 33.333%;
+}
+
+@media screen and (max-width: 767px) {
+
+    .column-array {
+        margin-left: 0;
     }
 
-    li {
-        display: inline-block;
+    .column-array > .column > div {
+        margin-left: 0;
     }
 
-    a {
-        display: block;
-        padding: 6px 12px;
-        text-decoration: none;
+    .column-array > .column {
+        float: none;
+        width: auto !important;
+        margin-bottom: 20px;
     }
+}
+
+/*
+2-Column Structures
+*/
+
+.column-array.two > .column {
+    width: 50%;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
 }
 
 /*-------------------------------------
-Comment
+Header
 -------------------------------------*/
+
+#site-logo {
+    margin: 0;
+}
+
+#site-logo a {
+    display: block;
+}
+
+
