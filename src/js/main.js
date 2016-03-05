@@ -63,6 +63,7 @@
 		}
 
 		$.Window.bind('load resize', navInit);
+		navInit();
 
 		// Specific viewport functions
 
