@@ -39,7 +39,8 @@
 
 	$.fn.navControl = function(options){
 
-		var $burger = $('#burger');
+		var $stage = $(this),
+			$burger = $('#burger');
 
 		// Initialize functions based on viewport size
 
