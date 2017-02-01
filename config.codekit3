@@ -103,7 +103,7 @@
 		"oA": 0,
 		"oAP": "\/dist\/js\/legacy.min.js",
 		"oF": 2,
-		"sC": 1,
+		"sC": 0,
 		"tS": 0
 		},
 	"\/src\/js\/main.js": {
@@ -112,7 +112,7 @@
 		"oA": 0,
 		"oAP": "\/dist\/js\/main.min.js",
 		"oF": 2,
-		"sC": 1,
+		"sC": 0,
 		"tS": 0
 		},
 	"\/src\/js\/plugins.js": {
@@ -121,7 +121,7 @@
 		"oA": 0,
 		"oAP": "\/dist\/js\/plugins.min.js",
 		"oF": 2,
-		"sC": 1,
+		"sC": 0,
 		"tS": 0
 		},
 	"\/src\/scss\/.sass-cache\/36594488ea0a55d8a3aad14310bc8afed771cfa4\/html5bp.scssc": {
@@ -186,9 +186,9 @@
 	},
 "projectAttributes": {
 	"creationDate": 507524577,
-	"displayValue": "HTML5 Kindling",
+	"displayValue": "HTML5 Kindling Project",
 	"displayValueWasSetByUser": 1,
-	"iconImageName": "meme-ron"
+	"iconImageName": "meme-archer"
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
