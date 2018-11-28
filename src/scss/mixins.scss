@@ -118,10 +118,11 @@ Mixins
         display: flex;
         display: -ms-flexbox;
         margin: 0px (-$margin);
+        flex-wrap: wrap;
 
         > * {
             width: calc(#{$width} - #{$gutter});
-            margin: 0 $margin;
+            margin: 0 $margin $gutter $margin;
         }
     }
 }
