@@ -116,17 +116,15 @@ Mixins
  */
 
 @mixin fluidcolumns($width, $gutter) {
-    @media screen and (min-width: $breakpoint_desktop) {
-        $margin: $gutter / 2;
-        display: flex;
-        display: -ms-flexbox;
-        margin: 0px (-$margin);
-        flex-wrap: wrap;
+    $margin: $gutter / 2;
+    display: flex;
+    display: -ms-flexbox;
+    margin: 0px (-$margin);
+    flex-wrap: wrap;
 
-        > * {
-            width: calc(#{$width} - #{$gutter});
-            margin: 0 $margin $gutter $margin;
-        }
+    > * {
+        width: calc(#{$width} - #{$gutter});
+        margin: 0 $margin 0 $margin;
     }
 }
 
