@@ -1,7 +1,5 @@
 /**/
 
-// @codekit-prepend 'vendor/jquery.validate.min.js'
-
 var viewportWidth;
 
 $(window).on('load resize', function(){
