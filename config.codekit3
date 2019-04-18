@@ -8345,14 +8345,6 @@
 		"oAP": "/dist/project.sublime-workspace",
 		"oF": 1
 		},
-	"/README.html": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/README.html",
-		"oF": 1
-		},
 	"/README.md": {
 		"cB": 0,
 		"cS": 0,
@@ -8408,62 +8400,6 @@
 		"hM": 0,
 		"oA": 2,
 		"oAP": "/dist/robots.txt",
-		"oF": 0
-		},
-	"/src/scss/.sass-cache/36594488ea0a55d8a3aad14310bc8afed771cfa4/html5bp.scssc": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/scss/.sass-cache/36594488ea0a55d8a3aad14310bc8afed771cfa4/html5bp.scssc",
-		"oF": 0
-		},
-	"/src/scss/.sass-cache/36594488ea0a55d8a3aad14310bc8afed771cfa4/main.scssc": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/scss/.sass-cache/36594488ea0a55d8a3aad14310bc8afed771cfa4/main.scssc",
-		"oF": 0
-		},
-	"/src/scss/.sass-cache/36594488ea0a55d8a3aad14310bc8afed771cfa4/normalize.scssc": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/scss/.sass-cache/36594488ea0a55d8a3aad14310bc8afed771cfa4/normalize.scssc",
-		"oF": 0
-		},
-	"/src/scss/.sass-cache/4a8a64fda776ee0f5d71c897b3fc3f600f769faa/html5bp.scssc": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/scss/.sass-cache/4a8a64fda776ee0f5d71c897b3fc3f600f769faa/html5bp.scssc",
-		"oF": 0
-		},
-	"/src/scss/.sass-cache/4a8a64fda776ee0f5d71c897b3fc3f600f769faa/main.scssc": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/scss/.sass-cache/4a8a64fda776ee0f5d71c897b3fc3f600f769faa/main.scssc",
-		"oF": 0
-		},
-	"/src/scss/.sass-cache/4a8a64fda776ee0f5d71c897b3fc3f600f769faa/reset.scssc": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/scss/.sass-cache/4a8a64fda776ee0f5d71c897b3fc3f600f769faa/reset.scssc",
-		"oF": 0
-		},
-	"/src/scss/.sass-cache/ecaf04407fef39d900ff9ac0a6d089bded7abb6c/main.scssc": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/scss/.sass-cache/ecaf04407fef39d900ff9ac0a6d089bded7abb6c/main.scssc",
 		"oF": 0
 		},
 	"/src/scss/imports/mixins.scss": {
