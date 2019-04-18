@@ -39,6 +39,22 @@
 		"oAP": "/dist/LICENSE",
 		"oF": 0
 		},
+	"/project.sublime-project": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/project.sublime-project",
+		"oF": 0
+		},
+	"/project.sublime-workspace": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/project.sublime-workspace",
+		"oF": 0
+		},
 	"/README.md": {
 		"cB": 0,
 		"cS": 0,
@@ -8301,7 +8317,7 @@
 		"ft": 16,
 		"ma": 0,
 		"oA": 0,
-		"oAP": "/src/scss/normalize.scss",
+		"oAP": "/dist/scss/normalize.scss",
 		"oF": 3,
 		"oS": 3
 		},
@@ -8434,6 +8450,45 @@
 		"oAP": "/dist/scss/.sass-cache/ecaf04407fef39d900ff9ac0a6d089bded7abb6c/main.scssc",
 		"oF": 0
 		},
+	"/src/scss/imports/mixins.scss": {
+		"aP": 1,
+		"bl": 0,
+		"dP": 5,
+		"dS": 0,
+		"ft": 4,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "/dist/scss/css/mixins.css",
+		"oF": 0,
+		"oS": 3,
+		"uL": 1
+		},
+	"/src/scss/imports/normalize.scss": {
+		"aP": 1,
+		"bl": 0,
+		"dP": 5,
+		"dS": 0,
+		"ft": 4,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "/dist/scss/css/normalize.css",
+		"oF": 0,
+		"oS": 3,
+		"uL": 1
+		},
+	"/src/scss/imports/resets-helpers.scss": {
+		"aP": 1,
+		"bl": 0,
+		"dP": 5,
+		"dS": 0,
+		"ft": 4,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "/dist/scss/css/resets-helpers.css",
+		"oF": 0,
+		"oS": 3,
+		"uL": 1
+		},
 	"/src/scss/main.scss": {
 		"aP": 1,
 		"bl": 0,
@@ -8444,45 +8499,6 @@
 		"oA": 0,
 		"oAP": "/dist/css/main.min.css",
 		"oF": 2,
-		"oS": 3,
-		"uL": 1
-		},
-	"/src/scss/mixins.scss": {
-		"aP": 1,
-		"bl": 0,
-		"dP": 5,
-		"dS": 0,
-		"ft": 4,
-		"ma": 1,
-		"oA": 1,
-		"oAP": "/dist/css/mixins.css",
-		"oF": 1,
-		"oS": 3,
-		"uL": 1
-		},
-	"/src/scss/normalize.scss": {
-		"aP": 1,
-		"bl": 0,
-		"dP": 5,
-		"dS": 0,
-		"ft": 4,
-		"ma": 1,
-		"oA": 1,
-		"oAP": "/dist/css/normalize.css",
-		"oF": 0,
-		"oS": 3,
-		"uL": 1
-		},
-	"/src/scss/resets-helpers.scss": {
-		"aP": 1,
-		"bl": 0,
-		"dP": 5,
-		"dS": 0,
-		"ft": 4,
-		"ma": 1,
-		"oA": 1,
-		"oAP": "/dist/css/resets-helpers.css",
-		"oF": 0,
 		"oS": 3,
 		"uL": 1
 		}
@@ -9971,7 +9987,7 @@
 		},
 	"esLintSourceType": 0,
 	"externalServerAddress": "http://localhost:8888",
-	"gitIgnoreBuildFolder": 1,
+	"gitIgnoreBuildFolder": 0,
 	"hideConfigFile": 0,
 	"jsCheckerReservedNamesString": "",
 	"jsHintFlags2": {
