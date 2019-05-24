@@ -1,4 +1,8 @@
-/**/
+/*
+* >>========================================>
+* Get Viewport Width
+* >>========================================>
+*/
 
 var viewportWidth;
 
@@ -18,7 +22,7 @@ if (/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent) 
 
 /*
 * >>========================================>
-* Window Load
+* On Window Load
 * >>========================================>
 */
 

@@ -1,0 +1,29 @@
+{
+	"name": "html5-kindling-gulp",
+	"version": "1.0.0",
+	"description": "An attempt to accomplish CK tasks using Gulp and NPM",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Alexander Mazzucca",
+	"license": "ISC",
+	"devDependencies": {
+		"browser-sync": "^2.26.5",
+		"del": "^4.1.1",
+		"gulp": "^4.0.2",
+		"gulp-append-prepend": "^1.0.8",
+		"gulp-autoprefixer": "^6.1.0",
+		"gulp-concat": "^2.6.1",
+		"gulp-htmlmin": "^5.0.1",
+		"gulp-imagemin": "^5.0.3",
+		"gulp-modernizr": "^3.2.1",
+		"gulp-sass": "^4.0.2",
+		"gulp-sourcemaps": "^2.6.5",
+		"gulp-uglify": "^3.0.2",
+		"gulp-watch": "^5.0.1",
+		"jquery": "^3.4.1",
+		"node-sass": "^4.12.0"
+	},
+	"dependencies": {}
+}

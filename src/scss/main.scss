@@ -5,7 +5,7 @@ Imports
 */
 
 @import 'vendor/normalize';
-@import 'imports/mixins';
+@import 'custom/mixins';
 
 /*
 >>================================================================================>
@@ -18,8 +18,8 @@ Fonts
 >>------------->
 */
 
-$font_primary: 'Barlow', sans-serif;;
-$font_secondary: 'AmericanCaptain', sans-serif;
+$font_primary: 'Roboto', sans-serif;
+$font_secondary: 'Oswald', sans-serif;
 
 /*
 Font Weights
@@ -62,7 +62,7 @@ Additional Resets and Helpers
 >>================================================================================>
 */
 
-@import 'imports/resets-helpers';
+@import 'custom/resets-helpers';
 
 /*
 >>================================================================================>
@@ -71,7 +71,7 @@ Reuseable Styles / Elements / Animations / Framework
 */
 
 /*
-All Resolutions
+All Resolutions 
 >>------------->
 */
 
@@ -114,6 +114,12 @@ body {
     @at-root &.page-loaded:before {
         opacity: 0;
         visibility: hidden;
+    }
+
+    h1 {
+        font-family: $font_secondary;
+        font-weight: normal;
+        text-transform: uppercase;
     }
 
     /* Deactivate Scrolling */
@@ -198,9 +204,9 @@ Placeholder
 
 #example {
 
-    .container {
+    // .container {
 
-    }
+    // }
 
     /*
     All Resolutions
@@ -211,7 +217,7 @@ Placeholder
         @include fluidcolumns(33.3%, 40px);
 
         > * {
-            background-color: red;
+            border: 1px solid #ccc;
         }
     }
 
