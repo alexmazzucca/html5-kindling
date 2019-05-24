@@ -8321,28 +8321,28 @@
 		"oAP": "/dist/dist",
 		"oF": 0
 		},
-	"/html5-kindling.sublime-project": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/html5-kindling.sublime-project",
-		"oF": 1
-		},
-	"/html5-kindling.sublime-workspace": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/html5-kindling.sublime-workspace",
-		"oF": 1
-		},
 	"/LICENSE": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 1,
 		"oAP": "/dist/LICENSE",
+		"oF": 1
+		},
+	"/project.sublime-project": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/project.sublime-project",
+		"oF": 1
+		},
+	"/project.sublime-workspace": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/project.sublime-workspace",
 		"oF": 1
 		},
 	"/README.md": {
