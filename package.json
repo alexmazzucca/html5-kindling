@@ -1,13 +1,17 @@
 {
 	"name": "html5-kindling-gulp",
 	"version": "1.0.0",
-	"description": "An attempt to accomplish CK tasks using Gulp and NPM",
+	"description": "Starting point for HTML5-based projects",
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/alexmazzucca/html5-kindling"
+	},
 	"author": "Alexander Mazzucca",
-	"license": "ISC",
+	"license": "MIT",
 	"devDependencies": {
 		"browser-sync": "^2.26.5",
 		"del": "^4.1.1",
