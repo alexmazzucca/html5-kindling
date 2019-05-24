@@ -1,0 +1,267 @@
+/*
+>>================================================================================>
+Imports
+>>================================================================================>
+*/
+
+@import 'vendor/normalize';
+@import 'imports/mixins';
+
+/*
+>>================================================================================>
+Site Variables
+>>================================================================================>
+*/
+
+/*
+Fonts
+>>------------->
+*/
+
+$font_primary: 'Barlow', sans-serif;;
+$font_secondary: 'AmericanCaptain', sans-serif;
+
+/*
+Font Weights
+>>------------->
+*/
+
+$weight_regular: 400;
+$weight_medium: 500;
+$weight_semibold: 600;
+$weight_bold: 700;
+
+/*
+Colors
+>>------------->
+*/
+
+$color_white: #ffffff;
+$color_black: #000000;
+
+/*
+Breakpoints
+>>------------->
+*/
+
+$breakpoint_desktop: 768px;
+$breakpoint_mobile: ($breakpoint_desktop - 1);
+
+/*
+Wireframe
+>>------------->
+*/
+
+$site_width: 1400px;
+$padding_desktop: 55px;
+$padding_mobile: 15px;
+
+/*
+>>================================================================================>
+Additional Resets and Helpers
+>>================================================================================>
+*/
+
+@import 'imports/resets-helpers';
+
+/*
+>>================================================================================>
+Reuseable Styles / Elements / Animations / Framework
+>>================================================================================>
+*/
+
+/*
+All Resolutions
+>>------------->
+*/
+
+/* Text Highlight Color */
+
+::-moz-selection {
+    background: $color_black;
+    color: $color_white;
+}
+
+::selection {
+    background: $color_black;
+    color: $color_white;
+}
+
+::-moz-selection {
+    background: $color_black;
+    color: $color_white;
+}
+
+body {
+    font-family: $font_primary;
+    background-color: $color_white;
+    color: $color_black;
+    
+    /* Page Loading */
+
+    &:before {
+        position: fixed;
+        content:'';
+        width: 100%;
+        height: 100%;
+        background-color: $color_white;
+        z-index: 1000;
+        transition: opacity 500ms ease, visibility 500ms ease;
+        top: 0;
+        left: 0;
+    }
+
+    @at-root &.page-loaded:before {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    /* Deactivate Scrolling */
+
+    &.inactive {
+        height: 100%;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+    }
+}
+
+/*
+Desktop
+>>------------->
+*/
+
+@media screen and (min-width: $breakpoint_desktop) {
+    
+}
+
+/*
+Mobile
+>>------------->
+*/
+
+@media screen and (max-width: $breakpoint_mobile) {
+    
+}
+
+/*
+>>================================================================================>
+Main Header
+>>================================================================================>
+*/
+
+.main-header {
+
+    /*
+    All Resolutions
+    >>------------->
+    */
+
+    .site-logo {
+        margin: 0;
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        span {
+            @include hidden();
+        }
+    }
+
+    /*
+    Desktop
+    >>------------->
+    */
+
+    @media screen and (min-width: $breakpoint_desktop) {
+        
+    }
+
+    /*
+    Mobile
+    >>------------->
+    */
+
+    @media screen and (max-width: $breakpoint_mobile) {
+        
+    }
+}
+
+/*
+>>================================================================================>
+Placeholder
+>>================================================================================>
+*/
+
+#example {
+
+    .container {
+
+    }
+
+    /*
+    All Resolutions
+    >>------------->
+    */
+
+    .row {
+        @include fluidcolumns(33.3%, 40px);
+
+        > * {
+            background-color: red;
+        }
+    }
+
+    /*
+    Desktop
+    >>------------->
+    */
+
+    @media screen and (min-width: $breakpoint_desktop) {
+
+    }
+
+    /*
+    Mobile
+    >>------------->
+    */
+
+    @media screen and (max-width: $breakpoint_mobile) {
+        
+    }
+}
+
+/*
+>>================================================================================>
+Placeholder
+>>================================================================================>
+*/
+
+section {
+
+    /*
+    All Resolutions
+    >>------------->
+    */
+
+    /*
+    Desktop
+    >>------------->
+    */
+
+    @media screen and (min-width: $breakpoint_desktop) {
+
+    }
+
+    /*
+    Mobile
+    >>------------->
+    */
+
+    @media screen and (max-width: $breakpoint_mobile) {
+        
+    }
+}
