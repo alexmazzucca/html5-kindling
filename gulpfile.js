@@ -6,14 +6,14 @@ const htmlmin = require("gulp-htmlmin");
 const del = require("del");
 const imagemin = require("gulp-imagemin");
 var sass = require("gulp-sass");
-var modernizr = require('gulp-modernizr');
-var autoprefixer = require('gulp-autoprefixer');
+var modernizr = require("gulp-modernizr");
+var autoprefixer = require("gulp-autoprefixer");
 
 const paths = {
 	scripts: {
 		src: [
 			"./node_modules/jquery/dist/jquery.js",
-			"./src/js/jquery/*.js",
+			"./node_modules/gsap/src/uncompressed/TweenMax.js",
 			"./src/js/vendor/*.js",
 			"./src/js/main.js"
 		],
@@ -39,16 +39,17 @@ const clean = () => del(["dist"]);
 
 // Creates modernizr w/ 'touchevents' test in src/js
 
-function modernizr(){
-	return gulp
-		.task('modernizr', function() {
-			return gulp
-				.src('./js/*.js')
-		  		.pipe(modernizr({
-					tests: ['touchevents']
-				  }))
-		  		.pipe(gulp.dest('src/js/vendor/modernizr-custom.js'))
-		});
+function modernizr() {
+	return gulp.task("modernizr", function() {
+		return gulp
+			.src("./js/*.js")
+			.pipe(
+				modernizr({
+					tests: ["touchevents"]
+				})
+			)
+			.pipe(gulp.dest("src/js/vendor/modernizr-custom.js"));
+	});
 }
 
 // combines and uglifies all of the JS mentioned in scripts
@@ -80,25 +81,27 @@ function dom() {
 function styles() {
 	return gulp
 		.src(paths.styles.src, { sourcemaps: true })
-		.pipe(sass(
-			{
+		.pipe(
+			sass({
 				outputStyle: "compressed"
-			}
-		))
-		.on('error', sass.logError)
-		.pipe(autoprefixer({
-            browsers: ['last 2 versions'],
-            cascade: false
-        }))
-		.pipe(concat('main.min.css'))
+			})
+		)
+		.on("error", sass.logError)
+		.pipe(
+			autoprefixer({
+				browsers: ["last 2 versions"],
+				cascade: false
+			})
+		)
+		.pipe(concat("main.min.css"))
 		.pipe(gulp.dest(paths.styles.dest));
 }
 
-function images(){
+function images() {
 	return gulp
 		.src("src/img/*")
 		.pipe(imagemin())
-		.pipe(gulp.dest("dist/img"))
+		.pipe(gulp.dest("dist/img"));
 }
 
 const server = browserSync.stream();
@@ -117,7 +120,7 @@ function serve(done) {
 	done();
 }
 
-function watch(){
+function watch() {
 	gulp.watch(paths.scripts.src, gulp.series(scripts, reload));
 	gulp.watch(paths.styles.src, gulp.series(styles, reload));
 	gulp.watch(paths.dom.src, gulp.series(dom, reload));
@@ -126,4 +129,4 @@ function watch(){
 
 const dev = gulp.series(clean, scripts, serve, dom, styles, images, watch);
 
-gulp.task('default', dev);
+gulp.task("default", dev);
