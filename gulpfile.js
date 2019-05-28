@@ -94,7 +94,8 @@ function styles() {
 			})
 		)
 		.pipe(concat("main.min.css"))
-		.pipe(gulp.dest(paths.styles.dest));
+		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(browserSync.stream());
 }
 
 function images() {
@@ -122,7 +123,7 @@ function serve(done) {
 
 function watch() {
 	gulp.watch(paths.scripts.src, gulp.series(scripts, reload));
-	gulp.watch(paths.styles.src, gulp.series(styles, reload));
+	gulp.watch(paths.styles.src, gulp.series(styles));
 	gulp.watch(paths.dom.src, gulp.series(dom, reload));
 	gulp.watch(paths.images.src, gulp.series(images, reload));
 }
