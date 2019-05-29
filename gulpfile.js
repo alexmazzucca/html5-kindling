@@ -8,7 +8,7 @@ const imagemin = require("gulp-imagemin");
 var sass = require("gulp-sass");
 var modernizr = require("gulp-modernizr");
 var autoprefixer = require("gulp-autoprefixer");
-
+const server = browserSync.stream();
 const paths = {
 	scripts: {
 		src: [
@@ -52,7 +52,7 @@ function modernizr() {
 	});
 }
 
-// combines and uglifies all of the JS mentioned in scripts
+// Combines and uglifies all of the JS in 'scripts.src' array
 
 function scripts() {
 	return gulp
@@ -76,7 +76,7 @@ function dom() {
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
-//Combines and compresses all of the CSS files in src/scss, adds autoprefixr
+// Combines, autoprefixes and compresses all of the SASS in 'styles.src' array
 
 function styles() {
 	return gulp
@@ -98,14 +98,14 @@ function styles() {
 		.pipe(browserSync.stream());
 }
 
+// Compresses all of the images in /img folder
+
 function images() {
 	return gulp
 		.src("src/img/*")
 		.pipe(imagemin())
 		.pipe(gulp.dest("dist/img"));
 }
-
-const server = browserSync.stream();
 
 function reload(done) {
 	browserSync.reload();
@@ -128,6 +128,6 @@ function watch() {
 	gulp.watch(paths.images.src, gulp.series(images, reload));
 }
 
-const dev = gulp.series(clean, scripts, serve, dom, styles, images, watch);
+const dev = gulp.series(clean, scripts, dom, images, styles, serve, watch);
 
 gulp.task("default", dev);
