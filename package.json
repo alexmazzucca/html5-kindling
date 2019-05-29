@@ -21,6 +21,7 @@
 		"gulp-concat": "^2.6.1",
 		"gulp-htmlmin": "^5.0.1",
 		"gulp-imagemin": "^5.0.3",
+		"gulp-inline-css": "^3.3.1",
 		"gulp-modernizr": "^3.2.1",
 		"gulp-sass": "^4.0.2",
 		"gulp-sourcemaps": "^2.6.5",

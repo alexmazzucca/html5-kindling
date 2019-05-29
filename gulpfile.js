@@ -8,6 +8,7 @@ const imagemin = require("gulp-imagemin");
 var sass = require("gulp-sass");
 var modernizr = require("gulp-modernizr");
 var autoprefixer = require("gulp-autoprefixer");
+var inlineCss = require('gulp-inline-css');
 const server = browserSync.stream();
 const paths = {
 	scripts: {
@@ -107,6 +108,20 @@ function images() {
 		.pipe(gulp.dest("dist/img"));
 }
 
+// CSS Inliner
+
+function inlinecss() {
+	return gulp
+		.src('./dist/*.html')
+		.pipe(inlineCss({
+			applyStyleTags: true,
+			applyLinkTags: true,
+			removeStyleTags: true,
+			removeLinkTags: true
+		}))
+		.pipe(gulp.dest(paths.dom.dest));
+}
+
 function reload(done) {
 	browserSync.reload();
 	done();
@@ -128,6 +143,14 @@ function watch() {
 	gulp.watch(paths.images.src, gulp.series(images, reload));
 }
 
+// Default tasks and start server
+
 const dev = gulp.series(clean, scripts, dom, images, styles, serve, watch);
 
 gulp.task("default", dev);
+
+// Default tasks and inline CSS
+
+const inline = gulp.series(clean, scripts, dom, images, styles, inlinecss);
+
+gulp.task("inlinecss", inline);
