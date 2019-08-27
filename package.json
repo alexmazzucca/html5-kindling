@@ -1,5 +1,5 @@
 {
-	"name": "html5-kindling-gulp",
+	"name": "html5-kindling",
 	"version": "1.0.0",
 	"description": "Starting point for HTML5-based projects",
 	"main": "index.js",
@@ -13,7 +13,7 @@
 	"author": "Alexander Mazzucca",
 	"license": "MIT",
 	"devDependencies": {
-		"browser-sync": "^2.26.5",
+		"browser-sync": "^2.26.7",
 		"del": "^4.1.1",
 		"gsap": "^2.1.3",
 		"gulp": "^4.0.2",
@@ -21,14 +21,18 @@
 		"gulp-concat": "^2.6.1",
 		"gulp-htmlmin": "^5.0.1",
 		"gulp-imagemin": "^5.0.3",
-		"gulp-inline-css": "^3.3.1",
-		"gulp-modernizr": "^3.2.1",
+		"gulp-inline-css": "^3.3.2",
+		"gulp-inline-image-path": "0.0.10",
+		"gulp-pretty-html": "^2.0.10",
 		"gulp-sass": "^4.0.2",
 		"gulp-sourcemaps": "^2.6.5",
 		"gulp-uglify": "^3.0.2",
 		"gulp-watch": "^5.0.1",
+		"imagemin-mozjpeg": "^8.0.0",
 		"jquery": "^3.4.1",
-		"node-sass": "^4.12.0"
+		"node-sass": "^4.12.0",
+		"normalize.css": "^8.0.1",
+		"owl.carousel": "^2.3.4"
 	},
 	"dependencies": {}
 }

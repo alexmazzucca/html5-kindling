@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "/www/html5-kindling/dist"
 		}
 	],
 	"settings": {}

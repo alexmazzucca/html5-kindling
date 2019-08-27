@@ -1,15 +1,24 @@
+/*
+* >>========================================>
+* Required
+* >>========================================>
+*/
+
 var gulp = require("gulp");
 var browserSync = require("browser-sync").create();
 var uglify = require("gulp-uglify");
 var concat = require("gulp-concat");
+var sass = require("gulp-sass");
+var autoprefixer = require("gulp-autoprefixer");
+var sourcemaps = require('gulp-sourcemaps');
+var prettyHtml = require('gulp-pretty-html');
+var inlineImagePath = require('gulp-inline-image-path');
+
 const htmlmin = require("gulp-htmlmin");
 const del = require("del");
 const imagemin = require("gulp-imagemin");
-var sass = require("gulp-sass");
-var modernizr = require("gulp-modernizr");
-var autoprefixer = require("gulp-autoprefixer");
-var inlineCss = require('gulp-inline-css');
-const server = browserSync.stream();
+const imageminMozjpeg = require('imagemin-mozjpeg');
+
 const paths = {
 	scripts: {
 		src: [
@@ -34,40 +43,43 @@ const paths = {
 	}
 };
 
-// Wipes out the 'dist' dir
+/*
+* >>========================================>
+* JS
+* >>========================================>
+*/
 
-const clean = () => del(["dist"]);
+// Just conbines scripts mentioned in 'paths'
 
-// Creates modernizr w/ 'touchevents' test in src/js
-
-function modernizr() {
-	return gulp.task("modernizr", function() {
-		return gulp
-			.src("./js/*.js")
-			.pipe(
-				modernizr({
-					tests: ["touchevents"]
-				})
-			)
-			.pipe(gulp.dest("src/js/vendor/modernizr-custom.js"));
-	});
+function scripts_dev() {
+	return gulp
+		.src(paths.scripts.src)
+		.pipe(concat("main.min.js"))
+		.pipe(gulp.dest(paths.scripts.dest))
 }
 
-// Combines and uglifies all of the JS in 'scripts.src' array
+// Uglifies and combines scripts mentioned in 'paths'
 
-function scripts() {
+function scripts_prod() {
 	return gulp
-		.src(paths.scripts.src, { sourcemaps: true })
+		.src(paths.scripts.src)
 		.pipe(uglify())
 		.pipe(concat("main.min.js"))
 		.pipe(gulp.dest(paths.scripts.dest));
 }
 
-// Minifies the HTML
+/*
+* >>========================================>
+* DOM
+* >>========================================>
+*/
 
-function dom() {
+// Removes comments and whitespace and Prettifies
+
+function dom_email() {
 	return gulp
-		.src(paths.dom.src, { sourcemaps: true })
+		.src(paths.dom.src)
+		.pipe(inlineImagePath({path:"http://website.com/img/"}))
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,
@@ -77,40 +89,41 @@ function dom() {
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
-// Combines, autoprefixes and compresses all of the SASS in 'styles.src' array
+/*
+* >>========================================>
+* CSS
+* >>========================================>
+*/
 
-function styles() {
+function styles_dev() {
 	return gulp
-		.src(paths.styles.src, { sourcemaps: true })
+		.src(paths.styles.src)
+		.pipe(sourcemaps.init())
+		.pipe(sass())
+		.on("error", sass.logError)
+		.pipe(autoprefixer())
+		.pipe(sourcemaps.write('.'))
+		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(browserSync.stream());
+}
+
+function styles_prod() {
+	return gulp
+		.src(paths.styles.src)
 		.pipe(
 			sass({
 				outputStyle: "compressed"
 			})
 		)
+		.pipe(sass())
 		.on("error", sass.logError)
-		.pipe(
-			autoprefixer({
-				browsers: ["last 2 versions"],
-				cascade: false
-			})
-		)
-		.pipe(concat("main.min.css"))
+		.pipe(autoprefixer())
 		.pipe(gulp.dest(paths.styles.dest))
-		.pipe(browserSync.stream());
 }
 
-// Compresses all of the images in /img folder
+// CSS Inliner (Email development)
 
-function images() {
-	return gulp
-		.src("src/img/*")
-		.pipe(imagemin())
-		.pipe(gulp.dest("dist/img"));
-}
-
-// CSS Inliner
-
-function inlinecss() {
+function styles_email() {
 	return gulp
 		.src('./dist/*.html')
 		.pipe(inlineCss({
@@ -121,6 +134,38 @@ function inlinecss() {
 		}))
 		.pipe(gulp.dest(paths.dom.dest));
 }
+
+/*
+* >>========================================>
+* Images
+* >>========================================>
+*/
+
+function images_prod() {
+	return gulp
+		.src("src/img/*")
+		.pipe(imagemin([
+			imageminMozjpeg({quality: 85}),
+			imagemin.optipng({optimizationLevel: 5})
+		]))
+		.pipe(gulp.dest("dist/img"));
+}
+
+function images_dev() {
+	return gulp
+		.src(paths.images.src)
+		.pipe(gulp.dest(paths.images.dest));
+}
+
+// Wipes out all images
+
+const clean_images = () => del(paths.images.dest);
+
+/*
+* >>========================================>
+* BrowserSync
+* >>========================================>
+*/
 
 function reload(done) {
 	browserSync.reload();
@@ -136,21 +181,35 @@ function serve(done) {
 	done();
 }
 
+/*
+* >>========================================>
+* Init
+* >>========================================>
+*/
+
 function watch() {
-	gulp.watch(paths.scripts.src, gulp.series(scripts, reload));
-	gulp.watch(paths.styles.src, gulp.series(styles));
-	gulp.watch(paths.dom.src, gulp.series(dom, reload));
-	gulp.watch(paths.images.src, gulp.series(images, reload));
+	gulp.watch("src/js/main.js", gulp.series(scripts_dev, reload));
+	gulp.watch(paths.styles.src, gulp.series(styles_dev));
+	gulp.watch("dist/*.php", gulp.series(reload));
+	gulp.watch("dist/*.html", gulp.series(reload));
+	gulp.watch(paths.images.src, gulp.series(images_dev, reload));
 }
 
-// Default tasks and start server
+// Development tasks
 
-const dev = gulp.series(clean, scripts, dom, images, styles, serve, watch);
+const dev = gulp.series(serve, styles_dev, scripts_dev, images_dev, watch);
+gulp.task("dev", dev);
 
-gulp.task("default", dev);
+// Image compression only
 
-// Default tasks and inline CSS
+gulp.task("images", images_prod);
 
-const inline = gulp.series(clean, scripts, dom, images, styles, inlinecss);
+// Production tasks (no server)
 
-gulp.task("inlinecss", inline);
+const production = gulp.series(scripts_prod, styles_prod, clean_images, images_prod);
+gulp.task("prod", production);
+
+// Production tasks (email)
+
+const prod_email = gulp.series(styles_email, dom_email);
+gulp.task("prod_email", prod_email);
