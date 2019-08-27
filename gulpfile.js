@@ -12,6 +12,7 @@ var sass = require("gulp-sass");
 var autoprefixer = require("gulp-autoprefixer");
 var sourcemaps = require('gulp-sourcemaps');
 var prettyHtml = require('gulp-pretty-html');
+var inlineCss = require('gulp-inline-css');
 var inlineImagePath = require('gulp-inline-image-path');
 
 const htmlmin = require("gulp-htmlmin");
