@@ -28,19 +28,22 @@ const paths = {
 			"./src/js/vendor/*.js",
 			"./src/js/main.js"
 		],
-		dest: "dist/js/"
+		dest: "./dist/js/"
 	},
 	styles: {
-		src: "src/scss/*.scss",
-		dest: "dist/css/"
+		src: "./src/scss/*.scss",
+		dest: "./dist/css/"
 	},
 	dom: {
-		src: "src/**/*.html",
-		dest: "dist/"
+		src: [
+			"./src/**/*.html",
+			"./src/**/*.php"
+		],
+		dest: "./dist/"
 	},
 	images: {
-		src: "src/img",
-		dest: "dist/"
+		src: "./src/img/*",
+		dest: "./dist/img/"
 	}
 };
 
