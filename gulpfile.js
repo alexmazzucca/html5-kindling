@@ -215,5 +215,5 @@ gulp.task("prod", production);
 
 // Production tasks (email)
 
-const prod_email = gulp.series(styles_email, dom_email);
+const prod_email = gulp.series(styles_email, dom_email, images_prod);
 gulp.task("prod_email", prod_email);
