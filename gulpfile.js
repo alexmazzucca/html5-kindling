@@ -117,15 +117,6 @@ function styles_dev() {
 		.pipe(browserSync.stream());
 }
 
-function styles_email_dev() {
-	return gulp
-		.src(paths.styles.src)
-		.pipe(sass())
-		.on("error", sass.logError)
-		.pipe(gulp.dest(paths.styles.dest))
-		.pipe(browserSync.stream());
-}
-
 function styles_prod() {
 	return gulp
 		.src(paths.styles.src)
@@ -142,6 +133,15 @@ function styles_prod() {
 
 // CSS Inliner (Email development)
 
+function styles_email_dev() {
+	return gulp
+		.src(paths.styles.src)
+		.pipe(sass())
+		.on("error", sass.logError)
+		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(browserSync.stream());
+}
+
 function styles_email_prod() {
 	return gulp
 		.src('./dist/*.html')
@@ -153,6 +153,10 @@ function styles_email_prod() {
 		}))
 		.pipe(gulp.dest(paths.dom.dest));
 }
+
+const clean_styles = () => del(paths.styles.dest);
+
+const clean_dist = () => del('./dist/*');
 
 /*
 * >>========================================>
@@ -247,5 +251,5 @@ gulp.task("dev_email", dev_email);
 
 // Production tasks (email)
 
-const prod_email = gulp.series(styles_email_prod, dom_email_prod, images_prod);
+const prod_email = gulp.series(clean_dist, dom_email_prod, styles_email_dev, styles_email_prod, clean_styles, images_prod);
 gulp.task("prod_email", prod_email);
