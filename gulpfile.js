@@ -202,7 +202,7 @@ function serve(done) {
 
 /*
 * >>========================================>
-* Init
+* Watch
 * >>========================================>
 */
 
@@ -213,6 +213,18 @@ function watch() {
 	gulp.watch("dist/*.html", gulp.series(reload));
 	gulp.watch(paths.images.src, gulp.series(images_dev, reload));
 }
+
+function watch_email() {
+	gulp.watch(paths.styles.src, gulp.series(styles_dev));
+	gulp.watch("src/*.html", gulp.series(dom_email_dev, reload));
+	gulp.watch(paths.images.src, gulp.series(images_dev, reload));
+}
+
+/*
+* >>========================================>
+* Watch
+* >>========================================>
+*/
 
 // Development tasks
 
@@ -230,7 +242,7 @@ gulp.task("prod", production);
 
 // Development tasks (email)
 
-const dev_email = gulp.series(dom_email_dev, styles_email_dev, images_dev, serve, watch);
+const dev_email = gulp.series(dom_email_dev, styles_email_dev, images_dev, serve, watch_email);
 gulp.task("dev_email", dev_email);
 
 // Production tasks (email)
