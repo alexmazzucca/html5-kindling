@@ -26,8 +26,10 @@ Colors
 >>------------->
 */
 
-$color_purple: #3f205b;
+$color_dark_purple: #3f205b;
+$color_purple: #8c2284;
 $color_black: #000000;
+$color_pink: #d9abd0;
 
 /*
 >>================================================================================>
@@ -39,7 +41,16 @@ Additional Resets and Helpers
 
 /*
 >>================================================================================>
-Placeholder
+Framework
 >>================================================================================>
 */
 
+#wrapper {
+    background-color: $color_white;
+}
+
+#container {
+    background-color: $color_white;
+    width: 650px;
+    margin: 0 auto;
+}
