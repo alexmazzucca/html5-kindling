@@ -2,11 +2,11 @@
 	"folders": [
 		{
 			"name": "dist",
-			"path": "/www/html5-kindling/dist"
+			"path": "./dist/"
 		},
 		{
 			"name": "src",
-			"path": "."
+			"path": "./src/"
 		}
 	]
 }
