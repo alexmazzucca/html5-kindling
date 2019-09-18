@@ -80,7 +80,7 @@ function scripts_prod() {
 
 // Removes comments and whitespace and Prettifies
 
-function dom_email() {
+function dom_email_prod() {
 	return gulp
 		.src(paths.dom.src)
 		.pipe(inlineImagePath({path:"http://website.com/img/"}))
@@ -91,6 +91,12 @@ function dom_email() {
 			})
 		)
 		.pipe(gulp.dest(paths.dom.dest));
+}
+
+function dom_email_dev() {
+	return gulp
+		.src('./src/*.html')
+		.pipe(gulp.dest('./dist/'));
 }
 
 /*
@@ -111,6 +117,15 @@ function styles_dev() {
 		.pipe(browserSync.stream());
 }
 
+function styles_email_dev() {
+	return gulp
+		.src(paths.styles.src)
+		.pipe(sass())
+		.on("error", sass.logError)
+		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(browserSync.stream());
+}
+
 function styles_prod() {
 	return gulp
 		.src(paths.styles.src)
@@ -127,7 +142,7 @@ function styles_prod() {
 
 // CSS Inliner (Email development)
 
-function styles_email() {
+function styles_email_prod() {
 	return gulp
 		.src('./dist/*.html')
 		.pipe(inlineCss({
@@ -213,7 +228,12 @@ gulp.task("images", images_prod);
 const production = gulp.series(scripts_prod, styles_prod, clean_images, images_prod);
 gulp.task("prod", production);
 
+// Development tasks (email)
+
+const dev_email = gulp.series(dom_email_dev, styles_email_dev, images_dev, serve, watch);
+gulp.task("dev_email", dev_email);
+
 // Production tasks (email)
 
-const prod_email = gulp.series(styles_email, dom_email, images_prod);
+const prod_email = gulp.series(styles_email_prod, dom_email_prod, images_prod);
 gulp.task("prod_email", prod_email);
