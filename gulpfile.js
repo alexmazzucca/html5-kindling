@@ -86,7 +86,7 @@ function dom_email_prod() {
 		.pipe(inlineImagePath({path:"http://website.com/img/"}))
 		.pipe(
 			htmlmin({
-				collapseWhitespace: true,
+				// collapseWhitespace: true,
 				removeComments: true
 			})
 		)
