@@ -45,14 +45,10 @@ Reuseable Styles / Framework
 >>================================================================================>
 */
 
-#wrapper {
-    background-color: $color_white;
-}
-
 #container {
-    background-color: $color_white;
-    width: 650px;
-    margin: 0 auto;
+	width: 650px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /*

@@ -83,11 +83,15 @@ function scripts_prod() {
 function dom_email_prod() {
 	return gulp
 		.src(paths.dom.src)
-		.pipe(inlineImagePath({path:"http://website.com/img/"}))
+		// .pipe(inlineImagePath({path:"http://dexycu.elevatehc.com/email/cover-tip/img"}))
 		.pipe(
 			htmlmin({
-				// collapseWhitespace: true,
-				removeComments: true
+				collapseWhitespace: true,
+				conservativeCollapse: true,
+				preserveLineBreaks: true,
+				removeComments: true,
+				keepClosingSlash: true,
+				removeEmptyAttributes: false
 			})
 		)
 		.pipe(gulp.dest(paths.dom.dest));
@@ -149,7 +153,9 @@ function styles_email_prod() {
 			applyStyleTags: true,
 			applyLinkTags: true,
 			removeStyleTags: true,
-			removeLinkTags: true
+			removeLinkTags: true,
+			removeHtmlSelectors: true,
+			xmlMode: true,
 		}))
 		.pipe(gulp.dest(paths.dom.dest));
 }

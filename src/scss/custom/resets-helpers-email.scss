@@ -4,38 +4,34 @@ Additional "Helper" Classes and Resets for Email
 >>================================================================================>
 */
 
-body, table, td, a {
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-}
-
 body {
     height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
+    -webkit-text-size-adjust:none;
+    -ms-text-size-adjust:none;
 }
 
 table {
     mso-table-lspace:0pt;
     mso-table-rspace:0pt;
-    border-collapse:collapse !important;
+    border-collapse: collapse !important;
     padding:0;
     margin:0;
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
 }
 
 td {
-    mso-table-lspace:0pt;
-    mso-table-rspace:0pt;
-    padding:0;
-    margin:0;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    border: 0px none;
     vertical-align: top;
+    padding: 0;
+    margin:0;
 
     &.empty {
-        mso-table-lspace:0pt;
-        mso-table-rspace:0pt;
-        padding:0;
-        margin:0;
         line-height: 1px;
         font-size: 1px;
     }
@@ -48,10 +44,6 @@ img {
     border: none;
 }
 
-sup {
-    font-size: 10px;
-}
-
 p,
 ul,
 li,
@@ -61,7 +53,11 @@ h3,
 h4,
 h5 {
     font-family: $font_primary;
+    line-height: 1.2;
     margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .vertical-align-middle {
@@ -76,4 +72,8 @@ h5 {
 
 .centered-text {
     text-align: center;
+}
+
+.no-margin {
+    margin-bottom: 0;
 }
