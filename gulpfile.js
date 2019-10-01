@@ -13,7 +13,7 @@ var autoprefixer = require("gulp-autoprefixer");
 var sourcemaps = require('gulp-sourcemaps');
 var prettyHtml = require('gulp-pretty-html');
 var inlineCss = require('gulp-inline-css');
-var inlineImagePath = require('gulp-inline-image-path');
+var replace = require('gulp-replace');
 
 const htmlmin = require("gulp-htmlmin");
 const del = require("del");
@@ -83,7 +83,7 @@ function scripts_prod() {
 function dom_email_prod() {
 	return gulp
 		.src(paths.dom.src)
-		// .pipe(inlineImagePath({path:"http://dexycu.elevatehc.com/email/cover-tip/img"}))
+		.pipe(replace('src="', 'src="http://www.website.com'))
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,

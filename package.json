@@ -22,7 +22,6 @@
 		"gulp-htmlmin": "^5.0.1",
 		"gulp-imagemin": "^5.0.3",
 		"gulp-inline-css": "^3.3.2",
-		"gulp-inline-image-path": "0.0.10",
 		"gulp-pretty-html": "^2.0.10",
 		"gulp-sass": "^4.0.2",
 		"gulp-sourcemaps": "^2.6.5",
