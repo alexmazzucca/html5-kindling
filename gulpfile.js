@@ -83,7 +83,7 @@ function scripts_prod() {
 function dom_email_prod() {
 	return gulp
 		.src(paths.dom.src)
-		.pipe(replace('src="', 'src="http://www.website.com'))
+		//.pipe(replace('src="', 'src="http://www.website.com'))
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,
@@ -94,6 +94,7 @@ function dom_email_prod() {
 				removeEmptyAttributes: false
 			})
 		)
+		// .pipe(prettyHtml())
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
