@@ -1,3 +1,3 @@
-**Based on HTML5 Kindling**
+**HTML5 Kindling**
 
-git clone git://github.com/alexmazzucca/html5-kindling .
+*Starting point for static site and email production*
