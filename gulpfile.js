@@ -130,7 +130,6 @@ function styles_prod() {
 				outputStyle: "compressed"
 			})
 		)
-		.pipe(sass())
 		.on("error", sass.logError)
 		.pipe(autoprefixer())
 		.pipe(gulp.dest(paths.styles.dest))
