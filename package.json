@@ -1,14 +1,14 @@
 {
-	"name": "html5-kindling",
+	"name": "web-kindling",
 	"version": "1.0.0",
-	"description": "Starting point for HTML5-based projects",
+	"description": "Starting point for front-end development projects",
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/alexmazzucca/html5-kindling"
+		"url": "https://github.com/alexmazzucca/web-kindling"
 	},
 	"author": "Alexander Mazzucca",
 	"license": "MIT",
@@ -31,8 +31,6 @@
 		"imagemin-mozjpeg": "^8.0.0",
 		"jquery": "^3.4.1",
 		"node-sass": "^4.12.0",
-		"normalize.css": "^8.0.1",
-		"owl.carousel": "^2.3.4"
 	},
 	"dependencies": {}
 }

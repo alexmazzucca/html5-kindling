@@ -1,3 +1,2 @@
-**HTML5 Kindling**
-
-*Starting point for static site and email production*
+**Web Kindling**
+*Starting point for website and email production*

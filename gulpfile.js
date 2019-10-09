@@ -31,7 +31,7 @@ const paths = {
 		dest: "./dist/js/"
 	},
 	styles: {
-		src: "./src/scss/*.scss",
+		src: "./src/scss/**/*.scss",
 		dest: "./dist/css/"
 	},
 	dom: {
@@ -49,7 +49,7 @@ const paths = {
 
 /*
 * >>========================================>
-* JS
+* JS Tasks
 * >>========================================>
 */
 
@@ -74,7 +74,7 @@ function scripts_prod() {
 
 /*
 * >>========================================>
-* DOM
+* Document Object Model (DOM) Tasks
 * >>========================================>
 */
 
@@ -98,15 +98,15 @@ function dom_email_prod() {
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
-function dom_email_dev() {
+function dom_global_dev() {
 	return gulp
-		.src('./src/*.html')
+		.src(paths.dom.src)
 		.pipe(gulp.dest('./dist/'));
 }
 
 /*
 * >>========================================>
-* CSS
+* SASS/CSS Tasks
 * >>========================================>
 */
 
@@ -166,7 +166,7 @@ const clean_dist = () => del('./dist/*');
 
 /*
 * >>========================================>
-* Images
+* Image Tasks
 * >>========================================>
 */
 
@@ -217,45 +217,49 @@ function serve(done) {
 */
 
 function watch() {
-	gulp.watch("src/js/main.js", gulp.series(scripts_dev, reload));
+	gulp.watch(paths.scripts.src, gulp.series(scripts_dev, reload));
 	gulp.watch(paths.styles.src, gulp.series(styles_dev));
-	gulp.watch("dist/*.php", gulp.series(reload));
-	gulp.watch("dist/*.html", gulp.series(reload));
 	gulp.watch(paths.images.src, gulp.series(images_dev, reload));
 }
 
 function watch_email() {
 	gulp.watch(paths.styles.src, gulp.series(styles_dev));
-	gulp.watch("src/*.html", gulp.series(dom_email_dev, reload));
+	gulp.watch(paths.dom.src, gulp.series(dom_global_dev, reload));
 	gulp.watch(paths.images.src, gulp.series(images_dev, reload));
 }
 
 /*
 * >>========================================>
-* Watch
+* Web Task Initialization
 * >>========================================>
 */
-
-// Development tasks
-
-const dev = gulp.series(serve, styles_dev, scripts_dev, images_dev, watch);
-gulp.task("dev", dev);
 
 // Image compression only
 
 gulp.task("images", images_prod);
+
+// Development tasks
+
+const development = gulp.series(serve, dom_dev, styles_dev, scripts_dev, images_dev, watch);
+gulp.task("dev", development);
 
 // Production tasks (no server)
 
 const production = gulp.series(scripts_prod, styles_prod, clean_images, images_prod);
 gulp.task("prod", production);
 
-// Development tasks (email)
+/*
+* >>========================================>
+* Email Task Initialization
+* >>========================================>
+*/
 
-const dev_email = gulp.series(dom_email_dev, styles_email_dev, images_dev, serve, watch_email);
-gulp.task("dev_email", dev_email);
+// Email Development Tasks
 
-// Production tasks (email)
+const development_email = gulp.series(dom_dev, styles_email_dev, images_dev, serve, watch_email);
+gulp.task("dev_email", development_email);
 
-const prod_email = gulp.series(clean_dist, dom_email_prod, styles_email_dev, styles_email_prod, clean_styles, images_prod);
-gulp.task("prod_email", prod_email);
+// Email Production Tasks
+
+const production_email = gulp.series(clean_dist, dom_email_prod, styles_email_dev, styles_email_prod, clean_styles, images_prod);
+gulp.task("prod_email", production_email);
