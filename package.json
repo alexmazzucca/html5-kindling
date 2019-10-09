@@ -1,14 +1,14 @@
 {
-	"name": "web-kindling",
+	"name": "kindling",
 	"version": "1.0.0",
-	"description": "Starting point for front-end development projects",
+	"description": "Starting point for front-end website and email development",
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/alexmazzucca/web-kindling"
+		"url": "https://github.com/alexmazzucca/kindling"
 	},
 	"author": "Alexander Mazzucca",
 	"license": "MIT",
