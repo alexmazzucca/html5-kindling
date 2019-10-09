@@ -4,8 +4,8 @@ Imports
 >>================================================================================>
 */
 
-@import 'vendor/normalize';
-@import 'custom/mixins';
+@import 'imports/normalize';
+@import 'imports/mixins';
 
 /*
 >>================================================================================>
@@ -62,8 +62,7 @@ Additional Resets and Helpers
 >>================================================================================>
 */
 
-@import 'custom/resets-helpers';
-@import 'custom/resets-helpers-email';
+@import 'imports/resets-helpers';
 
 /*
 >>================================================================================>
@@ -97,6 +96,7 @@ body {
     font-family: $font_primary;
     background-color: $color_white;
     color: $color_black;
+    // display: none;
     
     /* Page Loading */
 
@@ -232,7 +232,7 @@ Modals
         overflow: hidden;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
-        border: 3px solid $color_blue;
+        border: 3px solid $color_black;
         transition: transform 500ms ease, opacity 300ms ease-in-out, visibility 300ms ease-in-out;
         opacity: 0;
         visibility: hidden;

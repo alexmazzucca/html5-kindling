@@ -31,7 +31,13 @@ const paths = {
 		dest: "./dist/js/"
 	},
 	styles: {
-		src: "./src/scss/**/*.scss",
+		src: [
+			"./src/scss/main.scss",
+		],
+		dest: "./dist/css/"
+	},
+	styles_email: {
+		src: "./src/scss/for-email/**/*.scss",
 		dest: "./dist/css/"
 	},
 	dom: {
@@ -55,7 +61,7 @@ const paths = {
 
 // Just conbines scripts mentioned in 'paths'
 
-function scripts_dev() {
+function combineScripts() {
 	return gulp
 		.src(paths.scripts.src)
 		.pipe(concat("main.min.js"))
@@ -64,7 +70,7 @@ function scripts_dev() {
 
 // Uglifies and combines scripts mentioned in 'paths'
 
-function scripts_prod() {
+function compressScripts() {
 	return gulp
 		.src(paths.scripts.src)
 		.pipe(uglify())
@@ -78,12 +84,28 @@ function scripts_prod() {
 * >>========================================>
 */
 
-// Removes comments and whitespace and Prettifies
-
-function dom_email_prod() {
+function cleanDOM() {
 	return gulp
 		.src(paths.dom.src)
-		//.pipe(replace('src="', 'src="http://www.website.com'))
+		.pipe(replace('src="', 'src="'))
+		.pipe(
+			htmlmin({
+				collapseWhitespace: true,
+				conservativeCollapse: true,
+				preserveLineBreaks: true,
+				removeComments: true
+			})
+		)
+		.pipe(prettyHtml())
+		.pipe(gulp.dest(paths.dom.dest));
+}
+
+// Removes comments and whitespace and Prettifies
+
+function cleanEmailDOM() {
+	return gulp
+		.src(paths.dom.src)
+		.pipe(replace('src="', 'src="'))
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,
@@ -94,23 +116,29 @@ function dom_email_prod() {
 				removeEmptyAttributes: false
 			})
 		)
-		// .pipe(prettyHtml())
+		.pipe(prettyHtml())
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
-function dom_global_dev() {
+function copyDOM() {
 	return gulp
 		.src(paths.dom.src)
+		.pipe(gulp.dest(paths.dom.dest));
+}
+
+function copyOtherFiles() {
+	return gulp
+		.src('./src/**/!(*.html|*.php|*.scss|*.js)', { nodir: true })
 		.pipe(gulp.dest('./dist/'));
 }
 
 /*
 * >>========================================>
-* SASS/CSS Tasks
+* Sass/CSS Tasks
 * >>========================================>
 */
 
-function styles_dev() {
+function compileCSS() {
 	return gulp
 		.src(paths.styles.src)
 		.pipe(sourcemaps.init())
@@ -122,7 +150,16 @@ function styles_dev() {
 		.pipe(browserSync.stream());
 }
 
-function styles_prod() {
+function compileEmailCSS() {
+	return gulp
+		.src(paths.styles_email.src)
+		.pipe(sass())
+		.on("error", sass.logError)
+		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(browserSync.stream());
+}
+
+function compileCompressedCSS() {
 	return gulp
 		.src(paths.styles.src)
 		.pipe(
@@ -135,18 +172,7 @@ function styles_prod() {
 		.pipe(gulp.dest(paths.styles.dest))
 }
 
-// CSS Inliner (Email development)
-
-function styles_email_dev() {
-	return gulp
-		.src(paths.styles.src)
-		.pipe(sass())
-		.on("error", sass.logError)
-		.pipe(gulp.dest(paths.styles.dest))
-		.pipe(browserSync.stream());
-}
-
-function styles_email_prod() {
+function inlineCSS() {
 	return gulp
 		.src('./dist/*.html')
 		.pipe(inlineCss({
@@ -160,9 +186,9 @@ function styles_email_prod() {
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
-const clean_styles = () => del(paths.styles.dest);
+const deleteCSSDir = () => del(paths.styles.dest);
 
-const clean_dist = () => del('./dist/*');
+const deleteDistDir = () => del('./dist/*');
 
 /*
 * >>========================================>
@@ -170,7 +196,7 @@ const clean_dist = () => del('./dist/*');
 * >>========================================>
 */
 
-function images_prod() {
+function compressImages() {
 	return gulp
 		.src("src/img/*")
 		.pipe(imagemin([
@@ -180,7 +206,7 @@ function images_prod() {
 		.pipe(gulp.dest("dist/img"));
 }
 
-function images_dev() {
+function copyImages() {
 	return gulp
 		.src(paths.images.src)
 		.pipe(gulp.dest(paths.images.dest));
@@ -188,7 +214,7 @@ function images_dev() {
 
 // Wipes out all images
 
-const clean_images = () => del(paths.images.dest);
+const deleteImagesDir = () => del(paths.images.dest);
 
 /*
 * >>========================================>
@@ -196,12 +222,12 @@ const clean_images = () => del(paths.images.dest);
 * >>========================================>
 */
 
-function reload(done) {
+function liveReload(done) {
 	browserSync.reload();
 	done();
 }
 
-function serve(done) {
+function startServer(done) {
 	browserSync.init({
 		server: {
 			baseDir: "./dist"
@@ -212,54 +238,40 @@ function serve(done) {
 
 /*
 * >>========================================>
-* Watch
+* Watch for Changes
 * >>========================================>
 */
 
-function watch() {
-	gulp.watch(paths.scripts.src, gulp.series(scripts_dev, reload));
-	gulp.watch(paths.styles.src, gulp.series(styles_dev));
-	gulp.watch(paths.images.src, gulp.series(images_dev, reload));
-}
-
-function watch_email() {
-	gulp.watch(paths.styles.src, gulp.series(styles_dev));
-	gulp.watch(paths.dom.src, gulp.series(dom_global_dev, reload));
-	gulp.watch(paths.images.src, gulp.series(images_dev, reload));
+function watchForChanges() {
+	gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
+	gulp.watch(paths.styles.src, gulp.series(compileCSS));
+	gulp.watch(paths.styles_email.src, gulp.series(compileEmailCSS));
+	gulp.watch(paths.dom.src, gulp.series(copyDOM, liveReload));
+	gulp.watch(paths.images.src, gulp.series(copyImages, liveReload));
 }
 
 /*
 * >>========================================>
-* Web Task Initialization
+* Task Initialization
 * >>========================================>
 */
-
-// Image compression only
-
-gulp.task("images", images_prod);
 
 // Development tasks
 
-const development = gulp.series(serve, dom_dev, styles_dev, scripts_dev, images_dev, watch);
-gulp.task("dev", development);
+const development = gulp.series(deleteDistDir, copyDOM, compileCSS, combineScripts, copyImages, startServer, copyOtherFiles, watchForChanges);
+gulp.task("spark", development);
 
-// Production tasks (no server)
+// Production tasks
 
-const production = gulp.series(scripts_prod, styles_prod, clean_images, images_prod);
-gulp.task("prod", production);
+const production = gulp.series(deleteDistDir, cleanDOM, compressScripts, compileCompressedCSS, deleteImagesDir, compressImages, copyOtherFiles);
+gulp.task("blaze", production);
 
-/*
-* >>========================================>
-* Email Task Initialization
-* >>========================================>
-*/
+// Email Development tasks
 
-// Email Development Tasks
-
-const development_email = gulp.series(dom_dev, styles_email_dev, images_dev, serve, watch_email);
-gulp.task("dev_email", development_email);
+const development_email = gulp.series(deleteDistDir, startServer, copyDOM, compileEmailCSS, copyImages, watchForChanges);
+gulp.task("spark_email", development_email);
 
 // Email Production Tasks
 
-const production_email = gulp.series(clean_dist, dom_email_prod, styles_email_dev, styles_email_prod, clean_styles, images_prod);
-gulp.task("prod_email", production_email);
+const production_email = gulp.series(deleteDistDir, cleanEmailDOM, compileEmailCSS, inlineCSS, deleteCSSDir, compressImages);
+gulp.task("blaze_email", production_email);

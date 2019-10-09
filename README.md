@@ -1,2 +1,2 @@
 **Kindling**
-*Starting point for website and email production*
+*Starting point for website and email development*
