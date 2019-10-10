@@ -159,7 +159,7 @@ function compileCSS() {
 		.pipe(sourcemaps.write('.'))
 		.pipe(rename(
 			function(path){
-				if (wordPressDir === '') {
+				if(wordPressDir === '') {
 					path.dirname += paths.styles.dest;
 				}else{
 					path.dirname += "./dist/" + wordPressDir;
@@ -192,7 +192,7 @@ function compileCompressedCSS() {
 		.pipe(autoprefixer())
 		.pipe(rename(
 			function(path){
-				if (wordPressDir === '') {
+				if(wordPressDir === '') {
 					path.dirname += paths.styles.dest;
 				}else{
 					path.dirname += "./dist/" + wordPressDir;
@@ -222,7 +222,7 @@ const deleteCSSDir = () => del(paths.styles.dest);
 //const deleteDistDir = () => del('./dist/*');
 
 function deleteDistDir(){
-	if (wordPressDir === '') {
+	if(wordPressDir === '') {
 		return del('./dist/*');
 	}
 }
