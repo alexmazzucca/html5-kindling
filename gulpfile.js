@@ -219,7 +219,13 @@ function inlineCSS() {
 
 const deleteCSSDir = () => del(paths.styles.dest);
 
-const deleteDistDir = () => del('./dist/*');
+//const deleteDistDir = () => del('./dist/*');
+
+function deleteDistDir(){
+	if (wordPressDir === '') {
+		return del('./dist/*');
+	}
+}
 
 /*
 * >>========================================>
@@ -289,7 +295,7 @@ function watchForChanges() {
 
 // Development tasks
 
-const development = gulp.series(copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
+const development = gulp.series(deleteDistDir, copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
 gulp.task("spark", development);
 
 // Production tasks
