@@ -1,5 +1,16 @@
 /*
 * >>========================================>
+* Settings
+* >>========================================>
+*/
+
+var siteURL = "";
+var pathToTheme = ""; // wp-content/themes/theme_name/
+var remoteImagePath = "";
+var dbName = "";
+
+/*
+* >>========================================>
 * Required
 * >>========================================>
 */
@@ -17,6 +28,7 @@ var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var log = require('fancy-log');
 
+const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
 const del = require("del");
 const imagemin = require("gulp-imagemin");
@@ -28,8 +40,6 @@ const imageminMozjpeg = require('imagemin-mozjpeg');
 * >>========================================>
 */
 
-var wordPressDir = "";
-
 const paths = {
 	scripts: {
 		src: [
@@ -38,30 +48,60 @@ const paths = {
 			"./src/js/vendor/*.js",
 			"./src/js/main.js"
 		],
-		dest: "./dist/" + wordPressDir + "js/"
+		dest: "./dist/" + pathToTheme + "js/"
 	},
 	styles: {
 		src: [
 			"./src/scss/main.scss",
 		],
-		dest: "./dist/" + wordPressDir + "css/"
-	},
-	styles_email: {
-		src: "./src/scss/for-email/**/*.scss",
-		dest: "./dist/css/"
+		dest: "./dist/" + pathToTheme + "css/"
 	},
 	dom: {
 		src: [
 			"./src/**/*.html",
 			"./src/**/*.php"
 		],
-		dest: "./dist/" + wordPressDir
+		dest: "./dist/" + pathToTheme
 	},
 	images: {
 		src: "./src/img/*",
-		dest: "./dist/" + wordPressDir + "img/"
+		dest: "./dist/" + pathToTheme + "img/"
 	}
 };
+
+/*
+* >>========================================>
+* Database
+* >>========================================>
+*/
+
+function dumpDatabase(done){
+	if(dbName != '') {
+		var today = new Date(),
+			dd = today.getDate(),
+			mm = today.getMonth()+1 //January is 0!
+			yyyy = today.getFullYear();
+			if(dd<10) { dd = '0'+dd	}
+			if(mm<10) { mm = '0'+mm }
+			today = '_' + yyyy + '-' + mm + '-' + dd;
+
+		return mysqldump({
+			connection: {
+				host: 'localhost',
+				user: 'root',
+				password: 'root',
+				database: dbName
+			},
+			dump: {
+				data: {
+					format : false
+				}
+			},
+			dumpToFile: './db/' + dbName + today + '.sql'
+		});
+	}
+	done();
+}
 
 /*
 * >>========================================>
@@ -111,12 +151,10 @@ function processDOM() {
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
-// Removes comments and whitespace and Prettifies
-
 function processEmailDOM() {
 	return gulp
-		.src(paths.dom.src)
-		.pipe(replace('src="', 'src="'))
+		.src('./src/email.html')
+		.pipe(replace('src="', 'src="' + remoteImagePath))
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,
@@ -128,12 +166,28 @@ function processEmailDOM() {
 			})
 		)
 		.pipe(prettyHtml())
+		.pipe(
+			rename({
+				basename: "index"
+			})
+		)
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
 function copyDOM() {
 	return gulp
 		.src(paths.dom.src)
+		.pipe(gulp.dest(paths.dom.dest));
+}
+
+function copyEmailDOM() {
+	return gulp
+		.src('./src/email.html')
+		.pipe(
+			rename({
+				basename: "index"
+			})
+		)
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
@@ -159,10 +213,10 @@ function compileCSS() {
 		.pipe(sourcemaps.write('.'))
 		.pipe(rename(
 			function(path){
-				if(wordPressDir === '') {
+				if(pathToTheme === '') {
 					path.dirname += paths.styles.dest;
 				}else{
-					path.dirname += "./dist/" + wordPressDir;
+					path.dirname += "./dist/" + pathToTheme;
 					path.basename = "style";
 				}
 			}
@@ -173,7 +227,7 @@ function compileCSS() {
 
 function compileEmailCSS() {
 	return gulp
-		.src(paths.styles_email.src)
+		.src('./src/scss/for-email/**/*.scss')
 		.pipe(sass())
 		.on("error", sass.logError)
 		.pipe(gulp.dest(paths.styles.dest))
@@ -192,10 +246,12 @@ function compileCompressedCSS() {
 		.pipe(autoprefixer())
 		.pipe(rename(
 			function(path){
-				if(wordPressDir === '') {
+				path.suffix += ".min";
+
+				if(pathToTheme === '') {
 					path.dirname += paths.styles.dest;
 				}else{
-					path.dirname += "./dist/" + wordPressDir;
+					path.dirname += "./dist/" + pathToTheme;
 					path.basename = "style";
 				}
 			}
@@ -205,7 +261,7 @@ function compileCompressedCSS() {
 
 function inlineCSS() {
 	return gulp
-		.src('./dist/*.html')
+		.src('./dist/index.html')
 		.pipe(inlineCss({
 			applyStyleTags: true,
 			applyLinkTags: true,
@@ -219,13 +275,7 @@ function inlineCSS() {
 
 const deleteCSSDir = () => del(paths.styles.dest);
 
-//const deleteDistDir = () => del('./dist/*');
-
-function deleteDistDir(){
-	if(wordPressDir === '') {
-		return del('./dist/*');
-	}
-}
+const deleteDistDir = () => del("./dist/" + pathToTheme + "*");
 
 /*
 * >>========================================>
@@ -249,8 +299,6 @@ function copyImages() {
 		.pipe(gulp.dest(paths.images.dest));
 }
 
-// Wipes out all images
-
 const deleteImagesDir = () => del(paths.images.dest);
 
 /*
@@ -267,7 +315,8 @@ function liveReload(done) {
 function startServer(done) {
 	browserSync.init({
 		server: {
-			baseDir: "./dist"
+			baseDir: "./dist",
+			proxy: siteURL
 		}
 	});
 	done();
@@ -282,33 +331,36 @@ function startServer(done) {
 function watchForChanges() {
 	gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
 	gulp.watch(paths.styles.src, gulp.series(compileCSS));
-	gulp.watch(paths.styles_email.src, gulp.series(compileEmailCSS));
+	gulp.watch(paths.dom.src, gulp.series(copyDOM, liveReload));
+	gulp.watch(paths.images.src, gulp.series(copyImages, liveReload));
+}
+
+function watchForEmailChanges() {
+	gulp.watch(paths.styles.src, gulp.series(compileEmailCSS));
 	gulp.watch(paths.dom.src, gulp.series(copyDOM, liveReload));
 	gulp.watch(paths.images.src, gulp.series(copyImages, liveReload));
 }
 
 /*
 * >>========================================>
-* Task Initialization
+* Web Development Tasks
 * >>========================================>
 */
-
-// Development tasks
 
 const development = gulp.series(deleteDistDir, copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
 gulp.task("spark", development);
 
-// Production tasks
-
-const production = gulp.series(processDOM, compressScripts, compileCompressedCSS, deleteImagesDir, compressImages, copyOtherFiles);
+const production = gulp.series(deleteDistDir, processDOM, compressScripts, compileCompressedCSS, deleteImagesDir, compressImages, copyOtherFiles, dumpDatabase);
 gulp.task("blaze", production);
 
-// Email Development tasks
+/*
+* >>========================================>
+* Email Development Tasks
+* >>========================================>
+*/
 
-const development_email = gulp.series(deleteDistDir, startServer, copyDOM, compileEmailCSS, copyImages, watchForChanges);
-gulp.task("spark_email", development_email);
+// const development = gulp.series(deleteDistDir, copyEmailDOM, compileEmailCSS, copyImages, startServer, watchForEmailChanges);
+// gulp.task("spark", development);
 
-// Email Production tasks
-
-const production_email = gulp.series(deleteDistDir, processEmailDOM, compileEmailCSS, inlineCSS, deleteCSSDir, compressImages);
-gulp.task("blaze_email", production_email);
+// const production = gulp.series(deleteDistDir, compileEmailCSS, processEmailDOM, inlineCSS, deleteCSSDir, compressImages);
+// gulp.task("blaze", production);
