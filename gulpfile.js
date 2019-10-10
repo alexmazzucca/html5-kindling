@@ -28,7 +28,7 @@ const imageminMozjpeg = require('imagemin-mozjpeg');
 * >>========================================>
 */
 
-var outputDir = "";
+var wordPressDir = "";
 
 const paths = {
 	scripts: {
@@ -38,13 +38,13 @@ const paths = {
 			"./src/js/vendor/*.js",
 			"./src/js/main.js"
 		],
-		dest: "./dist/" + outputDir + "js/"
+		dest: "./dist/" + wordPressDir + "js/"
 	},
 	styles: {
 		src: [
 			"./src/scss/main.scss",
 		],
-		dest: "./dist/" + outputDir + "css/"
+		dest: "./dist/" + wordPressDir + "css/"
 	},
 	styles_email: {
 		src: "./src/scss/for-email/**/*.scss",
@@ -55,11 +55,11 @@ const paths = {
 			"./src/**/*.html",
 			"./src/**/*.php"
 		],
-		dest: "./dist/" + outputDir
+		dest: "./dist/" + wordPressDir
 	},
 	images: {
 		src: "./src/img/*",
-		dest: "./dist/" + outputDir + "img/"
+		dest: "./dist/" + wordPressDir + "img/"
 	}
 };
 
@@ -149,14 +149,6 @@ function copyOtherFiles() {
 * >>========================================>
 */
 
-// var cssOutputDir;
-
-// if (outputDir === 'undefined') {
-// 	cssOutputDir = paths.styles.dest;
-// }else{
-// 	cssOutputDir = "./dist/" + outputDir;
-// }
-
 function compileCSS() {
 	return gulp
 		.src(paths.styles.src)
@@ -167,10 +159,10 @@ function compileCSS() {
 		.pipe(sourcemaps.write('.'))
 		.pipe(rename(
 			function(path){
-				if (outputDir === '') {
+				if (wordPressDir === '') {
 					path.dirname += paths.styles.dest;
 				}else{
-					path.dirname += "./dist/" + outputDir;
+					path.dirname += "./dist/" + wordPressDir;
 					path.basename = "style";
 				}
 			}
@@ -200,10 +192,10 @@ function compileCompressedCSS() {
 		.pipe(autoprefixer())
 		.pipe(rename(
 			function(path){
-				if (outputDir === '') {
+				if (wordPressDir === '') {
 					path.dirname += paths.styles.dest;
 				}else{
-					path.dirname += "./dist/" + outputDir;
+					path.dirname += "./dist/" + wordPressDir;
 					path.basename = "style";
 				}
 			}
