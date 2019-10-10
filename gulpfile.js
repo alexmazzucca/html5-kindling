@@ -24,11 +24,31 @@ const imageminMozjpeg = require('imagemin-mozjpeg');
 
 /*
 * >>========================================>
-* File Paths
+* Build Options
 * >>========================================>
 */
 
-var wordPressDir = "";
+// Specify subdirectory within 'dist'
+// Useful for WP theme development
+
+var optionalSubDir = "";
+
+// Delete all files in 'dist' on build
+
+var deleteDistOnBuild = true;
+
+// Delete specific directories within 'dist' on build
+// deleteDistOnBuild will override these settings
+
+var deleteImagesOnBuild = false;
+var deleteScriptsOnBuild = false;
+var deleteCSSOnBuild = false;
+
+/*
+* >>========================================>
+* File Paths
+* >>========================================>
+*/
 
 const paths = {
 	scripts: {
@@ -38,13 +58,13 @@ const paths = {
 			"./src/js/vendor/*.js",
 			"./src/js/main.js"
 		],
-		dest: "./dist/" + wordPressDir + "js/"
+		dest: "./dist/" + optionalSubDir + "js/"
 	},
 	styles: {
 		src: [
 			"./src/scss/main.scss",
 		],
-		dest: "./dist/" + wordPressDir + "css/"
+		dest: "./dist/" + optionalSubDir + "css/"
 	},
 	styles_email: {
 		src: "./src/scss/for-email/**/*.scss",
@@ -55,11 +75,11 @@ const paths = {
 			"./src/**/*.html",
 			"./src/**/*.php"
 		],
-		dest: "./dist/" + wordPressDir
+		dest: "./dist/" + optionalSubDir
 	},
 	images: {
 		src: "./src/img/*",
-		dest: "./dist/" + wordPressDir + "img/"
+		dest: "./dist/" + optionalSubDir + "img/"
 	}
 };
 
@@ -88,13 +108,21 @@ function compressScripts() {
 		.pipe(gulp.dest(paths.scripts.dest));
 }
 
-const deleteScriptsDir = () => del(paths.scripts.dest);
+function deleteScriptsDir(done){
+	if(!deleteDistOnBuild && deleteScriptsOnBuild) {
+		return del(paths.scripts.dest);
+	}else{
+		done();
+	}
+}
 
 /*
 * >>========================================>
 * Document Object Model (DOM) Tasks
 * >>========================================>
 */
+
+// Cleans up all DOM-related files from 'dom.src'
 
 function processDOM() {
 	return gulp
@@ -137,12 +165,6 @@ function copyDOM() {
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
-function copyOtherFiles() {
-	return gulp
-		.src('./src/**/!(*.html|*.php|/scss/|/js/|/img/)', { nodir: true })
-		.pipe(gulp.dest(paths.dom.dest));
-}
-
 /*
 * >>========================================>
 * Sass/CSS Tasks
@@ -159,24 +181,15 @@ function compileCSS() {
 		.pipe(sourcemaps.write('.'))
 		.pipe(rename(
 			function(path){
-				if(wordPressDir === '') {
+				if(optionalSubDir === '') {
 					path.dirname += paths.styles.dest;
 				}else{
-					path.dirname += "./dist/" + wordPressDir;
+					path.dirname += "./dist/" + optionalSubDir;
 					path.basename = "style";
 				}
 			}
 		))
 		.pipe(gulp.dest("./dist"))
-		.pipe(browserSync.stream());
-}
-
-function compileEmailCSS() {
-	return gulp
-		.src(paths.styles_email.src)
-		.pipe(sass())
-		.on("error", sass.logError)
-		.pipe(gulp.dest(paths.styles.dest))
 		.pipe(browserSync.stream());
 }
 
@@ -192,15 +205,24 @@ function compileCompressedCSS() {
 		.pipe(autoprefixer())
 		.pipe(rename(
 			function(path){
-				if(wordPressDir === '') {
+				if(optionalSubDir === '') {
 					path.dirname += paths.styles.dest;
 				}else{
-					path.dirname += "./dist/" + wordPressDir;
+					path.dirname += "./dist/" + optionalSubDir;
 					path.basename = "style";
 				}
 			}
 		))
 		.pipe(gulp.dest("./dist"))
+}
+
+function compileEmailCSS() {
+	return gulp
+		.src(paths.styles_email.src)
+		.pipe(sass())
+		.on("error", sass.logError)
+		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(browserSync.stream());
 }
 
 function inlineCSS() {
@@ -217,13 +239,31 @@ function inlineCSS() {
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
-const deleteCSSDir = () => del(paths.styles.dest);
+function deleteCSSDir(done){
+	if(!deleteDistOnBuild && deleteCSSOnBuild) {
+		return del(paths.styles.dest);
+	}else{
+		done();
+	}
+}
 
-//const deleteDistDir = () => del('./dist/*');
+/*
+* >>========================================>
+* Other Functions
+* >>========================================>
+*/
 
-function deleteDistDir(){
-	if(wordPressDir === '') {
+function copyOtherFiles() {
+	return gulp
+		.src('./src/**/!(*.html|*.php|/scss/|/js/|/img/)', { nodir: true })
+		.pipe(gulp.dest(paths.dom.dest));
+}
+
+function deleteDistDir(done){
+	if(deleteDistOnBuild) {
 		return del('./dist/*');
+	}else{
+		done();
 	}
 }
 
@@ -249,9 +289,13 @@ function copyImages() {
 		.pipe(gulp.dest(paths.images.dest));
 }
 
-// Wipes out all images
-
-const deleteImagesDir = () => del(paths.images.dest);
+function deleteImagesDir(done){
+	if(!deleteDistOnBuild && deleteImagesOnBuild) {
+		return del(paths.images.dest);
+	}else{
+		done();
+	}
+}
 
 /*
 * >>========================================>
@@ -295,7 +339,7 @@ function watchForChanges() {
 
 // Development tasks
 
-const development = gulp.series(deleteDistDir, copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
+const development = gulp.series(copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
 gulp.task("spark", development);
 
 // Production tasks
