@@ -14,11 +14,21 @@ var sourcemaps = require('gulp-sourcemaps');
 var prettyHtml = require('gulp-pretty-html');
 var inlineCss = require('gulp-inline-css');
 var replace = require('gulp-replace');
+var rename = require("gulp-rename");
+var log = require('fancy-log');
 
 const htmlmin = require("gulp-htmlmin");
 const del = require("del");
 const imagemin = require("gulp-imagemin");
 const imageminMozjpeg = require('imagemin-mozjpeg');
+
+/*
+* >>========================================>
+* File Paths
+* >>========================================>
+*/
+
+var outputDir = "";
 
 const paths = {
 	scripts: {
@@ -28,13 +38,13 @@ const paths = {
 			"./src/js/vendor/*.js",
 			"./src/js/main.js"
 		],
-		dest: "./dist/js/"
+		dest: "./dist/" + outputDir + "js/"
 	},
 	styles: {
 		src: [
 			"./src/scss/main.scss",
 		],
-		dest: "./dist/css/"
+		dest: "./dist/" + outputDir + "css/"
 	},
 	styles_email: {
 		src: "./src/scss/for-email/**/*.scss",
@@ -45,11 +55,11 @@ const paths = {
 			"./src/**/*.html",
 			"./src/**/*.php"
 		],
-		dest: "./dist/"
+		dest: "./dist/" + outputDir
 	},
 	images: {
 		src: "./src/img/*",
-		dest: "./dist/img/"
+		dest: "./dist/" + outputDir + "img/"
 	}
 };
 
@@ -73,10 +83,12 @@ function combineScripts() {
 function compressScripts() {
 	return gulp
 		.src(paths.scripts.src)
-		.pipe(uglify())
 		.pipe(concat("main.min.js"))
+		.pipe(uglify())
 		.pipe(gulp.dest(paths.scripts.dest));
 }
+
+const deleteScriptsDir = () => del(paths.scripts.dest);
 
 /*
 * >>========================================>
@@ -84,10 +96,9 @@ function compressScripts() {
 * >>========================================>
 */
 
-function cleanDOM() {
+function processDOM() {
 	return gulp
 		.src(paths.dom.src)
-		.pipe(replace('src="', 'src="'))
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,
@@ -102,7 +113,7 @@ function cleanDOM() {
 
 // Removes comments and whitespace and Prettifies
 
-function cleanEmailDOM() {
+function processEmailDOM() {
 	return gulp
 		.src(paths.dom.src)
 		.pipe(replace('src="', 'src="'))
@@ -128,8 +139,8 @@ function copyDOM() {
 
 function copyOtherFiles() {
 	return gulp
-		.src('./src/**/!(*.html|*.php|*.scss|*.js)', { nodir: true })
-		.pipe(gulp.dest('./dist/'));
+		.src('./src/**/!(*.html|*.php|/scss/|/js/|/img/)', { nodir: true })
+		.pipe(gulp.dest(paths.dom.dest));
 }
 
 /*
@@ -137,6 +148,14 @@ function copyOtherFiles() {
 * Sass/CSS Tasks
 * >>========================================>
 */
+
+// var cssOutputDir;
+
+// if (outputDir === 'undefined') {
+// 	cssOutputDir = paths.styles.dest;
+// }else{
+// 	cssOutputDir = "./dist/" + outputDir;
+// }
 
 function compileCSS() {
 	return gulp
@@ -146,7 +165,17 @@ function compileCSS() {
 		.on("error", sass.logError)
 		.pipe(autoprefixer())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(rename(
+			function(path){
+				if (outputDir === '') {
+					path.dirname += paths.styles.dest;
+				}else{
+					path.dirname += "./dist/" + outputDir;
+					path.basename = "style";
+				}
+			}
+		))
+		.pipe(gulp.dest("./dist"))
 		.pipe(browserSync.stream());
 }
 
@@ -169,7 +198,17 @@ function compileCompressedCSS() {
 		)
 		.on("error", sass.logError)
 		.pipe(autoprefixer())
-		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(rename(
+			function(path){
+				if (outputDir === '') {
+					path.dirname += paths.styles.dest;
+				}else{
+					path.dirname += "./dist/" + outputDir;
+					path.basename = "style";
+				}
+			}
+		))
+		.pipe(gulp.dest("./dist"))
 }
 
 function inlineCSS() {
@@ -203,7 +242,7 @@ function compressImages() {
 			imageminMozjpeg({quality: 85}),
 			imagemin.optipng({optimizationLevel: 5})
 		]))
-		.pipe(gulp.dest("dist/img"));
+		.pipe(gulp.dest(paths.images.dest));
 }
 
 function copyImages() {
@@ -258,12 +297,12 @@ function watchForChanges() {
 
 // Development tasks
 
-const development = gulp.series(deleteDistDir, copyDOM, compileCSS, combineScripts, copyImages, startServer, copyOtherFiles, watchForChanges);
+const development = gulp.series(copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
 gulp.task("spark", development);
 
 // Production tasks
 
-const production = gulp.series(deleteDistDir, cleanDOM, compressScripts, compileCompressedCSS, deleteImagesDir, compressImages, copyOtherFiles);
+const production = gulp.series(processDOM, compressScripts, compileCompressedCSS, deleteImagesDir, compressImages, copyOtherFiles);
 gulp.task("blaze", production);
 
 // Email Development tasks
@@ -271,7 +310,7 @@ gulp.task("blaze", production);
 const development_email = gulp.series(deleteDistDir, startServer, copyDOM, compileEmailCSS, copyImages, watchForChanges);
 gulp.task("spark_email", development_email);
 
-// Email Production Tasks
+// Email Production tasks
 
-const production_email = gulp.series(deleteDistDir, cleanEmailDOM, compileEmailCSS, inlineCSS, deleteCSSDir, compressImages);
+const production_email = gulp.series(deleteDistDir, processEmailDOM, compileEmailCSS, inlineCSS, deleteCSSDir, compressImages);
 gulp.task("blaze_email", production_email);
