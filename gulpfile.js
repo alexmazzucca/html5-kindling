@@ -361,10 +361,10 @@ function watchForEmailChanges() {
 */
 
 const development = gulp.series(deleteDistDir, copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
-gulp.task("spark", development);
+gulp.task("dev", development);
 
 const production = gulp.series(deleteDistDir, processDOM, compressScripts, compileCompressedCSS, deleteImagesDir, compressImages, copyOtherFiles, dumpDatabase);
-gulp.task("blaze", production);
+gulp.task("prod", production);
 
 /*
 * >>========================================>
@@ -373,7 +373,7 @@ gulp.task("blaze", production);
 */
 
 const emailDevelopment = gulp.series(deleteDistDir, copyEmailDOM, compileEmailCSS, copyImages, startServer, watchForEmailChanges);
-gulp.task("sparkEmail", emailDevelopment);
+gulp.task("devEmail", emailDevelopment);
 
 const emailProduction = gulp.series(deleteDistDir, compileEmailCSS, processEmailDOM, inlineCSS, deleteCSSDir, compressImages);
-gulp.task("blazeEmail", emailProduction);
+gulp.task("prodEmail", emailProduction);
