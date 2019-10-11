@@ -7,7 +7,7 @@
 const settings = {
 	wordpress: {
 		url: "",
-		theme: "",
+		theme: "test",
 		database: ""
 	},
 	email: {
@@ -33,6 +33,7 @@ var inlineCss = require('gulp-inline-css');
 var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var log = require('fancy-log');
+var git = require('gulp-git');
 
 const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
@@ -289,7 +290,9 @@ function inlineCSS() {
 
 const deleteCSSDir = () => del(paths.styles.dest);
 
-const deleteDistDir = () => del("./dist/" + pathToTheme + "*");
+const deleteDistFiles = () => del("./dist/" + pathToTheme + "*");
+
+const removeDistDir = () => del("./dist");
 
 /*
 * >>========================================>
@@ -356,15 +359,63 @@ function watchForEmailChanges() {
 
 /*
 * >>========================================>
+* Setup Tasks
+* >>========================================>
+*/
+
+/* Email */
+
+const deleteSrcFiles = () => del("./src/*");
+
+function copyEmailFilesToSrc() {
+	return gulp
+		.src('./templates/email/**')
+		.pipe(gulp.dest('./src/'));
+}
+
+const setupEmail = gulp.series(removeDistDir, deleteSrcFiles, copyEmailFilesToSrc);
+gulp.task("setupEmail", setupEmail);
+
+/* Static site */
+
+function copyStaticFilesToSrc() {
+	return gulp
+		.src('./templates/static/**')
+		.pipe(gulp.dest('./src/'));
+}
+
+const setupStatic = gulp.series(removeDistDir, deleteSrcFiles, copyStaticFilesToSrc);
+gulp.task("setupStatic", setupStatic);
+
+/* WordPress */
+
+function copyThemeFiles() {
+	return gulp
+		.src('./templates/theme/**')
+		.pipe(gulp.dest('./src/'))
+}
+
+function cloneWordPressToSrc(done){
+	git.clone('https://github.com/WordPress/WordPress', {args: './dist'}, function(err){
+		if(err) throw err;
+	});
+	done();
+};
+
+const wpSetup = gulp.series(removeDistDir, deleteSrcFiles, cloneWordPressToSrc, copyThemeFiles);
+gulp.task("setupWordPress", wpSetup);
+
+/*
+* >>========================================>
 * Web Development Tasks
 * >>========================================>
 */
 
-const development = gulp.series(deleteDistDir, copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
-gulp.task("dev", development);
+const developmentTasks = gulp.series(deleteDistFiles, copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
+gulp.task("develop", developmentTasks);
 
-const production = gulp.series(deleteDistDir, processDOM, compressScripts, compileCompressedCSS, deleteImagesDir, compressImages, copyOtherFiles, dumpDatabase);
-gulp.task("prod", production);
+const productionTasks = gulp.series(deleteDistFiles, processDOM, compressScripts, compileCompressedCSS, deleteImagesDir, compressImages, copyOtherFiles, dumpDatabase);
+gulp.task("build", productionTasks);
 
 /*
 * >>========================================>
@@ -372,8 +423,8 @@ gulp.task("prod", production);
 * >>========================================>
 */
 
-const emailDevelopment = gulp.series(deleteDistDir, copyEmailDOM, compileEmailCSS, copyImages, startServer, watchForEmailChanges);
-gulp.task("devEmail", emailDevelopment);
+const emailDevelopmentTasks = gulp.series(deleteDistFiles, copyEmailDOM, compileEmailCSS, copyImages, startServer, watchForEmailChanges);
+gulp.task("developEmail", emailDevelopmentTasks);
 
-const emailProduction = gulp.series(deleteDistDir, compileEmailCSS, processEmailDOM, inlineCSS, deleteCSSDir, compressImages);
-gulp.task("prodEmail", emailProduction);
+const emailProductionTasks = gulp.series(deleteDistFiles, compileEmailCSS, processEmailDOM, inlineCSS, deleteCSSDir, compressImages);
+gulp.task("buildEmail", emailProductionTasks);
