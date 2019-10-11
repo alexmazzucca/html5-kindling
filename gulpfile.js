@@ -4,10 +4,16 @@
 * >>========================================>
 */
 
-var siteURL = "";
-var pathToTheme = ""; // wp-content/themes/theme_name/
-var remoteImagePath = "";
-var dbName = "";
+const settings = {
+	wordpress: {
+		url: "",
+		theme: "",
+		database: ""
+	},
+	email: {
+		url: ""
+	}
+};
 
 /*
 * >>========================================>
@@ -39,6 +45,14 @@ const imageminMozjpeg = require('imagemin-mozjpeg');
 * File Paths
 * >>========================================>
 */
+
+var pathToTheme = "";
+
+if(settings.wordpress.theme != "") {
+	pathToTheme = "wp-content/themes/" + settings.wordpress.theme + '/';
+}else{
+	pathToTheme = "";
+}
 
 const paths = {
 	scripts: {
@@ -76,7 +90,7 @@ const paths = {
 */
 
 function dumpDatabase(done){
-	if(dbName != '') {
+	if(settings.wordpress.database != '') {
 		var today = new Date(),
 			dd = today.getDate(),
 			mm = today.getMonth()+1 //January is 0!
@@ -90,14 +104,14 @@ function dumpDatabase(done){
 				host: 'localhost',
 				user: 'root',
 				password: 'root',
-				database: dbName
+				database: settings.wordpress.database
 			},
 			dump: {
 				data: {
 					format : false
 				}
 			},
-			dumpToFile: './db/' + dbName + today + '.sql'
+			dumpToFile: settings.wordpress.database + today + '.sql'
 		});
 	}
 	done();
@@ -154,7 +168,7 @@ function processDOM() {
 function processEmailDOM() {
 	return gulp
 		.src('./src/email.html')
-		.pipe(replace('src="', 'src="' + remoteImagePath))
+		.pipe(replace('src="', 'src="' + settings.email.url))
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,
@@ -315,8 +329,7 @@ function liveReload(done) {
 function startServer(done) {
 	browserSync.init({
 		server: {
-			baseDir: "./dist",
-			proxy: siteURL
+			proxy: settings.wordpress.url
 		}
 	});
 	done();
