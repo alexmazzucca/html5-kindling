@@ -4,6 +4,7 @@ Imports
 >>================================================================================>
 */
 
+// @import 'vendor/wordpress';
 @import 'imports/normalize';
 @import 'imports/mixins';
 
@@ -96,7 +97,6 @@ body {
     font-family: $font_primary;
     background-color: $color_white;
     color: $color_black;
-    // display: none;
     
     /* Page Loading */
 

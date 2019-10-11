@@ -241,7 +241,7 @@ function compileCSS() {
 
 function compileEmailCSS() {
 	return gulp
-		.src('./src/scss/for-email/**/*.scss')
+		.src('./src/scss/email.scss')
 		.pipe(sass())
 		.on("error", sass.logError)
 		.pipe(gulp.dest(paths.styles.dest))
