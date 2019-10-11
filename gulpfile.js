@@ -372,8 +372,8 @@ gulp.task("blaze", production);
 * >>========================================>
 */
 
-// const development = gulp.series(deleteDistDir, copyEmailDOM, compileEmailCSS, copyImages, startServer, watchForEmailChanges);
-// gulp.task("spark", development);
+const emailDevelopment = gulp.series(deleteDistDir, copyEmailDOM, compileEmailCSS, copyImages, startServer, watchForEmailChanges);
+gulp.task("sparkEmail", emailDevelopment);
 
-// const production = gulp.series(deleteDistDir, compileEmailCSS, processEmailDOM, inlineCSS, deleteCSSDir, compressImages);
-// gulp.task("blaze", production);
+const emailProduction = gulp.series(deleteDistDir, compileEmailCSS, processEmailDOM, inlineCSS, deleteCSSDir, compressImages);
+gulp.task("blazeEmail", emailProduction);
