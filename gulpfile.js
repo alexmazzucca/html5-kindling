@@ -1,3 +1,28 @@
+//      )                 (      (                        
+//   ( /(   (             )\ )   )\   (            (  (   
+//   )\())  )\    (      (()/(  ((_)  )\    (      )\))(  
+//  ((_)\  ((_)   )\ )    ((_))  _   ((_)   )\ )  ((_))\  
+//  | |(_)  (_)  _(_/(    _| |  | |   (_)  _(_/(   (()(_) 
+//  | / /   | | | ' \)) / _` |  | |   | | | ' \)) / _` |  
+//  |_\_\   |_| |_||_|  \__,_|  |_|   |_| |_||_|  \__, |  
+//                                                |___/   
+
+/*
+* >>========================================>
+* Instructions
+* >>========================================>
+*/
+
+/**
+ * Usage
+ * -----
+ * 1. Specify project type in 'settings' below (static, email, wp)
+ * 2. If starting a WordPress project, specify a database, site URL and theme name
+ * 3. Run 'gulp setup' to copy necessary files to 'src' and 'dist'
+ * 4. Run 'gulp dev' to produce a development build of the project (and start local server)
+ * 5. Run 'gulp build' to produce a production build of the project
+ */
+
 /*
 * >>========================================>
 * Settings
@@ -5,10 +30,9 @@
 */
 
 const settings = {
-	type: 'wp',
-	emailImgPath: '',
+	type: 'email',
 	database: '',
-	siteURL: '',
+	address: 'http://google.com/',
 	theme: ''
 };
 
@@ -29,7 +53,6 @@ var prettyHtml = require('gulp-pretty-html');
 var inlineCss = require('gulp-inline-css');
 var replace = require('gulp-replace');
 var rename = require("gulp-rename");
-var log = require('fancy-log');
 var git = require('gulp-git');
 
 const mysqldump = require('mysqldump')
@@ -115,7 +138,7 @@ function backupDatabase(done){
 
 /*
 * >>========================================>
-* JS Tasks
+* Scripts
 * >>========================================>
 */
 
@@ -153,7 +176,7 @@ function buildScripts(done){
 
 /*
 * >>========================================>
-* Document Object Model (DOM) Tasks
+* DOM Tasks
 * >>========================================>
 */
 
@@ -161,27 +184,6 @@ function copyDOM() {
 	return gulp
 		.src(paths.dom.src)
 		.pipe(gulp.dest(paths.dom.dest));
-}
-
-function copyEmailDOM() {
-	return gulp
-		.src('./src/email.html')
-		.pipe(
-			rename({
-				basename: "index"
-			})
-		)
-		.pipe(gulp.dest(paths.dom.dest));
-}
-
-function devDOM(done){
-	if(settings.type == 'email') {
-		copyEmailDOM();
-	}else{
-		copyDOM();
-	}
-	
-	done();
 }
 
 function processDOM() {
@@ -201,8 +203,8 @@ function processDOM() {
 
 function processEmailDOM() {
 	return gulp
-		.src('./src/email.html')
-		.pipe(replace('src="', 'src="' + settings.emailImgPath))
+		.src('./src/index.html')
+		.pipe(replace('src="', 'src="' + settings.address))
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,
@@ -214,11 +216,6 @@ function processEmailDOM() {
 			})
 		)
 		.pipe(prettyHtml())
-		.pipe(
-			rename({
-				basename: "index"
-			})
-		)
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
@@ -413,7 +410,7 @@ function startServer() {
 function watchForChanges() {
 	gulp.watch(paths.scripts.src, gulp.series(devScripts, liveReload));
 	gulp.watch(paths.styles.src, gulp.series(devCSS));
-	gulp.watch(paths.dom.src, gulp.series(devDOM, liveReload));
+	gulp.watch(paths.dom.src, gulp.series(copyDOM, liveReload));
 	gulp.watch(paths.images.src, gulp.series(copyImages, liveReload));
 }
 
@@ -427,7 +424,7 @@ const devTasks = gulp.series(
 	removeDistDir,
 	devScripts,
 	devCSS,
-	devDOM,
+	copyDOM,
 	copyImages,
 	copyFiles,
 	startServer,
