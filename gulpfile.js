@@ -5,14 +5,11 @@
 */
 
 const settings = {
-	wordpress: {
-		url: "",
-		theme: "test",
-		database: ""
-	},
-	email: {
-		url: ""
-	}
+	type: 'wp',
+	emailImgPath: '',
+	database: '',
+	siteURL: '',
+	theme: ''
 };
 
 /*
@@ -49,10 +46,8 @@ const imageminMozjpeg = require('imagemin-mozjpeg');
 
 var pathToTheme = "";
 
-if(settings.wordpress.theme != "") {
-	pathToTheme = "wp-content/themes/" + settings.wordpress.theme + '/';
-}else{
-	pathToTheme = "";
+if(settings.theme != "") {
+	pathToTheme = "wp-content/themes/" + settings.theme + '/';
 }
 
 const paths = {
@@ -90,8 +85,8 @@ const paths = {
 * >>========================================>
 */
 
-function dumpDatabase(done){
-	if(settings.wordpress.database != '') {
+function backupDatabase(done){
+	if(settings.database != '') {
 		var today = new Date(),
 			dd = today.getDate(),
 			mm = today.getMonth()+1 //January is 0!
@@ -105,17 +100,17 @@ function dumpDatabase(done){
 				host: 'localhost',
 				user: 'root',
 				password: 'root',
-				database: settings.wordpress.database
+				database: settings.database
 			},
 			dump: {
 				data: {
 					format : false
 				}
 			},
-			dumpToFile: settings.wordpress.database + today + '.sql'
+			dumpToFile: settings.database + today + '.sql'
 		});
 	}
-	done();
+	return done();
 }
 
 /*
@@ -124,7 +119,7 @@ function dumpDatabase(done){
 * >>========================================>
 */
 
-// Just conbines scripts mentioned in 'paths'
+const deleteScriptsDir = () => del(paths.scripts.dest);
 
 function combineScripts() {
 	return gulp
@@ -133,7 +128,13 @@ function combineScripts() {
 		.pipe(gulp.dest(paths.scripts.dest))
 }
 
-// Uglifies and combines scripts mentioned in 'paths'
+function devScripts(done){
+	if(settings.type != 'email') {
+		deleteScriptsDir();
+		combineScripts();
+	}
+	return done();
+}
 
 function compressScripts() {
 	return gulp
@@ -143,13 +144,45 @@ function compressScripts() {
 		.pipe(gulp.dest(paths.scripts.dest));
 }
 
-const deleteScriptsDir = () => del(paths.scripts.dest);
+function buildScripts(done){
+	if(settings.type != 'email') {
+		compressScripts();
+	}
+	return done();
+}
 
 /*
 * >>========================================>
 * Document Object Model (DOM) Tasks
 * >>========================================>
 */
+
+function copyDOM() {
+	return gulp
+		.src(paths.dom.src)
+		.pipe(gulp.dest(paths.dom.dest));
+}
+
+function copyEmailDOM() {
+	return gulp
+		.src('./src/email.html')
+		.pipe(
+			rename({
+				basename: "index"
+			})
+		)
+		.pipe(gulp.dest(paths.dom.dest));
+}
+
+function devDOM(done){
+	if(settings.type == 'email') {
+		copyEmailDOM();
+	}else{
+		copyDOM();
+	}
+	
+	done();
+}
 
 function processDOM() {
 	return gulp
@@ -169,7 +202,7 @@ function processDOM() {
 function processEmailDOM() {
 	return gulp
 		.src('./src/email.html')
-		.pipe(replace('src="', 'src="' + settings.email.url))
+		.pipe(replace('src="', 'src="' + settings.emailImgPath))
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,
@@ -189,27 +222,22 @@ function processEmailDOM() {
 		.pipe(gulp.dest(paths.dom.dest));
 }
 
-function copyDOM() {
-	return gulp
-		.src(paths.dom.src)
-		.pipe(gulp.dest(paths.dom.dest));
+function buildDOM(done){
+	if(settings.type == 'email') {
+		processEmailDOM();
+	}else{
+		processDOM();
+	}
+
+	done();
 }
 
-function copyEmailDOM() {
-	return gulp
-		.src('./src/email.html')
-		.pipe(
-			rename({
-				basename: "index"
-			})
-		)
-		.pipe(gulp.dest(paths.dom.dest));
-}
-
-function copyOtherFiles() {
+function copyFiles(done) {
 	return gulp
 		.src('./src/**/!(*.html|*.php|/scss/|/js/|/img/)', { nodir: true })
 		.pipe(gulp.dest(paths.dom.dest));
+	
+	done();
 }
 
 /*
@@ -249,6 +277,16 @@ function compileEmailCSS() {
 		.pipe(browserSync.stream());
 }
 
+function devCSS(done){
+	if(settings.type == 'email') {
+		compileEmailCSS();
+	}else{
+		compileCSS();
+	}
+	
+	done();
+}
+
 function compileCompressedCSS() {
 	return gulp
 		.src(paths.styles.src)
@@ -274,25 +312,47 @@ function compileCompressedCSS() {
 		.pipe(gulp.dest("./dist"))
 }
 
-function inlineCSS() {
-	return gulp
-		.src('./dist/index.html')
-		.pipe(inlineCss({
-			applyStyleTags: true,
-			applyLinkTags: true,
-			removeStyleTags: true,
-			removeLinkTags: true,
-			removeHtmlSelectors: true,
-			xmlMode: true,
-		}))
-		.pipe(gulp.dest(paths.dom.dest));
+function inlineCSS(done) {
+	if(settings.type == 'email') {
+		return gulp
+			.src('./dist/index.html')
+			.pipe(inlineCss({
+				applyStyleTags: true,
+				applyLinkTags: true,
+				removeStyleTags: true,
+				removeLinkTags: true,
+				removeHtmlSelectors: true,
+				xmlMode: true,
+			}))
+			.pipe(gulp.dest(paths.dom.dest))
+	}
+
+	done();
 }
 
-const deleteCSSDir = () => del(paths.styles.dest);
+function buildCSS(done){
+	if(settings.type == 'email') {
+		compileEmailCSS();
+	}else{
+		compileCompressedCSS();
+	}
 
-const deleteDistFiles = () => del("./dist/" + pathToTheme + "*");
+	done();
+}
 
-const removeDistDir = () => del("./dist");
+function deleteCSSDir(done) {
+	if(settings.type == 'email') {
+		return del(paths.styles.dest);
+	}
+
+	done();
+}
+
+function removeDistDir(done) {
+	return del("./dist");
+
+	done();
+}
 
 /*
 * >>========================================>
@@ -306,17 +366,17 @@ function compressImages() {
 		.pipe(imagemin([
 			imageminMozjpeg({quality: 85}),
 			imagemin.optipng({optimizationLevel: 5})
-		]))
+		], {
+			verbose: true
+		}))
 		.pipe(gulp.dest(paths.images.dest));
 }
 
 function copyImages() {
 	return gulp
 		.src(paths.images.src)
-		.pipe(gulp.dest(paths.images.dest));
+		.pipe(gulp.dest(paths.images.dest))
 }
-
-const deleteImagesDir = () => del(paths.images.dest);
 
 /*
 * >>========================================>
@@ -324,18 +384,24 @@ const deleteImagesDir = () => del(paths.images.dest);
 * >>========================================>
 */
 
-function liveReload(done) {
+function liveReload() {
 	browserSync.reload();
-	done();
 }
 
-function startServer(done) {
-	browserSync.init({
-		server: {
-			proxy: settings.wordpress.url
-		}
-	});
-	done();
+function startServer() {
+	if(settings.siteURL === '') {
+		browserSync.init({
+			server: {
+				baseDir: "./dist"
+			}
+		});
+	}else{
+		browserSync.init({
+			server: {
+				proxy: settings.siteURL
+			}
+		});
+	}
 }
 
 /*
@@ -345,86 +411,74 @@ function startServer(done) {
 */
 
 function watchForChanges() {
-	gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
-	gulp.watch(paths.styles.src, gulp.series(compileCSS));
-	gulp.watch(paths.dom.src, gulp.series(copyDOM, liveReload));
-	gulp.watch(paths.images.src, gulp.series(copyImages, liveReload));
-}
-
-function watchForEmailChanges() {
-	gulp.watch(paths.styles.src, gulp.series(compileEmailCSS));
-	gulp.watch(paths.dom.src, gulp.series(copyDOM, liveReload));
+	gulp.watch(paths.scripts.src, gulp.series(devScripts, liveReload));
+	gulp.watch(paths.styles.src, gulp.series(devCSS));
+	gulp.watch(paths.dom.src, gulp.series(devDOM, liveReload));
 	gulp.watch(paths.images.src, gulp.series(copyImages, liveReload));
 }
 
 /*
 * >>========================================>
-* Setup Tasks
+* Web (Static Sites, WP) Tasks
 * >>========================================>
 */
 
-/* Email */
+const devTasks = gulp.series(
+	removeDistDir,
+	devScripts,
+	devCSS,
+	devDOM,
+	copyImages,
+	copyFiles,
+	startServer,
+	watchForChanges
+);
 
-const deleteSrcFiles = () => del("./src/*");
+gulp.task("dev", devTasks);
 
-function copyEmailFilesToSrc() {
+const buildTasks = gulp.series(
+	removeDistDir,
+	buildScripts,
+	buildCSS,
+	buildDOM,
+	compressImages,
+	inlineCSS,
+	deleteCSSDir,
+	copyFiles,
+	backupDatabase
+);
+
+gulp.task("build", buildTasks);
+
+/*
+* >>========================================>
+* Project Setup Tasks
+* >>========================================>
+*/
+
+const removeSrcFiles = () => del("./src/*");
+
+function copyTemplateFiles(){
 	return gulp
-		.src('./templates/email/**')
+		.src('./templates/' + settings.type +  '/**')
 		.pipe(gulp.dest('./src/'));
 }
 
-const setupEmail = gulp.series(removeDistDir, deleteSrcFiles, copyEmailFilesToSrc);
-gulp.task("setupEmail", setupEmail);
+function cloneWP(done){
+	if(settings.type == 'wp'){
+		git.clone('https://github.com/WordPress/WordPress', {args: './dist'}, function(err){
+			if(err) throw err;
+		});
+	}
 
-/* Static site */
-
-function copyStaticFilesToSrc() {
-	return gulp
-		.src('./templates/static/**')
-		.pipe(gulp.dest('./src/'));
-}
-
-const setupStatic = gulp.series(removeDistDir, deleteSrcFiles, copyStaticFilesToSrc);
-gulp.task("setupStatic", setupStatic);
-
-/* WordPress */
-
-function copyThemeFiles() {
-	return gulp
-		.src('./templates/theme/**')
-		.pipe(gulp.dest('./src/'))
-}
-
-function cloneWordPressToSrc(done){
-	git.clone('https://github.com/WordPress/WordPress', {args: './dist'}, function(err){
-		if(err) throw err;
-	});
 	done();
-};
+}
 
-const wpSetup = gulp.series(removeDistDir, deleteSrcFiles, cloneWordPressToSrc, copyThemeFiles);
-gulp.task("setupWordPress", wpSetup);
+const setupProject = gulp.series(
+	removeDistDir,
+	removeSrcFiles,
+	copyTemplateFiles,
+	cloneWP
+);
 
-/*
-* >>========================================>
-* Web Development Tasks
-* >>========================================>
-*/
-
-const developmentTasks = gulp.series(deleteDistFiles, copyDOM, deleteCSSDir, compileCSS, deleteScriptsDir, combineScripts, deleteImagesDir, copyImages, copyOtherFiles, startServer, watchForChanges);
-gulp.task("develop", developmentTasks);
-
-const productionTasks = gulp.series(deleteDistFiles, processDOM, compressScripts, compileCompressedCSS, deleteImagesDir, compressImages, copyOtherFiles, dumpDatabase);
-gulp.task("build", productionTasks);
-
-/*
-* >>========================================>
-* Email Development Tasks
-* >>========================================>
-*/
-
-const emailDevelopmentTasks = gulp.series(deleteDistFiles, copyEmailDOM, compileEmailCSS, copyImages, startServer, watchForEmailChanges);
-gulp.task("developEmail", emailDevelopmentTasks);
-
-const emailProductionTasks = gulp.series(deleteDistFiles, compileEmailCSS, processEmailDOM, inlineCSS, deleteCSSDir, compressImages);
-gulp.task("buildEmail", emailProductionTasks);
+gulp.task("setup", setupProject);

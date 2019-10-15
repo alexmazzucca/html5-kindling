@@ -1,14 +1,14 @@
 # Kindling
 
 ## Setup:
- 1. gulp setupWordPress
- 2. gulp setupEmail
- 3. gulp setupStatic
+ 1. define project type:
+ 	1. email
+ 	2. static
+ 	3. wp
+ 1. run 'gulp setup'
 
 ## Compile
- 1. gulp develop*
+ 1. gulp dev*
  2. gulp build*
- 3. gulp developEmail
- 4. gulp buildEmail
 
 *Theme folder must be specified if developing WP theme
