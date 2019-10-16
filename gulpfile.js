@@ -14,9 +14,7 @@
 */
 
 /**
- * Usage
- * -----
- * 1. Specify project type in 'settings' (static, email, wp)
+ * 1. Specify project type in 'settings' (static, email, wordpress)
  * 2. If starting a WordPress project, specify a database, site URL and theme name
  * 3. If starting an email project, specify remote image folder path
  * 4. Run 'gulp setup' to copy necessary files to 'src' and 'dist'
@@ -31,9 +29,9 @@
 */
 
 const settings = {
-	type: 'email',
+	type: 'static',
+	address: 'http://kindling.local',
 	database: '',
-	address: 'http://google.com/',
 	theme: ''
 };
 
@@ -95,7 +93,7 @@ const paths = {
 			"./src/**/*.html",
 			"./src/**/*.php"
 		],
-		dest: "./dist/" + pathToTheme
+		dest: "./dist/" + pathToTheme + "/"
 	},
 	images: {
 		src: "./src/img/*",
@@ -105,7 +103,7 @@ const paths = {
 
 /*
 * >>========================================>
-* Database
+* Database Tasks
 * >>========================================>
 */
 
@@ -139,7 +137,7 @@ function backupDatabase(done){
 
 /*
 * >>========================================>
-* Scripts
+* Script Tasks
 * >>========================================>
 */
 
@@ -181,10 +179,12 @@ function buildScripts(done){
 * >>========================================>
 */
 
-function copyDOM() {
+function copyDOM(done) {
 	return gulp
 		.src(paths.dom.src)
 		.pipe(gulp.dest(paths.dom.dest));
+	
+	done();
 }
 
 function processDOM() {
@@ -347,8 +347,11 @@ function deleteCSSDir(done) {
 }
 
 function removeDistDir(done) {
-	return del("./dist");
-
+	if(settings.type == 'wordpress') {
+		return del("./dist/" + pathToTheme);
+	}else{
+		return del("./dist");
+	}
 	done();
 }
 
@@ -382,29 +385,29 @@ function copyImages() {
 * >>========================================>
 */
 
-function liveReload() {
+function liveReload(done) {
 	browserSync.reload();
+	done();
 }
 
-function startServer() {
-	if(settings.siteURL === '') {
+function startServer(done) {
+	if(settings.address === '' || settings.type == 'email') {
 		browserSync.init({
 			server: {
-				baseDir: "./dist"
+				baseDir: "./dist/"
 			}
 		});
 	}else{
 		browserSync.init({
-			server: {
-				proxy: settings.siteURL
-			}
+			proxy: settings.address
 		});
 	}
+	done();
 }
 
 /*
 * >>========================================>
-* Watch for Changes
+* Watch
 * >>========================================>
 */
 
@@ -417,44 +420,12 @@ function watchForChanges() {
 
 /*
 * >>========================================>
-* Web (Static Sites, WP) Tasks
+* Project Setup
 * >>========================================>
 */
 
-const devTasks = gulp.series(
-	removeDistDir,
-	devScripts,
-	devCSS,
-	copyDOM,
-	copyImages,
-	copyFiles,
-	startServer,
-	watchForChanges
-);
-
-gulp.task("dev", devTasks);
-
-const buildTasks = gulp.series(
-	removeDistDir,
-	buildScripts,
-	buildCSS,
-	buildDOM,
-	compressImages,
-	inlineCSS,
-	deleteCSSDir,
-	copyFiles,
-	backupDatabase
-);
-
-gulp.task("build", buildTasks);
-
-/*
-* >>========================================>
-* Project Setup Tasks
-* >>========================================>
-*/
-
-const removeSrcFiles = () => del("./src/*");
+const resetSrc = () => del("./src/*");
+const resetDist = () => del("./dist");
 
 function copyTemplateFiles(){
 	return gulp
@@ -463,7 +434,7 @@ function copyTemplateFiles(){
 }
 
 function cloneWP(done){
-	if(settings.type == 'wp'){
+	if(settings.type == 'wordpress'){
 		git.clone('https://github.com/WordPress/WordPress', {args: './dist'}, function(err){
 			if(err) throw err;
 		});
@@ -473,10 +444,49 @@ function cloneWP(done){
 }
 
 const setupProject = gulp.series(
-	removeDistDir,
-	removeSrcFiles,
+	resetSrc,
+	resetDist,
 	copyTemplateFiles,
 	cloneWP
 );
 
 gulp.task("setup", setupProject);
+
+/*
+* >>========================================>
+* Task Series
+* >>========================================>
+*/
+
+const devTasks = gulp.series(
+	removeDistDir,
+	gulp.parallel(
+		devScripts,
+		devCSS
+	),
+	gulp.parallel(
+		copyDOM,
+		copyImages,
+		copyFiles
+	),
+	startServer,
+	watchForChanges
+);
+
+gulp.task("dev", devTasks);
+
+const buildTasks = gulp.series(
+	removeDistDir,
+	gulp.parallel(
+		buildScripts,
+		buildCSS,
+		buildDOM,
+		compressImages
+	),
+	inlineCSS,
+	deleteCSSDir,
+	copyFiles,
+	backupDatabase
+);
+
+gulp.task("build", buildTasks);
