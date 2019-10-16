@@ -29,10 +29,10 @@
 */
 
 const settings = {
-	type: 'static',
-	address: 'http://kindling.local',
+	type: 'wordpress',
+	address: 'http://kindling.local', //Include trailing slash
 	database: '',
-	theme: ''
+	theme: 'test'
 };
 
 /*
@@ -53,6 +53,8 @@ var inlineCss = require('gulp-inline-css');
 var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var git = require('gulp-git');
+var PluginError = require('plugin-error');
+const c = require('ansi-colors');
 
 const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
@@ -352,6 +354,7 @@ function removeDistDir(done) {
 	}else{
 		return del("./dist");
 	}
+
 	done();
 }
 
@@ -424,8 +427,23 @@ function watchForChanges() {
 * >>========================================>
 */
 
-const resetSrc = () => del("./src/*");
+// const resetSrc = () => del("./src/*");
 const resetDist = () => del("./dist");
+
+function resetSrc(done){
+	if(settings.type === 'wordpress'){
+		if(settings.theme != '' && settings.database != '' && settings.address != ''){
+			return del("./src/*");
+		}else{
+			console.log(c.bgRed('**ERROR** You must supply theme, database and address to start a WordPress project'));
+			process.exit();
+		}
+	}else{
+		return del("./src/*");
+	}
+}
+
+exports.default = resetSrc;
 
 function copyTemplateFiles(){
 	return gulp
