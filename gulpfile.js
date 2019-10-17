@@ -29,10 +29,10 @@
 */
 
 const settings = {
-	type: 'wordpress',
-	address: 'http://kindling.local', //Include trailing slash
+	type: 'static',
+	address: '', //Include trailing slash
 	database: '',
-	theme: 'test'
+	theme: ''
 };
 
 /*
@@ -86,7 +86,7 @@ const paths = {
 	},
 	styles: {
 		src: [
-			"./src/scss/main.scss",
+			"./src/scss/*.scss",
 		],
 		dest: "./dist/" + pathToTheme + "css/"
 	},
