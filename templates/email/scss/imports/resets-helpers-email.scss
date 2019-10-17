@@ -42,6 +42,10 @@ img {
     display: block;
     outline: none;
     border: none;
+
+    &.retina {
+        width: 100%;
+    }
 }
 
 p,

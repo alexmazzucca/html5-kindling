@@ -26,10 +26,8 @@ Colors
 >>------------->
 */
 
-$color_dark_purple: #3f205b;
-$color_purple: #8c2284;
+$color_white: #ffffff;
 $color_black: #000000;
-$color_pink: #d9abd0;
 
 /*
 >>================================================================================>
@@ -38,6 +36,20 @@ Additional Resets and Helpers
 */
 
 @import 'imports/resets-helpers-email';
+
+// h1 {
+// 	sup {
+// 		font-size: 20px;
+// 		line-height: 0;
+// 		vertical-align: 7px;
+// 	}
+// }
+
+// img.retina {
+// 	&.img-class {
+// 		max-width: 200px;
+// 	}
+// }
 
 /*
 >>================================================================================>
