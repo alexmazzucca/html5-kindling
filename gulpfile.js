@@ -29,8 +29,8 @@
 */
 
 const settings = {
-	type: 'email',
-	address: '', //Include trailing slash
+	type: 'static',
+	address: '', // Include 'http://' or 'https://' and trailing slash
 	database: '',
 	theme: ''
 };
@@ -95,7 +95,7 @@ const paths = {
 			"./src/**/*.html",
 			"./src/**/*.php"
 		],
-		dest: "./dist/" + pathToTheme + "/"
+		dest: "./dist/" + pathToTheme
 	},
 	images: {
 		src: "./src/img/*",
@@ -109,7 +109,7 @@ const paths = {
 * >>========================================>
 */
 
-function backupDatabase(done){
+function backupDatabase(cb){
 	if(settings.database != '') {
 		var today = new Date(),
 			dd = today.getDate(),
@@ -134,7 +134,7 @@ function backupDatabase(done){
 			dumpToFile: settings.database + today + '.sql'
 		});
 	}
-	return done();
+	cb();
 }
 
 /*
@@ -143,17 +143,17 @@ function backupDatabase(done){
 * >>========================================>
 */
 
-function combineScripts(done) {
+function combineScripts(cb) {
 	if(settings.type != 'email') {
 		return gulp
 			.src(paths.scripts.src)
 			.pipe(concat("main.min.js"))
 			.pipe(gulp.dest(paths.scripts.dest))
 	}
-	done();
+	cb();
 }
 
-function compressScripts(done) {
+function compressScripts(cb) {
 	if(settings.type != 'email') {
 		return gulp
 			.src(paths.scripts.src)
@@ -162,7 +162,7 @@ function compressScripts(done) {
 			.pipe(gulp.dest(paths.scripts.dest));
 	}
 
-	done();
+	cb();
 }
 
 /*
@@ -171,12 +171,12 @@ function compressScripts(done) {
 * >>========================================>
 */
 
-function copyDOM(done) {
+function copyDOM(cb) {
 	return gulp
 		.src(paths.dom.src)
 		.pipe(gulp.dest(paths.dom.dest));
 	
-	done();
+	cb();
 }
 
 function compressDOM() {
@@ -212,14 +212,21 @@ function compressDOM() {
 	}
 }
 
-function copyFiles(done) {
+function copyFiles(cb) {
 	if(settings.type != 'email') {
 		return gulp
-			.src(['./src/**', '!(*.html|*.php|/scss/|/js/**|/img/**)'], { dot: true })
+			.src([
+				'./src/**',
+				'!./src/*.php',
+				'!./src/*.html',
+				'!./src/scss/',
+				'!./src/js/',
+				'!./src/img/'
+			], {dot: true})
 			.pipe(gulp.dest(paths.dom.dest));
 	}
 	
-	done();
+	cb();
 }
 
 /*
@@ -228,7 +235,7 @@ function copyFiles(done) {
 * >>========================================>
 */
 
-function compileCSS(done) {
+function compileCSS(cb) {
 	if(settings.type == 'email') {
 		return gulp
 			.src('./src/scss/email.scss')
@@ -257,10 +264,10 @@ function compileCSS(done) {
 			.pipe(gulp.dest("./dist"))
 			.pipe(browserSync.stream());
 	}
-	done();
+	cb();
 }
 
-function compressCSS(done) {
+function compressCSS(cb) {
 	if(settings.type != 'email') {
 		return gulp
 			.src(paths.styles.src)
@@ -286,10 +293,10 @@ function compressCSS(done) {
 			.pipe(gulp.dest("./dist"))
 	}
 
-	done();
+	cb();
 }
 
-function inlineCSS(done) {
+function inlineCSS(cb) {
 	if(settings.type == 'email') {
 		return gulp
 			.src('./dist/index.html')
@@ -304,21 +311,21 @@ function inlineCSS(done) {
 			.pipe(gulp.dest(paths.dom.dest))
 	}
 
-	done();
+	cb();
 }
 
-function deleteCSSDir(done) {
+function deleteCSSDir(cb) {
 	if(settings.type == 'email') {
 		return del(paths.styles.dest);
 	}
 
-	done();
+	cb();
 }
 
-function removeDistDir(done) {
+function removeDistDir(cb) {
 	return del("./dist/" + pathToTheme);
 
-	done();
+	cb();
 }
 
 /*
@@ -327,7 +334,7 @@ function removeDistDir(done) {
 * >>========================================>
 */
 
-function compressImages(done) {
+function compressImages(cb) {
 	return gulp
 		.src("src/img/*")
 		.pipe(imagemin([
@@ -338,7 +345,7 @@ function compressImages(done) {
 		}))
 		.pipe(gulp.dest(paths.images.dest));
 
-	done();
+	cb();
 }
 
 function copyImages() {
@@ -353,12 +360,12 @@ function copyImages() {
 * >>========================================>
 */
 
-function liveReload(done) {
+function liveReload(cb) {
 	browserSync.reload();
-	done();
+	cb();
 }
 
-function startServer(done) {
+function startServer(cb) {
 	if(settings.address === '' || settings.type == 'email') {
 		browserSync.init({
 			server: {
@@ -370,7 +377,7 @@ function startServer(done) {
 			proxy: settings.address
 		});
 	}
-	done();
+	cb();
 }
 
 /*
@@ -395,7 +402,7 @@ function watchForChanges() {
 // const resetSrc = () => del("./src/*");
 const resetDist = () => del("./dist");
 
-function resetSrc(done){
+function resetSrc(cb){
 	if(settings.type === 'wordpress'){
 		if(settings.theme != '' && settings.database != '' && settings.address != ''){
 			return del("./src/*");
@@ -416,14 +423,14 @@ function copyTemplateFiles(){
 		.pipe(gulp.dest('./src/'));
 }
 
-function cloneWP(done){
+function cloneWP(cb){
 	if(settings.type == 'wordpress'){
 		git.clone('https://github.com/WordPress/WordPress', {args: './dist'}, function(err){
 			if(err) throw err;
 		});
 	}
 
-	done();
+	cb();
 }
 
 const setupProject = gulp.series(
