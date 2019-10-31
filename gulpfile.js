@@ -53,9 +53,8 @@ var inlineCss = require('gulp-inline-css');
 var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var git = require('gulp-git');
-var PluginError = require('plugin-error');
-const c = require('ansi-colors');
 
+const c = require('ansi-colors');
 const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
 const del = require("del");
