@@ -16,10 +16,10 @@
 /**
  * 1. Specify project type in 'settings' (static, email, wordpress)
  * 2. If starting a WordPress project, specify a database, site URL and theme name
- * 3. If starting an email project, specify remote image folder path
- * 4. Run 'gulp setup' to copy necessary files to 'src' and 'dist'
- * 5. Run 'gulp dev' to produce a development build of the project (and start local server)
- * 6. Run 'gulp build' to produce a production build of the project
+ * 3. If starting an email project, specify remote image folder path (optional)
+ * 4. Run 'gulp setup' to copy necessary files to 'src'
+ * 5. Run 'gulp dev' to produce a development build of the project in 'dist' (and start local server)
+ * 6. Run 'gulp build' to produce a production build of the project in 'dist'
  */
 
 /*
@@ -134,12 +134,13 @@ function backupDatabase(cb){
 			dumpToFile: settings.database + today + '.sql'
 		});
 	}
+
 	cb();
 }
 
 /*
 * >>========================================>
-* Script Tasks
+* Script (JS) Tasks
 * >>========================================>
 */
 
@@ -150,6 +151,7 @@ function combineScripts(cb) {
 			.pipe(concat("main.min.js"))
 			.pipe(gulp.dest(paths.scripts.dest))
 	}
+
 	cb();
 }
 
@@ -212,7 +214,7 @@ function compressDOM() {
 	}
 }
 
-function copyFiles(cb) {
+function copyOtherFiles(cb) {
 	if(settings.type != 'email') {
 		return gulp
 			.src([
@@ -264,6 +266,7 @@ function compileCSS(cb) {
 			.pipe(gulp.dest("./dist"))
 			.pipe(browserSync.stream());
 	}
+
 	cb();
 }
 
@@ -377,6 +380,7 @@ function startServer(cb) {
 			proxy: settings.address
 		});
 	}
+	
 	cb();
 }
 
@@ -399,7 +403,6 @@ function watchForChanges() {
 * >>========================================>
 */
 
-// const resetSrc = () => del("./src/*");
 const resetDist = () => del("./dist");
 
 function resetSrc(cb){
@@ -457,7 +460,7 @@ const devTasks = gulp.series(
 	gulp.parallel(
 		copyDOM,
 		copyImages,
-		copyFiles
+		copyOtherFiles
 	),
 	startServer,
 	watchForChanges
@@ -474,7 +477,7 @@ const buildTasks = gulp.series(
 	compressImages,
 	inlineCSS,
 	deleteCSSDir,
-	copyFiles,
+	copyOtherFiles,
 	backupDatabase
 );
 
