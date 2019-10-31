@@ -1,0 +1,7 @@
+
+[{
+	"key": "ctrl+shift+d",
+	"command": "workbench.action.tasks.runTask",
+	"when": "editorTextFocus",
+	"args": "Development Build"
+}]
