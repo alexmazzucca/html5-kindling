@@ -15,8 +15,9 @@
   
 ## Usage
   
-  1. After the Configuration process is complete, run 'gulp setup' to copy appropriate template files to 'src'
-  3. Run 'gulp build' to start a "Production Build"
-  2. Run 'gulp dev' to produce a "Development Build"
+  1. After the Configuration process is complete, run 'gulp setup' to copy appropriate template files to 'src' and 'dist'
+  3. Run 'gulp build' to build the project
+  3. Run 'gulp serve' to start the server and associated 'watch' tasks
+  3. Run 'gulp deploy' to export a copy of the project database ('settings.database') into the repo
 
 Optionally, you can use VSCode Tasks to perform the aforementioned Gulp tasks by pressing Command+Shift+B.
