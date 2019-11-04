@@ -4,16 +4,16 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Development Build",
+			"label": "Build",
 			"type": "gulp",
-			"task": "dev",
+			"task": "build",
 			"group": "build",
 			"problemMatcher": []
 		},
 		{
-			"label": "Production Build",
+			"label": "Start Server",
 			"type": "gulp",
-			"task": "build",
+			"task": "serve",
 			"group": "build",
 			"problemMatcher": []
 		},
@@ -21,6 +21,13 @@
 			"label": "Setup",
 			"type": "gulp",
 			"task": "setup",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "Deploy",
+			"type": "gulp",
+			"task": "deploy",
 			"group": "build",
 			"problemMatcher": []
 		}

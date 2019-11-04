@@ -24,7 +24,7 @@
 		"gulp-git": "^2.9.0",
 		"gulp-htmlmin": "^5.0.1",
 		"gulp-imagemin": "^5.0.3",
-		"gulp-inline-css": "^3.3.2",
+		"gulp-inline-css": "^3.4.0",
 		"gulp-notify": "^3.2.0",
 		"gulp-pretty-html": "^2.0.10",
 		"gulp-rename": "^1.4.0",
@@ -36,7 +36,7 @@
 		"imagemin-mozjpeg": "^8.0.0",
 		"jquery": "^3.4.1",
 		"mysqldump": "^3.1.0",
-		"node-sass": "^4.12.0"
+		"node-sass": "^4.13.0"
 	},
 	"dependencies": {}
 }

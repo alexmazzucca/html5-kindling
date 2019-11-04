@@ -143,22 +143,11 @@ function backupDatabase(cb){
 * >>========================================>
 */
 
-function combineScripts(cb) {
-	if(settings.type != 'email') {
-		return gulp
-			.src(paths.scripts.src)
-			.pipe(concat("main.min.js"))
-			.pipe(gulp.dest(paths.scripts.dest))
-	}
-
-	cb();
-}
-
 function compressScripts(cb) {
 	if(settings.type != 'email') {
 		return gulp
 			.src(paths.scripts.src)
-			.pipe(concat("main.min.js"))
+			.pipe(concat("main.js"))
 			.pipe(uglify())
 			.pipe(gulp.dest(paths.scripts.dest));
 	}
@@ -171,14 +160,6 @@ function compressScripts(cb) {
 * DOM Tasks
 * >>========================================>
 */
-
-function copyDOM(cb) {
-	return gulp
-		.src(paths.dom.src)
-		.pipe(gulp.dest(paths.dom.dest));
-	
-	cb();
-}
 
 function compressDOM() {
 	if(settings.type == 'email') {
@@ -213,23 +194,6 @@ function compressDOM() {
 	}
 }
 
-function copyOtherFiles(cb) {
-	if(settings.type != 'email') {
-		return gulp
-			.src([
-				'./src/**',
-				'!./src/*.php',
-				'!./src/*.html',
-				'!./src/scss/',
-				'!./src/js/',
-				'!./src/img/'
-			], {dot: true})
-			.pipe(gulp.dest(paths.dom.dest));
-	}
-	
-	cb();
-}
-
 /*
 * >>========================================>
 * Sass/CSS Tasks
@@ -247,32 +211,6 @@ function compileCSS(cb) {
 	}else{
 		return gulp
 			.src(paths.styles.src)
-			.pipe(sourcemaps.init())
-			.pipe(sass())
-			.on("error", sass.logError)
-			.pipe(autoprefixer())
-			.pipe(sourcemaps.write('.'))
-			.pipe(rename(
-				function(path){
-					if(pathToTheme === '') {
-						path.dirname += paths.styles.dest;
-					}else{
-						path.dirname += "./dist/" + pathToTheme;
-						path.basename = "style";
-					}
-				}
-			))
-			.pipe(gulp.dest("./dist"))
-			.pipe(browserSync.stream());
-	}
-
-	cb();
-}
-
-function compressCSS(cb) {
-	if(settings.type != 'email') {
-		return gulp
-			.src(paths.styles.src)
 			.pipe(
 				sass({
 					outputStyle: "compressed"
@@ -280,6 +218,7 @@ function compressCSS(cb) {
 			)
 			.on("error", sass.logError)
 			.pipe(autoprefixer())
+			.pipe(sourcemaps.write('.'))
 			.pipe(rename(
 				function(path){
 					path.suffix += ".min";
@@ -293,6 +232,7 @@ function compressCSS(cb) {
 				}
 			))
 			.pipe(gulp.dest("./dist"))
+			.pipe(browserSync.stream());
 	}
 
 	cb();
@@ -317,15 +257,9 @@ function inlineCSS(cb) {
 }
 
 function deleteCSSDir(cb) {
-	if(settings.type == 'email') {
+	if(settings.type === 'email') {
 		return del(paths.styles.dest);
 	}
-
-	cb();
-}
-
-function removeDistDir(cb) {
-	return del("./dist/" + pathToTheme);
 
 	cb();
 }
@@ -350,22 +284,11 @@ function compressImages(cb) {
 	cb();
 }
 
-function copyImages() {
-	return gulp
-		.src(paths.images.src)
-		.pipe(gulp.dest(paths.images.dest))
-}
-
 /*
 * >>========================================>
-* BrowserSync
+* Start Server and Live Reload
 * >>========================================>
 */
-
-function liveReload(cb) {
-	browserSync.reload();
-	cb();
-}
 
 function startServer(cb) {
 	if(settings.address === '' || settings.type == 'email') {
@@ -390,10 +313,15 @@ function startServer(cb) {
 */
 
 function watchForChanges() {
-	gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
+	gulp.watch(paths.scripts.src, gulp.series(compressScripts, liveReload));
 	gulp.watch(paths.styles.src, gulp.series(compileCSS));
-	gulp.watch(paths.dom.src, gulp.series(copyDOM, liveReload));
-	gulp.watch(paths.images.src, gulp.series(copyImages, liveReload));
+	gulp.watch(paths.dom.src, gulp.series(compressDOM, liveReload));
+	gulp.watch(paths.images.src, gulp.series(compressImages, liveReload));
+}
+
+function liveReload(cb) {
+	browserSync.reload();
+	cb();
 }
 
 /*
@@ -419,10 +347,27 @@ function resetSrc(cb){
 
 exports.default = resetSrc;
 
-function copyTemplateFiles(){
+function copyTemplateFilesToSrc(){
 	return gulp
-		.src('./templates/' + settings.type +  '/**')
+		.src([
+			'./templates/' + settings.type +  '/**',
+			'!./templates/static/robots.txt',
+			'!./templates/static/.htaccess'
+		])
 		.pipe(gulp.dest('./src/'));
+}
+
+function copyTemplateFilesToDist(cb){
+	if(settings.type == 'static'){
+		return gulp
+			.src([
+				'./templates/static/.htaccess',
+				'./templates/static/robots.txt'
+			])
+			.pipe(gulp.dest('./dist/'));
+	}
+
+	cb();
 }
 
 function cloneWP(cb){
@@ -438,7 +383,8 @@ function cloneWP(cb){
 const setupProject = gulp.series(
 	resetSrc,
 	resetDist,
-	copyTemplateFiles,
+	copyTemplateFilesToSrc,
+	copyTemplateFilesToDist,
 	cloneWP
 );
 
@@ -446,38 +392,44 @@ gulp.task("setup", setupProject);
 
 /*
 * >>========================================>
-* Task Series
+* Build Tasks
 * >>========================================>
 */
 
-const devTasks = gulp.series(
-	removeDistDir,
+const buildTasks = gulp.series(
 	gulp.parallel(
-		combineScripts,
-		compileCSS
+		compressScripts,
+		compileCSS,
+		compressDOM,
+		compressImages
 	),
-	gulp.parallel(
-		copyDOM,
-		copyImages,
-		copyOtherFiles
-	),
+	inlineCSS,
+	deleteCSSDir
+);
+
+gulp.task("build", buildTasks);
+
+/*
+* >>========================================>
+* Server Tasks
+* >>========================================>
+*/
+
+const serverTasks = gulp.series(
 	startServer,
 	watchForChanges
 );
 
-gulp.task("dev", devTasks);
+gulp.task("serve", serverTasks);
 
-const buildTasks = gulp.series(
-	removeDistDir,
-	compressScripts,
-	compileCSS,
-	compressCSS,
-	compressDOM,
-	compressImages,
-	inlineCSS,
-	deleteCSSDir,
-	copyOtherFiles,
+/*
+* >>========================================>
+* Deployment Tasks
+* >>========================================>
+*/
+
+const deploymentTasks = gulp.series(
 	backupDatabase
 );
 
-gulp.task("build", buildTasks);
+gulp.task("deploy", deploymentTasks);
