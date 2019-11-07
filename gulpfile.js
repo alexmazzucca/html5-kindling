@@ -346,7 +346,7 @@ function gitCommit(cb){
 			message: 'Please enter commit message...'
 		}, function(res){
 			return gulp.src('./')
-				// .pipe(git.add())
+				.pipe(git.add())
 				.pipe(git.commit(res.commit));
 			cb();
 		}));
@@ -355,9 +355,8 @@ function gitCommit(cb){
 function gitPush(cb){
 	git.push('origin', function (err) {
 		if (err) throw err;
+		cb();
 	  });
-
-	  cb();
 }
 
 /*
