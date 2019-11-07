@@ -347,8 +347,8 @@ function gitCommit(cb){
 function gitPush(cb){
 	git.push('origin', 'master', function (err) {
 		if (err) throw err;
-		cb();
 	});
+	cb();
 }
 
 // function gitFetch(cb){
