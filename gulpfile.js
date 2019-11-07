@@ -352,8 +352,10 @@ function gitCommit(cb){
 		}));
 }
 
-function gitPush(cb){
-	git.push('origin', cb);
+function gitPush(){
+	git.push('origin', function (err) {
+		if (err) throw err;
+	  });
 }
 
 /*
