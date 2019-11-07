@@ -137,30 +137,6 @@ function backupDatabase(cb){
 
 	cb();
 }
-
-/*
-* >>========================================>
-* Git Commit & Push
-* >>========================================>
-*/
-
-function gitCommit(cb){
-	return gulp.src('./')
-		.pipe(prompt.prompt({
-			type: 'input',
-			name: 'commit',
-			message: 'Please enter commit message...'
-		},  function(res){
-		  return gulp.src('./')
-		  .pipe(git.commit(res.commit));
-		}));
-
-	cb();
-}
-
-function gitPush(cb){
-	git.push('origin', 'master', cb);
-}
  
 /*
 * >>========================================>
@@ -417,6 +393,30 @@ gulp.task("setup", setupProject);
 
 /*
 * >>========================================>
+* Git Commit & Push
+* >>========================================>
+*/
+
+function gitCommit(cb){
+	return gulp.src('./')
+		.pipe(prompt.prompt({
+			type: 'input',
+			name: 'commit',
+			message: 'Please enter commit message...'
+		},  function(res){
+		  return gulp.src('./')
+		  .pipe(git.commit(res.commit));
+		}));
+
+	cb();
+}
+
+function gitPush(cb){
+	git.push('origin', 'master', cb);
+}
+
+/*
+* >>========================================>
 * Build Tasks
 * >>========================================>
 */
@@ -449,7 +449,7 @@ gulp.task("serve", serverTasks);
 
 /*
 * >>========================================>
-* Deployment Tasks
+* Sync Tasks
 * >>========================================>
 */
 
