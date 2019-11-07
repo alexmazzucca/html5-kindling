@@ -7,7 +7,7 @@
 			"label": "Build",
 			"type": "gulp",
 			"task": "build",
-			"group": "build",
+			"group": "buisld",
 			"problemMatcher": []
 		},
 		{
