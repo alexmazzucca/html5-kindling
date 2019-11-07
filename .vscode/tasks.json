@@ -25,9 +25,9 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Deploy",
+			"label": "Sync",
 			"type": "gulp",
-			"task": "deploy",
+			"task": "sync",
 			"group": "build",
 			"problemMatcher": []
 		}

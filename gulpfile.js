@@ -139,6 +139,20 @@ function backupDatabase(cb){
 
 /*
 * >>========================================>
+* Git Commit
+* >>========================================>
+*/
+
+function commitToGit(cb){
+	return gulp.src('.')
+		.pipe(git.add())
+		.pipe(git.commit('Automated commit'));
+
+	cb();
+}
+
+/*
+* >>========================================>
 * Script (JS) Tasks
 * >>========================================>
 */
@@ -428,8 +442,9 @@ gulp.task("serve", serverTasks);
 * >>========================================>
 */
 
-const deploymentTasks = gulp.series(
-	backupDatabase
+const syncTasks = gulp.series(
+	backupDatabase,
+	commitToGit
 );
 
-gulp.task("deploy", deploymentTasks);
+gulp.task("sync", syncTasks);
