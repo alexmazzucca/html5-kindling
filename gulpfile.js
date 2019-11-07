@@ -348,10 +348,8 @@ function gitCommit(cb){
 			return gulp.src('./')
 				.pipe(git.add())
 				.pipe(git.commit(res.commit))
-				.pipe(git.push('origin', function(err){
-					if (err) throw err;
-					cb();
-				}));
+				.pipe(git.push('origin'));
+			cb();
 		}));
 }
 
