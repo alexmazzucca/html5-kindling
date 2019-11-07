@@ -327,6 +327,32 @@ function liveReload(cb) {
 
 /*
 * >>========================================>
+* Git Commit & Push
+* >>========================================>
+*/
+
+function gitCommit(cb){
+	return gulp.src('./')
+		.pipe(prompt.prompt({
+			type: 'input',
+			name: 'commit',
+			message: 'Please enter commit message...'
+		}, function(res){
+			return gulp.src('./')
+			.pipe(git.commit(res.commit));
+			cb();
+		}));
+}
+
+function gitPush(cb){
+	git.push('origin', 'master', function (err) {
+		if (err) throw err;
+		cb();
+	});
+}
+
+/*
+* >>========================================>
 * Project Setup
 * >>========================================>
 */
@@ -390,32 +416,6 @@ const setupProject = gulp.series(
 );
 
 gulp.task("setup", setupProject);
-
-/*
-* >>========================================>
-* Git Commit & Push
-* >>========================================>
-*/
-
-function gitCommit(cb){
-	return gulp.src('./')
-		.pipe(prompt.prompt({
-			type: 'input',
-			name: 'commit',
-			message: 'Please enter commit message...'
-		}, function(res){
-			return gulp.src('./')
-			.pipe(git.commit(res.commit));
-			cb();
-		}));
-}
-
-function gitPush(cb){
-	git.push('origin', 'master', function (err) {
-		if (err) throw err;
-		cb();
-	});
-}
 
 /*
 * >>========================================>
