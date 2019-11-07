@@ -332,14 +332,14 @@ function liveReload(cb) {
 */
 
 function gitCommit(cb){
-	return gulp.src('./')
+	return gulp.src('.')
 		.pipe(prompt.prompt({
 			type: 'input',
 			name: 'commit',
 			message: 'Please enter commit message...'
 		}, function(res){
-			return gulp.src('./')
-			.pipe(git.commit(res.commit));
+			return gulp.src('.')
+				.pipe(git.commit(res.commit));
 			cb();
 		}));
 }
