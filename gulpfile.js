@@ -347,17 +347,18 @@ function gitCommit(cb){
 		}, function(res){
 			return gulp.src('./')
 				.pipe(git.add())
-				.pipe(git.commit(res.commit));
+				.pipe(git.commit(res.commit))
+				.pipe(git.push('origin'));
 			cb();
 		}));
 }
 
-function gitPush(cb){
-	git.push('origin', function (err) {
-		if (err) throw err;
-		cb();
-	  });
-}
+// function gitPush(cb){
+// 	git.push('origin', function (err) {
+// 		if (err) throw err;
+// 		cb();
+// 	  });
+// }
 
 /*
 * >>========================================>
@@ -472,8 +473,7 @@ gulp.task("serve", serverTasks);
 const syncTasks = gulp.series(
 	backupDatabase,
 	gitInit,
-	gitCommit,
-	gitPush
+	gitCommit
 );
 
 gulp.task("sync", syncTasks);
