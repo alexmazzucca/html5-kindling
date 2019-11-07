@@ -346,6 +346,7 @@ function gitCommit(cb){
 			message: 'Please enter commit message...'
 		}, function(res){
 			return gulp.src('./')
+				.pipe(git.add())
 				.pipe(git.commit(res.commit, {args: '-m'}));
 			cb();
 		}));
