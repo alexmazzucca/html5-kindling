@@ -406,9 +406,8 @@ function gitCommit(cb){
 		}, function(res){
 			return gulp.src('./')
 			.pipe(git.commit(res.commit));
+			cb();
 		}));
-
-	cb();
 }
 
 function gitPush(cb){
