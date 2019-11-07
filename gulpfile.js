@@ -411,10 +411,12 @@ function gitCommit(cb){
 	cb();
 }
 
-function gitPush(){
+function gitPush(cb){
 	git.push('origin', 'master', function (err) {
 		if (err) throw err;
 	});
+	
+	cb();
 }
 
 /*
