@@ -331,14 +331,21 @@ function liveReload(cb) {
 * >>========================================>
 */
 
+function gitInit(cb){
+	git.init(function (err) {
+		if (err) throw err;
+		cb();
+	});
+}
+
 function gitCommit(cb){
-	return gulp.src('.')
+	return gulp.src('./')
 		.pipe(prompt.prompt({
 			type: 'input',
 			name: 'commit',
 			message: 'Please enter commit message...'
 		}, function(res){
-			return gulp.src('.')
+			return gulp.src('./')
 				.pipe(git.commit(res.commit));
 			cb();
 		}));
@@ -463,6 +470,7 @@ gulp.task("serve", serverTasks);
 
 const syncTasks = gulp.series(
 	backupDatabase,
+	gitInit,
 	gitCommit,
 	gitPush
 );
