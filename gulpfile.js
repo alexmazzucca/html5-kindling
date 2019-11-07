@@ -353,10 +353,7 @@ function gitCommit(cb){
 }
 
 function gitPush(cb){
-	git.push('origin', 'master', function (err) {
-		if (err) throw err;
-		cb();
-	});
+	git.push('origin', 'master', cb);
 }
 
 /*
@@ -473,8 +470,7 @@ const syncTasks = gulp.series(
 	backupDatabase,
 	gitInit,
 	gitCommit,
-	gitPush,
-	gitInit
+	gitPush
 );
 
 gulp.task("sync", syncTasks);
