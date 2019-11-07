@@ -353,7 +353,7 @@ function gitCommit(cb){
 }
 
 function gitPush(cb){
-	git.push('origin', function (err) {
+	git.push('origin', 'master', function (err) {
 		if (err) throw err;
 		cb();
 	});
