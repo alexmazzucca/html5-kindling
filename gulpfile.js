@@ -109,34 +109,34 @@ const paths = {
 * >>========================================>
 */
 
-function backupDatabase(cb){
-	if(settings.database != '') {
-		var today = new Date(),
-			dd = today.getDate(),
-			mm = today.getMonth()+1 //January is 0!
-			yyyy = today.getFullYear();
-			if(dd<10) { dd = '0'+dd	}
-			if(mm<10) { mm = '0'+mm }
-			today = '_' + yyyy + '-' + mm + '-' + dd;
+// function backupDatabase(cb){
+// 	if(settings.database != '') {
+// 		var today = new Date(),
+// 			dd = today.getDate(),
+// 			mm = today.getMonth()+1 //January is 0!
+// 			yyyy = today.getFullYear();
+// 			if(dd<10) { dd = '0'+dd	}
+// 			if(mm<10) { mm = '0'+mm }
+// 			today = '_' + yyyy + '-' + mm + '-' + dd;
 
-		return mysqldump({
-			connection: {
-				host: 'localhost',
-				user: 'root',
-				password: 'root',
-				database: settings.database
-			},
-			dump: {
-				data: {
-					format : false
-				}
-			},
-			dumpToFile: settings.database + today + '.sql'
-		});
-	}
+// 		return mysqldump({
+// 			connection: {
+// 				host: 'localhost',
+// 				user: 'root',
+// 				password: 'root',
+// 				database: settings.database
+// 			},
+// 			dump: {
+// 				data: {
+// 					format : false
+// 				}
+// 			},
+// 			dumpToFile: settings.database + today + '.sql'
+// 		});
+// 	}
 
-	cb();
-}
+// 	cb();
+// }
  
 /*
 * >>========================================>
@@ -331,33 +331,33 @@ function liveReload(cb) {
 * >>========================================>
 */
 
-function gitInit(cb){
-	git.init(function (err) {
-		if (err) throw err;
-		cb();
-	});
-}
+// function gitInit(cb){
+// 	git.init(function (err) {
+// 		if (err) throw err;
+// 		cb();
+// 	});
+// }
 
-function gitCommit(cb){
-	return gulp.src('./')
-		.pipe(prompt.prompt({
-			type: 'input',
-			name: 'commit',
-			message: 'Please enter commit message...'
-		}, function(res){
-			return gulp.src('./')
-				.pipe(git.add())
-				.pipe(git.commit(res.commit));
-			cb();
-		}));
-}
+// function gitCommit(cb){
+// 	return gulp.src('./')
+// 		.pipe(prompt.prompt({
+// 			type: 'input',
+// 			name: 'commit',
+// 			message: 'Please enter commit message...'
+// 		}, function(res){
+// 			return gulp.src('./')
+// 				.pipe(git.add())
+// 				.pipe(git.commit(res.commit));
+// 			cb();
+// 		}));
+// }
 
-function gitPush(cb){
-	git.push('origin', 'master', function (err) {
-		if (err) throw err;
-	});
-	cb();
-}
+// function gitPush(cb){
+// 	git.push('origin', 'master', function (err) {
+// 		if (err) throw err;
+// 	});
+// 	cb();
+// }
 
 /*
 * >>========================================>
@@ -469,13 +469,13 @@ gulp.task("serve", serverTasks);
 * >>========================================>
 */
 
-const syncTasks = gulp.series(
-	backupDatabase,
-	gitInit,
-	gitCommit,
-	gitPush
-);
+// const syncTasks = gulp.series(
+// 	backupDatabase,
+// 	gitInit,
+// 	gitCommit,
+// 	gitPush
+// );
 
-gulp.task("sync", syncTasks);
+// gulp.task("sync", syncTasks);
 
 // 4
