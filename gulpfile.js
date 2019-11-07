@@ -403,16 +403,18 @@ function gitCommit(cb){
 			type: 'input',
 			name: 'commit',
 			message: 'Please enter commit message...'
-		},  function(res){
-		  return gulp.src('./')
-		  .pipe(git.commit(res.commit));
+		}, function(res){
+			return gulp.src('./')
+			.pipe(git.commit(res.commit));
 		}));
 
 	cb();
 }
 
-function gitPush(cb){
-	git.push('origin', 'master', cb);
+function gitPush(){
+	git.push('origin', 'master', function (err) {
+		if (err) throw err;
+	});
 }
 
 /*
