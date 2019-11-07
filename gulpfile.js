@@ -351,16 +351,9 @@ function gitPush(cb){
 	});
 }
 
-// function gitFetch(cb){
-// 	git.fetch('origin', 'master', function (err) {
-// 		if (err) throw err;
-// 		cb();
-// 	});
-// }
-
 /*
 * >>========================================>
-* Project Setup
+* Build Project Directories
 * >>========================================>
 */
 
@@ -413,6 +406,12 @@ function cloneWP(cb){
 
 	cb();
 }
+
+/*
+* >>========================================>
+* Setup Tasks
+* >>========================================>
+*/
 
 const setupProject = gulp.series(
 	resetSrc,
