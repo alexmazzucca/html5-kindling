@@ -352,11 +352,9 @@ function gitPush(cb){
 }
 
 function gitFetch(cb){
-	gulp.task('fetch', function(){
-		git.fetch('origin', 'master', function (err) {
-			if (err) throw err;
-			cb();
-		});
+	git.fetch('origin', 'master', function (err) {
+		if (err) throw err;
+		cb();
 	});
 }
 
