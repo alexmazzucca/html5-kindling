@@ -473,7 +473,8 @@ const syncTasks = gulp.series(
 	backupDatabase,
 	gitInit,
 	gitCommit,
-	gitPush
+	gitPush,
+	gitInit
 );
 
 gulp.task("sync", syncTasks);
