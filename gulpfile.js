@@ -351,12 +351,12 @@ function gitPush(cb){
 	});
 }
 
-function gitFetch(cb){
-	git.fetch('origin', 'master', function (err) {
-		if (err) throw err;
-		cb();
-	});
-}
+// function gitFetch(cb){
+// 	git.fetch('origin', 'master', function (err) {
+// 		if (err) throw err;
+// 		cb();
+// 	});
+// }
 
 /*
 * >>========================================>
@@ -465,10 +465,9 @@ gulp.task("serve", serverTasks);
 const syncTasks = gulp.series(
 	backupDatabase,
 	gitCommit,
-	gitPush,
-	gitFetch
+	gitPush
 );
 
 gulp.task("sync", syncTasks);
 
-// 3
+// 4
