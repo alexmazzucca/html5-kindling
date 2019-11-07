@@ -347,7 +347,7 @@ function gitCommit(cb){
 		}, function(res){
 			return gulp.src('./')
 				.pipe(git.add())
-				.pipe(git.commit(res.commit, {args: '-m'}));
+				.pipe(git.commit(res.commit));
 			cb();
 		}));
 }
