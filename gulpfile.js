@@ -53,6 +53,7 @@ var inlineCss = require('gulp-inline-css');
 var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var git = require('gulp-git');
+var prompt = require('gulp-prompt');
 
 const c = require('ansi-colors');
 const mysqldump = require('mysqldump')
@@ -144,9 +145,15 @@ function backupDatabase(cb){
 */
 
 function commitToGit(cb){
-	return gulp.src('.')
-		.pipe(git.add())
-		.pipe(git.commit('Automated commit'));
+	return gulp.src('./')
+		.pipe(prompt.prompt({
+			type: 'input',
+			name: 'commit',
+			message: 'Please enter commit message...'
+		},  function(res){
+		  return gulp.src('./')
+		  .pipe(git.commit(res.commit));
+		}));
 
 	cb();
 }

@@ -27,6 +27,7 @@
 		"gulp-inline-css": "^3.4.0",
 		"gulp-notify": "^3.2.0",
 		"gulp-pretty-html": "^2.0.10",
+		"gulp-prompt": "^1.2.0",
 		"gulp-rename": "^1.4.0",
 		"gulp-replace": "^1.0.0",
 		"gulp-sass": "^4.0.2",
