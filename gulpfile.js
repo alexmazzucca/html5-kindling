@@ -351,6 +351,15 @@ function gitPush(cb){
 	});
 }
 
+function gitFetch(cb){
+	gulp.task('fetch', function(){
+		git.fetch('origin', 'master', function (err) {
+			if (err) throw err;
+			cb();
+		});
+	});
+}
+
 /*
 * >>========================================>
 * Project Setup
@@ -458,9 +467,10 @@ gulp.task("serve", serverTasks);
 const syncTasks = gulp.series(
 	backupDatabase,
 	gitCommit,
-	gitPush
+	gitPush,
+	gitFetch
 );
 
 gulp.task("sync", syncTasks);
 
-// 2
+// 3
