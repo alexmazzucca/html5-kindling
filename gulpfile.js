@@ -353,7 +353,7 @@ function gitCommit(cb){
 }
 
 function gitPush(cb){
-	git.push('origin', 'master', cb);
+	git.push('origin', cb);
 }
 
 /*
