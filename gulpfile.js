@@ -140,11 +140,11 @@ function backupDatabase(cb){
 
 /*
 * >>========================================>
-* Git Commit
+* Git Commit & Push
 * >>========================================>
 */
 
-function commitToGit(cb){
+function gitCommit(cb){
 	return gulp.src('./')
 		.pipe(prompt.prompt({
 			type: 'input',
@@ -156,6 +156,10 @@ function commitToGit(cb){
 		}));
 
 	cb();
+}
+
+function gitPush(cb){
+	git.push('origin', 'master', cb);
 }
  
 /*
@@ -451,7 +455,8 @@ gulp.task("serve", serverTasks);
 
 const syncTasks = gulp.series(
 	backupDatabase,
-	commitToGit
+	gitCommit,
+	gitPush
 );
 
 gulp.task("sync", syncTasks);
