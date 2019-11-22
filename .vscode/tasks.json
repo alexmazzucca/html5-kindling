@@ -24,10 +24,17 @@
 			"group": "build",
 			"problemMatcher": []
 		},
+		// {
+		// 	"label": "Sync",
+		// 	"type": "gulp",
+		// 	"task": "sync",
+		// 	"group": "build",
+		// 	"problemMatcher": []
+		// },
 		{
-			"label": "Sync",
+			"label": "Backup Database",
 			"type": "gulp",
-			"task": "sync",
+			"task": "database",
 			"group": "build",
 			"problemMatcher": []
 		}

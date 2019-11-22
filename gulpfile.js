@@ -1,27 +1,3 @@
-//      )                 (      (                        
-//   ( /(   (             )\ )   )\   (            (  (   
-//   )\())  )\    (      (()/(  ((_)  )\    (      )\))(  
-//  ((_)\  ((_)   )\ )    ((_))  _   ((_)   )\ )  ((_))\  
-//  | |(_)  (_)  _(_/(    _| |  | |   (_)  _(_/(   (()(_) 
-//  | / /   | | | ' \)) / _` |  | |   | | | ' \)) / _` |  
-//  |_\_\   |_| |_||_|  \__,_|  |_|   |_| |_||_|  \__, |  
-//                                                |___/   
-
-/*
-* >>========================================>
-* Instructions
-* >>========================================>
-*/
-
-/**
- * 1. Specify project type in 'settings' (static, email, wordpress)
- * 2. If starting a WordPress project, specify a database, site URL and theme name
- * 3. If starting an email project, specify remote image folder path (optional)
- * 4. Run 'gulp setup' to copy necessary files to 'src'
- * 5. Run 'gulp dev' to produce a development build of the project in 'dist' (and start local server)
- * 6. Run 'gulp build' to produce a production build of the project in 'dist'
- */
-
 /*
 * >>========================================>
 * Settings
@@ -109,34 +85,34 @@ const paths = {
 * >>========================================>
 */
 
-// function backupDatabase(cb){
-// 	if(settings.database != '') {
-// 		var today = new Date(),
-// 			dd = today.getDate(),
-// 			mm = today.getMonth()+1 //January is 0!
-// 			yyyy = today.getFullYear();
-// 			if(dd<10) { dd = '0'+dd	}
-// 			if(mm<10) { mm = '0'+mm }
-// 			today = '_' + yyyy + '-' + mm + '-' + dd;
+function backupDatabase(cb){
+	if(settings.database != '') {
+		var today = new Date(),
+			dd = today.getDate(),
+			mm = today.getMonth()+1 //January is 0!
+			yyyy = today.getFullYear();
+			if(dd<10) { dd = '0'+dd	}
+			if(mm<10) { mm = '0'+mm }
+			today = '_' + yyyy + '-' + mm + '-' + dd;
 
-// 		return mysqldump({
-// 			connection: {
-// 				host: 'localhost',
-// 				user: 'root',
-// 				password: 'root',
-// 				database: settings.database
-// 			},
-// 			dump: {
-// 				data: {
-// 					format : false
-// 				}
-// 			},
-// 			dumpToFile: settings.database + today + '.sql'
-// 		});
-// 	}
+		return mysqldump({
+			connection: {
+				host: 'localhost',
+				user: 'root',
+				password: 'root',
+				database: settings.database
+			},
+			dump: {
+				data: {
+					format : false
+				}
+			},
+			dumpToFile: settings.database + today + '.sql'
+		});
+	}
 
-// 	cb();
-// }
+	cb();
+}
  
 /*
 * >>========================================>
@@ -309,7 +285,7 @@ function startServer(cb) {
 
 /*
 * >>========================================>
-* Watch
+* Watch Folders for Changes
 * >>========================================>
 */
 
@@ -361,7 +337,7 @@ function liveReload(cb) {
 
 /*
 * >>========================================>
-* Build Project Directories
+* Build Project Directories on Setup
 * >>========================================>
 */
 
@@ -458,6 +434,10 @@ gulp.task("build", buildTasks);
 
 const serverTasks = gulp.series(
 	startServer,
+	compressScripts,
+	compileCSS,
+	compressDOM,
+	compressImages,
 	watchForChanges
 );
 
@@ -465,7 +445,19 @@ gulp.task("serve", serverTasks);
 
 /*
 * >>========================================>
-* Sync Tasks
+* Database Tasks
+* >>========================================>
+*/
+
+const databaseTasks = gulp.series(
+	backupDatabase
+);
+
+gulp.task("database", databaseTasks);
+
+/*
+* >>========================================>
+* Git Commit Tasks
 * >>========================================>
 */
 
@@ -477,5 +469,3 @@ gulp.task("serve", serverTasks);
 // );
 
 // gulp.task("sync", syncTasks);
-
-// 4
