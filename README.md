@@ -2,7 +2,7 @@
 
 *The following instructions assume a basic knowledge of npm,  gulp.js and my brain.*
 ## Configuration
-Please follow the following instructions to properly set up your project:
+**Please follow the following instructions to properly set up your project:**
   1. Open the Gulp configuration file (./gulpfile.js)
   2. Specify a project type by modifying settings.type on line 7. Available options are:
 	  a. `const settings = {type: 'static'}`
