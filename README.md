@@ -9,12 +9,13 @@ Please follow the following instructions to properly set up your project:
 	  b. `const settings = {type: 'email'}`
 	  c. `const settings = {type: 'wordpress'}`
   
-When beginning a new WordPress project:
+**When beginning a new WordPress project:**
   1. Specify your site's address `const settings = {address: 'YOUR_URL'}`
   2. Specify a database name `const settings = {database: 'DB_NAME'}`
   3. Specify a theme name `const settings = {theme: 'THEME_NAME'}`
 
-When beginning a new email project, you can optionally specify an absolute remote image path by modifying `settings.address`, which will be necessary for remote deployment
+**When beginning a new email project:**
+You can specify an absolute remote image path by modifying `settings.address` This will update image paths by adding the specified address to the beginning of the images' `src` attribute
   
 ## Gulp Tasks
 
