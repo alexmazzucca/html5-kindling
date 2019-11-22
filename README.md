@@ -1,12 +1,10 @@
-# Kindling
-
 ## Configuration
 
   1. Open the Gulp configuration file ('gulpfile.js'), located in the root of the repository
   2. Specify a project type ('settings.type') [line 32]:
-    1. 'static'
-    2. 'email'
-    3. 'wordpress'
+    1. static
+    2. email
+    3. wordpress
   
 ### Please note:  
   
