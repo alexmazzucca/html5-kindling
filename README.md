@@ -21,18 +21,18 @@ When beginning a new email project, you can optionally specify a remote image fo
 
 After the Configuration steps are complete, the following Gulp tasks will become available. Optionally, you can use VSCode build tasks (Command + Shift + B) to execute these tasks from the VSCode build menu.
 
-## 'setup'
+### setup
 
 Run 'gulp setup' to copy appropriate template files to the 'src' and 'dist' directories
 
-### 'build'
+### build
 
 Run 'gulp build' to build the project without starting the server
 
-### 'serve'
+### serve
 
 Run 'gulp serve' to start the server and associated folder 'watch' tasks
 
-### 'database'
+### database
 
 Run 'gulp database' to export a copy of the project's database ('settings.database') into the root of the repo
