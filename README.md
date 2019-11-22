@@ -6,8 +6,6 @@
     2. email
     3. wordpress
   
-### Please note:  
-  
 When beginning a new WordPress project, you will be required to specify:
   1. The site's address ('settings.address') for server configuration
   2. A database name ('settings.database')
