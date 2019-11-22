@@ -15,6 +15,7 @@
   3. Specify a theme name `const settings = {theme: 'THEME_NAME'}`
 
 **When beginning a new email project:**
+
 You can specify an absolute remote image path by modifying `settings.address` This will update image paths by adding the specified address to the beginning of the images' `src` attribute
   
 ## Gulp Tasks
