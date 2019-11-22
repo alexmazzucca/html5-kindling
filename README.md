@@ -1,4 +1,4 @@
-![Kindling Logo](https://user-images.githubusercontent.com/333020/69454644-a2dbdd80-0d34-11ea-8463-2c6b3337e277.png | width=500)
+![Kindling Logo](https://user-images.githubusercontent.com/333020/69454644-a2dbdd80-0d34-11ea-8463-2c6b3337e277.png|width=500)
 
 *The following instructions assume a basic knowledge of npm,  gulp.js and my brain.*
 ## Configuration
