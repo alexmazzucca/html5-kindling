@@ -4,10 +4,10 @@
 ## Configuration
 **Please follow the following instructions to properly set up your project:**
   1. Open the Gulp configuration file (./gulpfile.js)
-  2. Specify a project type by modifying settings.type on line 7. Available options are:
-  * `const settings = {type: 'static'}`
-  * `const settings = {type: 'email'}`
-  * `const settings = {type: 'wordpress'}`
+  2. Specify a project type by modifying `type` (on line 7). Available options are:
+  * `type: 'static'`
+  * `type: 'email'`
+  * `type: 'wordpress'`
 
 **When beginning a new WordPress project:**
   1. Specify your site's address `const settings = {address: 'YOUR_URL'}`
