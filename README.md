@@ -6,23 +6,23 @@
   1. In the terminal go to the root folder of your new project
   1. Download required node modules by running `npm i`
   2. Open the Gulp configuration file (./gulpfile.js)
-  3. Specify a project type by modifying `type` (on line 8). Available options are:
+  3. Specify a project type by modifying `type` on line 8. Available options are:
   * `type: 'static'`
   * `type: 'email'`
   * `type: 'wordpress'`
 
 **When beginning a new WordPress project:**
-  1. Specify the website's address by modifying `address` (on line 9) `address: 'YOUR_URL'`
-  2. Specify a database name by modifying `database` (on line 10) `database: 'DB_NAME'`
-  3. Specify a theme name by modifying `theme` (on line 11) `theme: 'THEME_NAME'`
+  1. Specify the website's address by modifying `address` on line 9. Please include necessary protocol and trailing slash.
+  2. Specify your local database name by modifying `database` on line 10.
+  3. Specify the name of your theme folder name by modifying `theme` on line 11.
 
 **When beginning a new email project:**
 
-You can specify an absolute remote image path by modifying `settings.address` This will update image paths by adding the specified address to the beginning of the images' `src` attribute
+You can specify an absolute image path by modifying `address` on line 9. This will update all image paths in your HTML automatically (e.g. "img/spacer.gif" becomes "http://yoursite.com/img/spacer.gif").
   
 ## Gulp Tasks
 
-After the Configuration steps are complete, the following Gulp tasks will become available. Optionally, you can use VSCode build tasks (Command + Shift + B) to execute these tasks from the VSCode build menu.
+After the Configuration steps are complete, the following Gulp tasks will become available. Optionally, you can use VSCode build tasks (Command + Shift + B) to execute these tasks from the VSCode build menu:
 
 ### `gulp setup`
 
