@@ -3,17 +3,18 @@
 *The following instructions assume a basic knowledge of npm and gulp.js*
 ## Configuration
 **Please follow the following instructions to properly set up your project:**
-  1. Install required node modules
+  1. In the terminal go to the root folder of your new project
+  1. Download required node modules by running `npm i`
   2. Open the Gulp configuration file (./gulpfile.js)
-  3. Specify a project type by modifying `type` (on line 7). Available options are:
+  3. Specify a project type by modifying `type` (on line 8). Available options are:
   * `type: 'static'`
   * `type: 'email'`
   * `type: 'wordpress'`
 
 **When beginning a new WordPress project:**
-  1. Specify your site's address `const settings = {address: 'YOUR_URL'}`
-  2. Specify a database name `const settings = {database: 'DB_NAME'}`
-  3. Specify a theme name `const settings = {theme: 'THEME_NAME'}`
+  1. Specify the website's address by modifying `address` (on line 9) `address: 'YOUR_URL'`
+  2. Specify a database name by modifying `database` (on line 10) `database: 'DB_NAME'`
+  3. Specify a theme name by modifying `theme` (on line 11) `theme: 'THEME_NAME'`
 
 **When beginning a new email project:**
 
