@@ -26,7 +26,7 @@ After the Configuration steps are complete, the following Gulp tasks will become
 
 ### `gulp setup`
 
-Run this command to copy appropriate template files from [kindling/templates](/templates) to the [kindling/src](/src) and [kindling/dist](/dist) directories
+Run this command first to copy appropriate template files from [kindling/templates](/templates) to the [kindling/src](/src) and [kindling/dist](/dist) directories
 
 ### `gulp build`
 
