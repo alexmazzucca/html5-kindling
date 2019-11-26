@@ -18,7 +18,7 @@
 
 **When beginning a new email project:**
 
-You can specify an absolute image path by modifying `address` on line 9. This will update all image paths in your HTML automatically (e.g. "img/spacer.gif" becomes "http://yoursite.com/img/spacer.gif").
+You can specify an absolute image path by modifying `address` on line 9. This will update all image paths in your HTML automatically (e.g. `src="img/spacer.gif"` becomes `src="http://yoursite.com/img/spacer.gif"`).
   
 ## Gulp Tasks
 
