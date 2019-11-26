@@ -3,8 +3,9 @@
 *The following instructions assume a basic knowledge of npm and gulp.js*
 ## Configuration
 **Please follow the following instructions to properly set up your project:**
-  1. Open the Gulp configuration file (./gulpfile.js)
-  2. Specify a project type by modifying `type` (on line 7). Available options are:
+  1. Install required node modules
+  2. Open the Gulp configuration file (./gulpfile.js)
+  3. Specify a project type by modifying `type` (on line 7). Available options are:
   * `type: 'static'`
   * `type: 'email'`
   * `type: 'wordpress'`
