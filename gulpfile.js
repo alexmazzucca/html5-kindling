@@ -249,7 +249,7 @@ function deleteCSSDir(cb) {
 
 function compressImages(cb) {
 	return gulp
-		.src("src/img/*")
+		.src(paths.images.src)
 		.pipe(imagemin([
 			imageminMozjpeg({quality: 85}),
 			imagemin.optipng({optimizationLevel: 5})
