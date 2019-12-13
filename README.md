@@ -2,7 +2,7 @@
 
 # Kindling v2.0
 
-*This project is based on Kindling: a starting point for static website, WordPress and email development. The following instructions assume a basic knowledge of npm and gulp.js*
+*This project is based on Kindling ([https://github.com/alexmazzucca/kindling/](https://github.com/alexmazzucca/kindling)): a starting point for static website, WordPress and email development. The following instructions assume a basic knowledge of npm and gulp.js*
 ## Configuration
 **Please follow the following instructions to properly set up your project:**
   1. In the terminal go to the root folder of your new project
