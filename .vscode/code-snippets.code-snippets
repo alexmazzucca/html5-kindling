@@ -1,0 +1,56 @@
+{
+	"Creates SASS markup for new element": {
+		"prefix": "Style Block",
+		"body": [
+		  "/*",
+		  ">>================================================================================>",
+		  "Placeholder",
+		  ">>================================================================================>",
+		  "*/",
+		  "",
+		  ".placeholder {",
+		  "",
+		  "    /*",
+		  "    All Resolutions",
+		  "    >>------------->",
+		  "    */",
+		  "",
+		  "    /*",
+		  "    Desktop",
+		  "    >>------------->",
+		  "    */",
+		  "",
+		  "    @media screen and (min-width: $breakpoint_desktop) {",
+		  "        ",
+		  "    }",
+		  "",
+		  "    /*",
+		  "    Mobile",
+		  "    >>------------->",
+		  "    */",
+		  "",
+		  "    @media screen and (max-width: $breakpoint_mobile) {",
+		  "        ",
+		  "    }",
+		  "}"
+		],
+		"description": "Creates SASS markup for new DOM element"
+	  },
+	  "Block DOM": {
+		"prefix": "DOM Block",
+		"body": [
+		  "<!--",
+		  ">>================================================================================>",
+		  "Placeholder",
+		  ">>================================================================================>",
+		  "-->",
+		  "",
+		  "<section class=\"placeholder\">",
+		  "    <div class=\"container\"></div>",
+		  "</section>",
+		  "",
+		  "<script src=\"js/main.js\"></script>"
+		],
+		"description": "Creates HTML markup for new DOM element"
+	  }
+}
