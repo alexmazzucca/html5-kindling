@@ -1,14 +1,14 @@
 {
 	"Creates SASS markup for new element": {
-		"prefix": "Style Block",
+		"prefix": "Kindling: Style Block",
 		"body": [
 		  "/*",
 		  ">>================================================================================>",
-		  "Placeholder",
+		  "${1:Title}",
 		  ">>================================================================================>",
 		  "*/",
 		  "",
-		  ".placeholder {",
+		  ".${2:Class} {",
 		  "",
 		  "    /*",
 		  "    All Resolutions",
@@ -37,19 +37,17 @@
 		"description": "Creates SASS markup for new DOM element"
 	  },
 	  "Block DOM": {
-		"prefix": "DOM Block",
+		"prefix": "Kindling: DOM Block",
 		"body": [
 		  "<!--",
 		  ">>================================================================================>",
-		  "Placeholder",
+		  "${1:Title}",
 		  ">>================================================================================>",
 		  "-->",
 		  "",
-		  "<section class=\"placeholder\">",
+		  "<section class=\"${2:Class}\">",
 		  "    <div class=\"container\"></div>",
-		  "</section>",
-		  "",
-		  "<script src=\"js/main.js\"></script>"
+		  "</section>"
 		],
 		"description": "Creates HTML markup for new DOM element"
 	  }
