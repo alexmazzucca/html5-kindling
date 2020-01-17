@@ -20,7 +20,7 @@
 		  "    >>------------->",
 		  "    */",
 		  "",
-		  "    @media screen and (min-width: $breakpoint_desktop) {",
+		  "    @media screen and (min-width: $$breakpoint_desktop) {",
 		  "        ",
 		  "    }",
 		  "",
@@ -29,7 +29,7 @@
 		  "    >>------------->",
 		  "    */",
 		  "",
-		  "    @media screen and (max-width: $breakpoint_mobile) {",
+		  "    @media screen and (max-width: $$breakpoint_mobile) {",
 		  "        ",
 		  "    }",
 		  "}"
@@ -50,5 +50,15 @@
 		  "</section>"
 		],
 		"description": "Creates HTML markup for new DOM element"
-	  }
+	  },
+	  "Creates markup for retina image": {
+	  "prefix": "Kindling: Retina Image",
+	  "body": [
+	    "<picture>",
+	    "	<source srcset=\"${1:Standard Resolution Path}, ${2:High Resolution Path} 2x\">",
+	    "	<img src=\"${1:Standard Resolution Path}\" alt=\"${3:Alt Tag}\">",
+	    "</picture>"
+	  ],
+	  "description": "Creates SASS markup for "
+	}
 }
