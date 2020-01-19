@@ -10,7 +10,7 @@
             </div>
         </footer>
 
-    </main>
+    <?php echo '</main>'; ?>
 
     <?php wp_footer(); ?>
 
