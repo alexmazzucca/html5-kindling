@@ -188,6 +188,7 @@ function compileCSS(cb) {
 	}else{
 		return gulp
 			.src(paths.styles.src)
+			.pipe(sourcemaps.init())
 			.pipe(
 				sass({
 					outputStyle: "compressed"
