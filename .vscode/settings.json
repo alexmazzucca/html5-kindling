@@ -1,0 +1,46 @@
+{
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "editor.minimap.enabled": false,
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true,
+    "editor.accessibilitySupport": "off",
+    "editor.highlightActiveIndentGuide": false,
+    "explorer.confirmDragAndDrop": false,
+    "window.zoomLevel": 0,
+    "editor.occurrencesHighlight": false,
+    "editor.matchBrackets": false,
+    "editor.renderLineHighlight": "gutter",
+    "workbench.colorTheme": "Monokai ST3",
+    "explorer.confirmDelete": false,
+    "workbench.startupEditor": "none",
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.activityBar.visible": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "window.nativeTabs": true,
+    "workbench.editor.restoreViewState": false,
+    "window.newWindowDimensions": "fullscreen",
+    "window.restoreFullscreen": true,
+    "window.restoreWindows": "none",
+    "window.titleBarStyle": "native",
+    "html.autoClosingTags": false,
+    "auto-close-tag.SublimeText3Mode": true,
+    "auto-close-tag.enableAutoCloseTag": false,
+    "auto-close-tag.enableAutoCloseSelfClosingTag": false,
+    "editor.colorDecorators": false,
+    "editor.insertSpaces": false,
+    "sync.gist": "7b1aafaef84b1c5a483abcbc626a29b1",
+    "workbench.iconTheme": "Monokai Pro (Filter Ristretto) Icons",
+    "search.exclude": {
+        "dist/": true,
+        "templates/": true,
+        "gulpfule.js": true,
+        ".vscode": true
+    }
+}
