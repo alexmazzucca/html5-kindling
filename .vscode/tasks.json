@@ -4,13 +4,6 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Build",
-			"type": "gulp",
-			"task": "build",
-			"group": "build",
-			"problemMatcher": []
-		},
-		{
 			"label": "Start Server",
 			"type": "gulp",
 			"task": "serve",
@@ -18,9 +11,9 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Setup",
+			"label": "Build",
 			"type": "gulp",
-			"task": "setup",
+			"task": "build",
 			"group": "build",
 			"problemMatcher": []
 		},
@@ -37,6 +30,13 @@
 			"task": "database",
 			"group": "build",
 			"problemMatcher": []
-		}
+		},
+		{
+			"label": "Setup",
+			"type": "gulp",
+			"task": "setup",
+			"group": "build",
+			"problemMatcher": []
+		},
 	]
 }
