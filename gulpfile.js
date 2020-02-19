@@ -30,6 +30,7 @@ var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var git = require('gulp-git');
 var prompt = require('gulp-prompt');
+var cache = require('gulp-cache');
 
 const c = require('ansi-colors');
 const mysqldump = require('mysqldump')
@@ -166,7 +167,7 @@ function compressDOM() {
 					removeComments: true
 				})
 			)
-			.pipe(prettyHtml())
+			// .pipe(prettyHtml())
 			.pipe(gulp.dest(paths.dom.dest));
 	}
 }
@@ -251,12 +252,12 @@ function deleteCSSDir(cb) {
 function compressImages(cb) {
 	return gulp
 		.src(paths.images.src)
-		.pipe(imagemin([
+		.pipe(cache(imagemin([
 			imageminMozjpeg({quality: 85}),
 			imagemin.optipng({optimizationLevel: 5})
 		], {
 			verbose: true
-		}))
+		})))
 		.pipe(gulp.dest(paths.images.dest));
 
 	cb();
