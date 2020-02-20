@@ -1,10 +1,6 @@
 {
 	"folders": [
 		{
-			"name": "Distribution",
-			"path": "./dist/"
-		},
-		{
 			"name": "Source",
 			"path": "./src/"
 		},
