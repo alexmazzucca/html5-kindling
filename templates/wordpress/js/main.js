@@ -1,3 +1,5 @@
+console.log('%cΔRCHER', 'background: #14548A; width: 200px; height: 200px; color: #ffffff; font-weight: light; border: 5px solid #14548A; font-size: 30px;', '\n\nhttp://archerinteractive.com');
+
 /*
 * >>========================================>
 * Get Viewport Width
@@ -7,7 +9,7 @@
 var viewportWidth;
 
 $(window).on('load resize', function(){
-	viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 }).trigger('resize');
 
 /*
@@ -27,7 +29,7 @@ if (/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent) 
 */
 
 $(window).on('load', function(){
-	$('body').addClass('page-loaded');
+    $('body').addClass('page-loaded');
 });
 
 /*
@@ -37,7 +39,7 @@ $(window).on('load', function(){
 */
 
 $('.menu-toggle').on('click', function(){
-	$('body').toggleClass('menu-active');
+    $('body').toggleClass('menu-active');
 });
 
 /*

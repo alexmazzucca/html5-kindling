@@ -1,3 +1,5 @@
+console.log('%cΔRCHER', 'background: #14548A; width: 200px; height: 200px; color: #ffffff; font-weight: light; border: 5px solid #14548A; font-size: 30px;', '\n\nhttp://archerinteractive.com');
+
 /*
 * >>========================================>
 * Get Viewport Width
