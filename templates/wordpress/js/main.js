@@ -39,7 +39,7 @@ $(window).on('load', function(){
 * >>========================================>
 */
 
-$('.menu-toggle').on('click', function(){
+$('.burger').on('click', function(){
     $('body').toggleClass('menu-active');
 });
 
@@ -49,19 +49,19 @@ $('.menu-toggle').on('click', function(){
 * >>========================================>
 */
 
-function openModal(e){
-    e.preventDefault();
-    var $modal = $('#' + $(this).data('modal'));
-    $('body').addClass('modal-active');
-    $modal.addClass('active');
-}
+// function openModal(e){
+//     e.preventDefault();
+//     var $modal = $('#' + $(this).data('modal'));
+//     $('body').addClass('modal-active');
+//     $modal.addClass('active');
+// }
 
-function closeModal(){
-    var $modal = $('.modal.active');
-    $modal.removeClass('active');
-    $('body').removeClass('modal-active')
-}
+// function closeModal(){
+//     var $modal = $('.modal.active');
+//     $modal.removeClass('active');
+//     $('body').removeClass('modal-active')
+// }
 
-$('.close-modal').on('click', closeModal);
+// $('.close-modal').on('click', closeModal);
 
-$('*[data-modal]').on('click', openModal)
+// $('*[data-modal]').on('click', openModal)
