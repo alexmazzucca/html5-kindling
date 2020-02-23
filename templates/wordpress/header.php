@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en">
     <head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -20,14 +20,15 @@
 
 		<!--Fonts-->
 
-		<link href="https://fonts.googleapis.com/css?family=Barlow:400,600,700" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
 		<?php wp_head(); ?>
 
 	</head>
 
 	<body <?php body_class(); ?>>
+
+		<!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/" target="_blank" rel="noopener">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
 
 		<!--
 		>>================================================================================>
@@ -35,27 +36,20 @@
 		>>================================================================================>
 		-->
 
-		<nav class="primary">
-			<?php wp_nav_menu(array(
-				'menu' => 'Primary'
-			)); ?>
-		</nav>
+		<?php wp_nav_menu(array(
+			'menu' => 'Primary'
+		)); ?>
 
 		<!--
 		>>================================================================================>
-		Buttons
+		Burger
 		>>================================================================================>
 		-->
 
-		<button class="menu-toggle">
-			<span class="label">Menu</span>		
-			<span class="icon">
-				<span class="symbol">
-					<span class="line"></span>
-					<span class="line"></span>
-					<span class="line"></span>
-				</span>
-			</span>		
+		<button id="burger" aria-label="Click to expand full site navigation">
+			<span class="line"></span>
+			<span class="line"></span>
+			<span class="line"></span>
 		</button>
 
 		<!--
@@ -72,12 +66,12 @@
 			>>================================================================================>
 			-->
 
-			<header class="main">
+			<header id="main-header">
 				<div class="container">
 					<h1 class="site-logo">
 						<a href="/">
-							<img src="<?php echo get_template_directory_uri() . '/img/logo.svg'; ?>" alt="Company Name">
-							<span>Company Name</span>
+							<img src="<?php echo get_template_directory_uri() . '/img/logo.svg'; ?>" alt="Site Name">
+							<span>Site Name</span>
 						</a>
 					</h1>
 				</div>
