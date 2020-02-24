@@ -427,7 +427,7 @@ function updateBuildTasks(cb){
 	cb();
 }
 
-const removeSetupFiles = () => del(['./setup', './templates');
+const removeSetupFiles = () => del(['./setup', './templates']);
 
 function setupComplete(cb){
 	return gulp
