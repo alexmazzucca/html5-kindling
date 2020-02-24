@@ -390,6 +390,17 @@ function copyTemplateFilesToSrc(){
 		.pipe(gulp.dest('./src/'));
 }
 
+function copyTemplateAssetsToSrc(){
+	if(settings.type == 'static' || settings.type == 'wordpress'){
+		return gulp
+			.src([
+				'./templates/scss*/**/*',
+				'./templates/js*/**/*'
+			])
+			.pipe(gulp.dest('./src/'));
+	}
+}
+
 function copyTemplateFilesToDist(cb){
 	if(settings.type == 'static'){
 		return gulp
@@ -401,17 +412,6 @@ function copyTemplateFilesToDist(cb){
 	}
 
 	cb();
-}
-
-function copyTemplateAssetsToSrc(){
-	if(settings.type == 'static' || settings.type == 'wordpress'){
-		return gulp
-			.src([
-				'./templates/scss*/**/*',
-				'./templates/js*/**/*'
-			])
-			.pipe(gulp.dest('./src/'));
-	}
 }
 
 function cloneWP(cb){
