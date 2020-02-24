@@ -201,7 +201,7 @@ function compileCSS(cb) {
 					outputStyle: "compressed"
 				})
 			)
-			.on("error", notify(sass.logError))
+			.on("error", sass.logError)
 			.pipe(autoprefixer())
 			.pipe(sourcemaps.write('.'))
 			.pipe(rename(
