@@ -190,6 +190,12 @@ function compileCSS(cb) {
 			.src('./src/scss/email.scss')
 			.pipe(sass())
 			.on("error", sass.logError)
+			.pipe(notify({
+				title: 'Kindling',
+				message: 'SASS successfully compiled',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}))
 			.pipe(gulp.dest(paths.styles.dest))
 			.pipe(browserSync.stream());
 	}else{
@@ -394,6 +400,15 @@ function copyTemplateFilesToDist(cb){
 			.src([
 				'./templates/static/.htaccess',
 				'./templates/static/robots.txt'
+			])
+			.pipe(gulp.dest('./dist/'));
+	}
+	
+	if(settings.type == 'static' || settings.type == 'wordpress'){
+		return gulp
+			.src([
+				'./templates/scss',
+				'./templates/js'
 			])
 			.pipe(gulp.dest('./dist/'));
 	}
