@@ -407,10 +407,10 @@ function copyTemplateFilesToDist(cb){
 	if(settings.type == 'static' || settings.type == 'wordpress'){
 		return gulp
 			.src([
-				'./templates/scss',
-				'./templates/js'
+				'./templates/scss/',
+				'./templates/js/'
 			])
-			.pipe(gulp.dest('./dist/'));
+			.pipe(gulp.dest('./src/'));
 	}
 
 	cb();
