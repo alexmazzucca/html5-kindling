@@ -411,17 +411,23 @@ function cloneWP(cb){
 	cb();
 }
 
-function otherSetupTasks(cb){
-	if(settings.type == 'static'){
-		return gulp
-			.src('./setup/Terminal.icns')
-			.pipe(gulp.dest('./node_modules/node-notifier/vendor/mac.noindex/terminal-notifier.app/Contents/Resources/'))
-	}
+function modifyNotificationIcon(cb){
+	return gulp
+		.src('./setup/Terminal.icns')
+		.pipe(gulp.dest('./node_modules/node-notifier/vendor/mac.noindex/terminal-notifier.app/Contents/Resources/'))
 
 	cb();
 }
 
-const setupComplete = () => del("./setup");
+function updateBuildTasks(cb){
+	return gulp
+		.src('./setup/tasks.json')
+		.pipe(gulp.dest('./.vscode/'))
+
+	cb();
+}
+
+const setupComplete = () => del(['./setup', './templates');
 
 /*
 * >>========================================>
@@ -435,7 +441,8 @@ const setupProject = gulp.series(
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
 	cloneWP,
-	otherSetupTasks,
+	modifyNotificationIcon,
+	updateBuildTasks,
 	setupComplete
 );
 

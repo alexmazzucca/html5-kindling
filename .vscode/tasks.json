@@ -4,34 +4,6 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Start Server",
-			"type": "gulp",
-			"task": "serve",
-			"group": "build",
-			"problemMatcher": []
-		},
-		{
-			"label": "Build",
-			"type": "gulp",
-			"task": "build",
-			"group": "build",
-			"problemMatcher": []
-		},
-		// {
-		// 	"label": "Sync",
-		// 	"type": "gulp",
-		// 	"task": "sync",
-		// 	"group": "build",
-		// 	"problemMatcher": []
-		// },
-		{
-			"label": "Backup Database",
-			"type": "gulp",
-			"task": "database",
-			"group": "build",
-			"problemMatcher": []
-		},
-		{
 			"label": "Setup",
 			"type": "gulp",
 			"task": "setup",
