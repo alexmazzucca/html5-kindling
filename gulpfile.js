@@ -427,7 +427,19 @@ function updateBuildTasks(cb){
 	cb();
 }
 
-const setupComplete = () => del(['./setup', './templates');
+const removeSetupFiles = () => del(['./setup', './templates');
+
+function setupComplete(cb){
+	return gulp
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'Setup complete',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+
+	cb();
+}
 
 /*
 * >>========================================>
@@ -443,6 +455,7 @@ const setupProject = gulp.series(
 	cloneWP,
 	modifyNotificationIcon,
 	updateBuildTasks,
+	removeSetupFiles,
 	setupComplete
 );
 
