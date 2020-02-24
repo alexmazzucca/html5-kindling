@@ -429,17 +429,12 @@ function updateBuildTasks(cb){
 
 const removeSetupFiles = () => del(['./setup', './templates']);
 
-function setupComplete(cb){
-	return gulp
-		.pipe(notify({
-			title: 'Kindling',
-			message: 'Setup complete',
-			icon: 'undefined',
-			contentImage: 'undefined'
-		}))
-
-	cb();
-}
+const setupComplete = () => notify({
+		title: 'Kindling',
+		message: 'Setup complete',
+		icon: 'undefined',
+		contentImage: 'undefined'
+	});
 
 /*
 * >>========================================>
