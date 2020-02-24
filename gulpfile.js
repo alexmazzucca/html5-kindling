@@ -376,9 +376,9 @@ function setupInit(cb){
 			process.exit();
 		}
 	}
-}
 
-exports.default = resetSrc;
+	cb();
+}
 
 function copyTemplateFilesToSrc(){
 	return gulp
