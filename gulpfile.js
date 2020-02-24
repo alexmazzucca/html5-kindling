@@ -129,8 +129,10 @@ function compressScripts(cb) {
 			.pipe(concat("main.js"))
 			.pipe(uglify())
 			.pipe(notify({
-				title: 'JS',
-				message: 'Successful compiled'
+				title: 'Kindling',
+				message: 'Javascript successfully compiled',
+				icon: 'undefined',
+				contentImage: 'undefined'
 			}))
 			.pipe(gulp.dest(paths.scripts.dest));
 	}
@@ -215,8 +217,10 @@ function compileCSS(cb) {
 				}
 			))
 			.pipe(notify({
-				title: 'SASS',
-				message: 'Successful compiled'
+				title: 'Kindling',
+				message: 'SASS successfully compiled',
+				icon: 'undefined',
+				contentImage: 'undefined'
 			}))
 			.pipe(gulp.dest("./dist"))
 			.pipe(browserSync.stream());
@@ -267,8 +271,10 @@ function compressImages(cb) {
 			verbose: true
 		})))
 		.pipe(notify({
-			title: 'Images',
-			message: 'Successful compression'
+			title: 'Kindling',
+			message: 'Images successfully processed',
+			icon: 'undefined',
+			contentImage: 'undefined'
 		}))
 		.pipe(gulp.dest(paths.images.dest));
 
