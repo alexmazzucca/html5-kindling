@@ -383,9 +383,9 @@ function setupInit(cb){
 function copyTemplateFilesToSrc(){
 	return gulp
 		.src([
-			'./templates/' + settings.type +  '/**/*',
-			'!./templates/static/robots.txt',
-			'!./templates/static/.htaccess'
+			'./setup/templates/' + settings.type +  '/**/*',
+			'!./setup/templates/static/robots.txt',
+			'!./setup/templates/static/.htaccess'
 		])
 		.pipe(gulp.dest('./src/'));
 }
@@ -394,8 +394,8 @@ function copyTemplateAssetsToSrc(){
 	if(settings.type == 'static' || settings.type == 'wordpress'){
 		return gulp
 			.src([
-				'./templates/scss*/**/*',
-				'./templates/js*/**/*'
+				'./setup/templates/scss*/**/*',
+				'./setup/templates/js*/**/*'
 			])
 			.pipe(gulp.dest('./src/'));
 	}
@@ -405,8 +405,8 @@ function copyTemplateFilesToDist(cb){
 	if(settings.type == 'static'){
 		return gulp
 			.src([
-				'./templates/static/.htaccess',
-				'./templates/static/robots.txt'
+				'./setup/templates/static/.htaccess',
+				'./setup/templates/static/robots.txt'
 			])
 			.pipe(gulp.dest('./dist/'));
 	}
@@ -440,7 +440,7 @@ function updateBuildTasks(cb){
 	cb();
 }
 
-const removeSetupFiles = () => del(['./setup', './templates']);
+const removeSetupFiles = () => del(['./setup']);
 
 /*
 * >>========================================>
