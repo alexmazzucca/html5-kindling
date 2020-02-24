@@ -403,7 +403,7 @@ function copyTemplateFilesToDist(cb){
 	cb();
 }
 
-function copyTemplateAssetsToSrc(cb){
+function copyTemplateAssetsToSrc(){
 	if(settings.type == 'static' || settings.type == 'wordpress'){
 		return gulp
 			.src([
@@ -412,8 +412,6 @@ function copyTemplateAssetsToSrc(cb){
 			])
 			.pipe(gulp.dest('./src/'));
 	}
-
-	cb();
 }
 
 function cloneWP(cb){
