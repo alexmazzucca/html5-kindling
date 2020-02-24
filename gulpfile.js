@@ -383,7 +383,7 @@ function setupInit(cb){
 function copyTemplateFilesToSrc(){
 	return gulp
 		.src([
-			'./templates/' + settings.type +  '/**',
+			'./templates/' + settings.type +  '/**/*',
 			'!./templates/static/robots.txt',
 			'!./templates/static/.htaccess'
 		])
@@ -407,8 +407,8 @@ function copyTemplateAssetsToSrc(){
 	if(settings.type == 'static' || settings.type == 'wordpress'){
 		return gulp
 			.src([
-				'./templates/scss/',
-				'./templates/js/'
+				'./templates/scss*/**/*',
+				'./templates/js*/**/*'
 			])
 			.pipe(gulp.dest('./src/'));
 	}
