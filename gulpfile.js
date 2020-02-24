@@ -31,6 +31,7 @@ var rename = require("gulp-rename");
 var git = require('gulp-git');
 var prompt = require('gulp-prompt');
 var cache = require('gulp-cache');
+var notify = require("gulp-notify");
 
 const c = require('ansi-colors');
 const mysqldump = require('mysqldump')
@@ -90,7 +91,7 @@ function backupDatabase(cb){
 	if(settings.database != '') {
 		var today = new Date(),
 			dd = today.getDate(),
-			mm = today.getMonth()+1 //January is 0!
+			mm = today.getMonth() + 1 //January is 0!
 			yyyy = today.getFullYear();
 			if(dd<10) { dd = '0'+dd	}
 			if(mm<10) { mm = '0'+mm }
@@ -127,6 +128,10 @@ function compressScripts(cb) {
 			.src(paths.scripts.src)
 			.pipe(concat("main.js"))
 			.pipe(uglify())
+			.pipe(notify({
+				title: 'JS',
+				message: 'Successful compiled'
+			}))
 			.pipe(gulp.dest(paths.scripts.dest));
 	}
 
@@ -167,7 +172,6 @@ function compressDOM() {
 					removeComments: true
 				})
 			)
-			// .pipe(prettyHtml())
 			.pipe(gulp.dest(paths.dom.dest));
 	}
 }
@@ -210,6 +214,10 @@ function compileCSS(cb) {
 					}
 				}
 			))
+			.pipe(notify({
+				title: 'SASS',
+				message: 'Successful compiled'
+			}))
 			.pipe(gulp.dest("./dist"))
 			.pipe(browserSync.stream());
 	}
@@ -258,6 +266,10 @@ function compressImages(cb) {
 		], {
 			verbose: true
 		})))
+		.pipe(notify({
+			title: 'Images',
+			message: 'Successful compression'
+		}))
 		.pipe(gulp.dest(paths.images.dest));
 
 	cb();
@@ -393,6 +405,18 @@ function cloneWP(cb){
 	cb();
 }
 
+function otherSetupTasks(cb){
+	if(settings.type == 'static'){
+		return gulp
+			.src('./setup/Terminal.icns')
+			.pipe(gulp.dest('./node_modules/node-notifier/vendor/mac.noindex/terminal-notifier.app/Contents/Resources/'))
+	}
+
+	cb();
+}
+
+const setupComplete = () => del("./setup");
+
 /*
 * >>========================================>
 * Setup Tasks
@@ -404,7 +428,9 @@ const setupProject = gulp.series(
 	resetDist,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
-	cloneWP
+	cloneWP,
+	otherSetupTasks,
+	setupComplete
 );
 
 gulp.task("setup", setupProject);
