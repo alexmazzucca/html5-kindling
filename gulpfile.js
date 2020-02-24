@@ -403,7 +403,11 @@ function copyTemplateFilesToDist(cb){
 			])
 			.pipe(gulp.dest('./dist/'));
 	}
-	
+
+	cb();
+}
+
+function copyTemplateAssetsToSrc(cb){
 	if(settings.type == 'static' || settings.type == 'wordpress'){
 		return gulp
 			.src([
@@ -453,6 +457,7 @@ const removeSetupFiles = () => del(['./setup', './templates']);
 const setupProject = gulp.series(
 	resetSrc,
 	resetDist,
+	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
 	cloneWP,
