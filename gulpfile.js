@@ -367,9 +367,7 @@ function liveReload(cb) {
 * >>========================================>
 */
 
-const resetDist = () => del("./dist");
-
-function resetSrc(cb){
+function setupInit(cb){
 	if(settings.type === 'wordpress'){
 		if(settings.theme != '' && settings.database != '' && settings.address != ''){
 			return del("./src/*");
@@ -377,8 +375,6 @@ function resetSrc(cb){
 			console.log(c.bgRed('**ERROR** You must supply theme, database and address to start a WordPress project'));
 			process.exit();
 		}
-	}else{
-		return del("./src/*");
 	}
 }
 
@@ -455,8 +451,7 @@ const removeSetupFiles = () => del(['./setup', './templates']);
 */
 
 const setupProject = gulp.series(
-	resetSrc,
-	resetDist,
+	setupInit,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
