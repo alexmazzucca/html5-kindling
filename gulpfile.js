@@ -26,6 +26,7 @@ const gitRemoteOriginUrl = require('git-remote-origin-url');
 const c = require('ansi-colors');
 const del = require("del");
 const path = require('path');
+var log = require('fancy-log');
 
 /*
 * >>========================================>
@@ -135,6 +136,7 @@ function promptForAddressInfo(cb){
 			settings.address = res.address;
 			cb();
 		})
+		.on('end', function(){ log(settings.address); });
 }
 
 function changeProjectAddress(cb){
