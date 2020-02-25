@@ -112,39 +112,6 @@ function promptForProjectType(cb){
 		}))
 }
 
-function promptForWordpressTheme(cb){
-	if(settings.type == 'wordpress'){
-		return gulp.src('./package.json')
-			.pipe(prompt.prompt([
-				{
-					type: 'input',
-					name: 'theme',
-					message: 'Please enter a theme name...'
-			}], function(res){
-				settings.theme = res.theme;
-				cb();
-			}));
-	}else{
-		cb();
-	}
-}
-
-function promptForDatabaseInfo(cb){
-	if(settings.type == 'wordpress'){
-		return gulp.src('./settings.json')
-			.pipe(prompt.prompt({
-				type: 'input',
-				name: 'database',
-				message: 'Please enter a database name...'
-			}), function(res){
-				settings.database = res.database;
-				cb();
-			})
-	}else{
-		cb();
-	}
-}
-
 function changeProjectType(cb){
 	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
@@ -179,6 +146,22 @@ function changeProjectAddress(cb){
 	cb();
 }
 
+function promptForDatabaseInfo(cb){
+	if(settings.type == 'wordpress'){
+		return gulp.src('./settings.json')
+			.pipe(prompt.prompt({
+				type: 'input',
+				name: 'database',
+				message: 'Please enter a database name...'
+			}), function(res){
+				settings.database = res.database;
+				cb();
+			})
+	}else{
+		cb();
+	}
+}
+
 function changeProjectDatabase(cb){
 	return gulp.src('./settings.json')
 		.pipe(jsonModify({
@@ -188,6 +171,23 @@ function changeProjectDatabase(cb){
 		.pipe(gulp.dest('./'));
 
 	cb();
+}
+
+function promptForWordpressTheme(cb){
+	if(settings.type == 'wordpress'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+				{
+					type: 'input',
+					name: 'theme',
+					message: 'Please enter a theme name...'
+			}], function(res){
+				settings.theme = res.theme;
+				cb();
+			}));
+	}else{
+		cb();
+	}
 }
 
 function changeProjectTheme(cb){
