@@ -116,10 +116,11 @@ function promptForProjectType(cb){
 			choices: ['email', 'static', 'wordpress']
 		}, function(res){
 			settings.type = res.type;
+			cb();
 		}))
 }
 
-function promptForWordpressInfo(){
+function promptForWordpressInfo(cb){
 	if(settings.type == 'wordpress'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([{
@@ -140,11 +141,12 @@ function promptForWordpressInfo(){
 				settings.address = res.address;
 				settings.database = res.database;
 				settings.theme = res.theme;
+				cb();
 			})
 	}
 }
 
-function promptForEmailInfo(){
+function promptForEmailInfo(cb){
 	if(settings.type == 'wordpress'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt({
@@ -155,6 +157,7 @@ function promptForEmailInfo(){
 				settings.address = res.address;
 				settings.database = res.database;
 				settings.theme = res.theme;
+				cb();
 			})
 	}
 }
