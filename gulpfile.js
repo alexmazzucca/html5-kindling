@@ -435,20 +435,36 @@ function updateBuildTasks(cb){
 
 const removeSetupFiles = () => del(['./setup']);
 
-function updatePackageSettings(){
+function promptForName(cb){
 	return gulp.src('./package.json')
 		.pipe(prompt.prompt({
 			type: 'input',
 			name: 'commit',
 			message: 'Please enter commit message...'
 		}, function(res){
-			return gulp
-				.pipe(jsonModify({
-					key: 'name',
-					value: res.message
-				}))
+			renameWorkspace(res.commit);
+			updatePackageJSON(res.commit);
+			cb();
 		}))
 		
+		.pipe(gulp.dest('./'))
+}
+
+function renameWorkspace(newName){
+	return gulp.src('./kindling.code-workspace')
+		.pipe(rename(function (path) {
+			path.basename = newName;
+		}))
+		.pipe(gulp.dest('./'))
+	cb();
+}
+
+function updatePackageJSON(newName){
+	return gulp.src('./package.json')
+		.pipe(jsonModify({
+			key: 'name',
+			value: newName
+		}))
 		.pipe(gulp.dest('./'))
 }
 
@@ -459,7 +475,7 @@ function updatePackageSettings(){
 */
 
 const setupProject = gulp.series(
-	updatePackageSettings,
+	promptForName,
 	setupInit,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
