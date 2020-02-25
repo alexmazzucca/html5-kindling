@@ -486,7 +486,7 @@ function promptForDescription(cb){
 function renamePackageDescription(newDescription){
 	return gulp.src('./package.json')
 		.pipe(jsonModify({
-			key: 'name',
+			key: 'description',
 			value: newDescription
 		}))
 		.pipe(gulp.dest('./'))
