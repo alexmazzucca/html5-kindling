@@ -121,7 +121,7 @@ function promptForProjectType(cb){
 
 function promptForWordpressInfo(){
 	if(settings.type == 'wordpress'){
-		return gulp
+		return gulp.src('./package.json')
 			.pipe(prompt.prompt([{
 					type: 'input',
 					name: 'address',
