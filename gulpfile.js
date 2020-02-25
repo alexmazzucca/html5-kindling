@@ -36,11 +36,29 @@ var log = require('fancy-log');
 
 function promptForPackageDescription(cb){
 	return gulp.src('./package.json')
-		.pipe(prompt.prompt([{
+		.pipe(prompt.prompt([
+		{
+			type: 'list',
+			name: 'type',
+			message: 'Please enter the project type...',
+			choices: ['email', 'static', 'wordpress']
+		},
+		{
 			type: 'input',
 			name: 'description',
 			message: 'Please enter a description of the project...'
-		}], function(res){
+		},
+		{
+			type: 'input',
+			name: 'address',
+			message: 'Please enter the project address...'
+		},
+		{
+			type: 'input',
+			name: 'database',
+			message: 'Please enter a database name...'
+		}
+		], function(res){
 			settings.description = res.description;
 			cb();
 		}))
@@ -104,12 +122,7 @@ const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
 function promptForProjectInfo(cb){
 	return gulp.src('./package.json')
-		.pipe(prompt.prompt([{
-			type: 'list',
-			name: 'type',
-			message: 'Please enter the project type...',
-			choices: ['email', 'static', 'wordpress']
-		},
+		.pipe(prompt.prompt([,
 		{
 			type: 'input',
 			name: 'address',
@@ -143,21 +156,21 @@ function changeProjectAddress(cb){
 	cb();
 }
 
-function promptForDatabaseInfo(cb){
-	if(settings.type == 'wordpress' || settings.type == 'static'){
-		return gulp.src('./package.json')
-			.pipe(prompt.prompt([{
-				type: 'input',
-				name: 'database',
-				message: 'Please enter a database name...'
-			}]), function(res){
-				settings.database = res.database;
-				cb();
-			})
-	}else{
-		cb();
-	}
-}
+// function promptForDatabaseInfo(cb){
+// 	if(settings.type == 'wordpress' || settings.type == 'static'){
+// 		return gulp.src('./package.json')
+// 			.pipe(prompt.prompt([{
+// 				type: 'input',
+// 				name: 'database',
+// 				message: 'Please enter a database name...'
+// 			}]), function(res){
+// 				settings.database = res.database;
+// 				cb();
+// 			})
+// 	}else{
+// 		cb();
+// 	}
+// }
 
 function changeProjectDatabase(cb){
 	return gulp.src('./settings.json')
@@ -280,7 +293,6 @@ const setupProject = gulp.series(
 	promptForProjectInfo,
 	changeProjectType,
 	changeProjectAddress,
-	promptForDatabaseInfo,
 	changeProjectDatabase,
 	promptForWordpressTheme,
 	changeProjectTheme,
