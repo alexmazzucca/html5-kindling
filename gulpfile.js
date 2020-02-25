@@ -60,6 +60,9 @@ function promptForPackageDescription(cb){
 		}
 		], function(res){
 			settings.description = res.description;
+			settings.type = res.type;
+			settings.database = res.database;
+			settings.address = res.address;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
@@ -120,19 +123,19 @@ function changePackageAuthor(){
 
 const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
-function promptForProjectInfo(cb){
-	return gulp.src('./package.json')
-		.pipe(prompt.prompt([,
-		{
-			type: 'input',
-			name: 'address',
-			message: 'Please enter the project address...'
-		}], function(res){
-			settings.type = res.type;
-			settings.address = res.address;
-			cb();
-		}))
-}
+// function promptForProjectInfo(cb){
+// 	return gulp.src('./package.json')
+// 		.pipe(prompt.prompt([,
+// 		{
+// 			type: 'input',
+// 			name: 'address',
+// 			message: 'Please enter the project address...'
+// 		}], function(res){
+// 			settings.type = res.type;
+// 			settings.address = res.address;
+// 			cb();
+// 		}))
+// }
 
 function changeProjectType(cb){
 	return gulp.src('./.setup/settings.json')
@@ -290,7 +293,7 @@ const setupProject = gulp.series(
 	changePackageDescription,
 	changePackageRepo,
 	changePackageAuthor,
-	promptForProjectInfo,
+	// promptForProjectInfo,
 	changeProjectType,
 	changeProjectAddress,
 	changeProjectDatabase,
