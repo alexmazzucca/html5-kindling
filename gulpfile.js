@@ -442,7 +442,7 @@ function promptForName(cb){
 			name: 'commit',
 			message: 'Please enter commit message...'
 		}, function(res){
-			renameWorkspace(res.commit);
+			renameWorkspaceFile(res.commit);
 			updatePackageJSON(res.commit);
 			cb();
 		}))
@@ -450,13 +450,15 @@ function promptForName(cb){
 		.pipe(gulp.dest('./'))
 }
 
-function renameWorkspace(newName){
+function renameWorkspaceFile(newName){
 	return gulp.src('./kindling.code-workspace')
 		.pipe(rename(function (path) {
 			path.basename = newName;
 		}))
 		.pipe(gulp.dest('./'))
 }
+
+const removeWorkspaceFile = () => del(['./setup']);
 
 function updatePackageJSON(newName){
 	return gulp.src('./package.json')
@@ -474,8 +476,9 @@ function updatePackageJSON(newName){
 */
 
 const setupProject = gulp.series(
-	promptForName,
 	setupInit,
+	promptForName,
+	removeWorkspaceFile,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
