@@ -162,20 +162,35 @@ function promptForEmailInfo(cb){
 	}
 }
 
-function changeProjectSettings(){
+function changeProjectType(){
 	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
 				key: 'type',
 				value: settings.type
 			}))
+		.pipe(gulp.dest('./'))
+}
+
+function changeProjectAddress(){
+	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
 				key: 'address',
 				value: settings.address
 			}))
+		.pipe(gulp.dest('./'))
+}
+
+function changeProjectDatabase(){
+	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
 				key: 'database',
 				value: settings.database
 			}))
+		.pipe(gulp.dest('./'))
+}
+
+function changeProjectTheme(){
+	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
 				key: 'theme',
 				value: settings.theme
@@ -265,7 +280,10 @@ const setupProject = gulp.series(
 	promptForProjectType,
 	promptForWordpressInfo,
 	promptForEmailInfo,
-	changeProjectSettings,
+	changeProjectType,
+	changeProjectAddress,
+	changeProjectDatabase,
+	changeProjectTheme,
 	copyGulpFileToRoot,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
