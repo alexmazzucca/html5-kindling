@@ -156,17 +156,6 @@ function changeProjectType(cb){
 	cb();
 }
 
-function changeProjectAddress(cb){
-	return gulp.src('./settings.json')
-		.pipe(jsonModify({
-				key: 'address',
-				value: settings.address
-			}))
-		.pipe(gulp.dest('./'));
-
-	cb();
-}
-
 function promptForAddressInfo(cb){
 	return gulp.src('./settings.json')
 		.pipe(prompt.prompt({
@@ -177,6 +166,17 @@ function promptForAddressInfo(cb){
 			settings.address = res.address;
 			cb();
 		})
+}
+
+function changeProjectAddress(cb){
+	return gulp.src('./settings.json')
+		.pipe(jsonModify({
+				key: 'address',
+				value: settings.address
+			}))
+		.pipe(gulp.dest('./'));
+
+	cb();
 }
 
 function changeProjectDatabase(cb){
