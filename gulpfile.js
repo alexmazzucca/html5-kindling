@@ -141,7 +141,7 @@ function changeProjectAddress(cb){
 	return gulp.src('./settings.json')
 		.pipe(jsonModify({
 				key: 'address',
-				value: settings.type
+				value: settings.address
 			}))
 		.pipe(gulp.dest('./'));
 
