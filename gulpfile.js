@@ -102,15 +102,21 @@ function changePackageAuthor(){
 
 const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
-function promptForProjectType(cb){
+function promptForProjectInfo(cb){
 	return gulp.src('./package.json')
-		.pipe(prompt.prompt({
+		.pipe(prompt.prompt([{
 			type: 'list',
 			name: 'type',
 			message: 'Please enter the project type...',
 			choices: ['email', 'static', 'wordpress']
-		}, function(res){
+		},
+		.pipe(prompt.prompt([{
+			type: 'input',
+			name: 'type',
+			message: 'Please enter the project address...'
+		}], function(res){
 			settings.type = res.type;
+			settings.address = res.address;
 			cb();
 		}))
 }
@@ -126,18 +132,18 @@ function changeProjectType(cb){
 	cb();
 }
 
-function promptForAddressInfo(cb){
-	return gulp.src('./package.json')
-		.pipe(prompt.prompt({
-				type: 'input',
-				name: 'address',
-				message: 'Please enter a remote URL...'
-		}), function(res){
-			settings.address = res.address;
-			cb();
-		})
-		.on('end', function(){ log(settings.address); });
-}
+// function promptForAddressInfo(cb){
+// 	return gulp.src('./package.json')
+// 		.pipe(prompt.prompt({
+// 				type: 'input',
+// 				name: 'address',
+// 				message: 'Please enter a remote URL...'
+// 		}), function(res){
+// 			settings.address = res.address;
+// 			cb();
+// 		})
+// 		.on('end', function(){ log(settings.address); });
+// }
 
 function changeProjectAddress(cb){
 	return gulp.src('./settings.json')
@@ -285,9 +291,8 @@ const setupProject = gulp.series(
 	changePackageDescription,
 	changePackageRepo,
 	changePackageAuthor,
-	promptForProjectType,
+	promptForProjectInfo,
 	changeProjectType,
-	promptForAddressInfo,
 	changeProjectAddress,
 	promptForDatabaseInfo,
 	changeProjectDatabase,
