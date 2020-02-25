@@ -30,16 +30,16 @@ The following tasks can be run via CLI or as VSCode build tasks (Command + Shift
 
 <b>Run this command first.</b> This command will copy appropriate files from [kindling/setup](/setup) to the [kindling/src](/src) and [kindling/dist](/dist) directories. Please note, after running this command, 'Setup' will no longer appear as a build task in VSCode.
 
-### `gulp build`
+### `gulp build`*
 
-Run this command to build the project to [kindling/dist](/dist).*
+Run this command to build the project to [kindling/dist](/dist).
 
-### `gulp serve`
+### `gulp serve`*
 
-Run this command to build the project and start the server with associated `gulp.watch` tasks.*
+Run this command to build the project and start the server with associated `gulp.watch` tasks.
 
-### `gulp database`
+### `gulp database`*
 
-Run this command to export a copy of the project's database to [kindling/](/).*
+Run this command to export a copy of the project's database to [kindling/](/).
 
 *Please note, you must run the 'Setup' build task in VSCode to see this task as an available option.
