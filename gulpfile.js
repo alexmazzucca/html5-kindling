@@ -40,17 +40,18 @@ function promptForPackageDescription(cb){
 			name: 'description',
 			message: 'Please enter a description of the project...'
 		}], function(res){
-			settings.name = path.basename(process.cwd());
 			settings.description = res.description;
-			settings.author = getRepoInfo().author;
-
-			(async() => {
-				console.log();
-				settings.repo = await gitRemoteOriginUrl();
-			})();
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
+}
+
+function setAdditionalPackageInfo(){
+	settings.author = getRepoInfo().author;
+	settings.name = path.basename(process.cwd());
+	(async() => {
+		settings.repo = await gitRemoteOriginUrl();
+	})();
 }
 
 function renameWorkspaceFile(){
@@ -274,6 +275,7 @@ const removeSetupFiles = () => del(['./.setup']);
 
 const setupProject = gulp.series(
 	promptForPackageDescription,
+	setAdditionalPackageInfo,
 	renameWorkspaceFile,
 	removeWorkspaceFile,
 	changePackageName,
