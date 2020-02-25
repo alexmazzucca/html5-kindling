@@ -129,27 +129,15 @@ function promptForWordpressTheme(cb){
 	}
 }
 
-function promptForAddressInfo(cb){
-	return gulp.src('./package.json')
-		.pipe(prompt.prompt({
-				type: 'input',
-				name: 'address',
-				message: 'Please enter a remote URL...'
-		}), function(res){
-			settings.address = res.address;
-			cb();
-		})
-}
-
 function promptForDatabaseInfo(cb){
 	if(settings.type == 'wordpress'){
-		return gulp.src('./package.json')
+		return gulp.src('./settings.json')
 			.pipe(prompt.prompt({
 				type: 'input',
 				name: 'database',
 				message: 'Please enter a database name...'
 			}), function(res){
-				settings.address = res.database;
+				settings.database = res.database;
 				cb();
 			})
 	}else{
@@ -177,6 +165,18 @@ function changeProjectAddress(cb){
 		.pipe(gulp.dest('./'));
 
 	cb();
+}
+
+function promptForAddressInfo(cb){
+	return gulp.src('./settings.json')
+		.pipe(prompt.prompt({
+				type: 'input',
+				name: 'address',
+				message: 'Please enter a remote URL...'
+		}), function(res){
+			settings.address = res.address;
+			cb();
+		})
 }
 
 function changeProjectDatabase(cb){
