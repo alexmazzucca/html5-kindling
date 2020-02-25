@@ -132,19 +132,6 @@ function changeProjectType(cb){
 	cb();
 }
 
-// function promptForAddressInfo(cb){
-// 	return gulp.src('./package.json')
-// 		.pipe(prompt.prompt({
-// 				type: 'input',
-// 				name: 'address',
-// 				message: 'Please enter a remote URL...'
-// 		}), function(res){
-// 			settings.address = res.address;
-// 			cb();
-// 		})
-// 		.on('end', function(){ log(settings.address); });
-// }
-
 function changeProjectAddress(cb){
 	return gulp.src('./settings.json')
 		.pipe(jsonModify({
