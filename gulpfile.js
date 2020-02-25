@@ -157,7 +157,7 @@ function changeProjectAddress(cb){
 }
 
 function promptForDatabaseInfo(cb){
-	if(settings.type == 'wordpress'){
+	if(settings.type == 'wordpress' || settings.type == 'static'){
 		return gulp.src('./settings.json')
 			.pipe(prompt.prompt({
 				type: 'input',
