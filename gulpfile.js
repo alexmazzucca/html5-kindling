@@ -166,9 +166,9 @@ function changeProjectDatabase(cb){
 				key: 'database',
 				value: settings.database
 			}))
-		.pipe(gulp.dest('./'));
-
-	cb();
+		.pipe(gulp.dest('./'))
+		.on('end', cb());
+	// cb();
 }
 
 function promptForWordpressTheme(cb){
