@@ -152,8 +152,9 @@ function promptForDatabaseInfo(cb){
 				message: 'Please enter a database name...'
 			}]), function(res){
 				settings.database = res.database;
-				cb();
+				// cb();
 			})
+			.on('end', cb());
 	}else{
 		cb();
 	}
