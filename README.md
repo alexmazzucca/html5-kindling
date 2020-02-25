@@ -24,7 +24,7 @@ You can specify an absolute image path by modifying `address` on line 9. This wi
   
 ## Gulp Tasks
 
-After the Configuration steps are complete, the following Gulp tasks will become available. Optionally, you can use VSCode build tasks (Command + Shift + B) to execute these tasks from the VSCode build menu:
+The following tasks can be run via CLI or as VSCode build tasks (Command + Shift + B).
 
 ### `gulp setup`
 
@@ -32,12 +32,14 @@ After the Configuration steps are complete, the following Gulp tasks will become
 
 ### `gulp build`
 
-Run this command to build the project to [kindling/dist](/dist)
+Run this command to build the project to [kindling/dist](/dist).*
 
 ### `gulp serve`
 
-Run this command to build the project and start the server with associated `gulp.watch` tasks
+Run this command to build the project and start the server with associated `gulp.watch` tasks.*
 
 ### `gulp database`
 
-Run this command to export a copy of the project's database to [kindling/](/)
+Run this command to export a copy of the project's database to [kindling/](/).*
+
+*Please note, you must run the 'Setup' build task in VSCode to see this task as an available option.
