@@ -162,40 +162,48 @@ function promptForEmailInfo(cb){
 	}
 }
 
-function changeProjectType(){
+function changeProjectType(cb){
 	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
 				key: 'type',
 				value: settings.type
 			}))
-		.pipe(gulp.dest('./'))
+		.pipe(gulp.dest('./'));
+	
+	cb();
 }
 
-function changeProjectAddress(){
+function changeProjectAddress(cb){
 	return gulp.src('./settings.json')
 		.pipe(jsonModify({
 				key: 'address',
 				value: settings.address
 			}))
-		.pipe(gulp.dest('./'))
+		.pipe(gulp.dest('./'));
+
+	cb();
 }
 
-function changeProjectDatabase(){
+function changeProjectDatabase(cb){
 	return gulp.src('./settings.json')
 		.pipe(jsonModify({
 				key: 'database',
 				value: settings.database
 			}))
-		.pipe(gulp.dest('./'))
+		.pipe(gulp.dest('./'));
+
+	cb();
 }
 
-function changeProjectTheme(){
+function changeProjectTheme(cb){
 	return gulp.src('./settings.json')
 		.pipe(jsonModify({
 				key: 'theme',
 				value: settings.theme
 			}))
 		.pipe(gulp.dest('./'))
+
+	cb();
 }
 
 function copyGulpFileToRoot(){
