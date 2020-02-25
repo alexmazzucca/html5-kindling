@@ -28,16 +28,16 @@ After the Configuration steps are complete, the following Gulp tasks will become
 
 ### `gulp setup`
 
-Run this command first to copy appropriate template files from [kindling/templates](/templates) to the [kindling/src](/src) and [kindling/dist](/dist) directories. After this command is run, it will no longer appear as a build task in VSCode. Instead, you will be presented with the following tasks:
+<b>Run this command first</b> to copy appropriate template files from [kindling/templates](/templates) to the [kindling/src](/src) and [kindling/dist](/dist) directories. Please note, after running this command, 'Setup' will no longer appear as a build task in VSCode.
 
-#### `gulp build`
+### `gulp build`
 
 Run this command to build the project to [kindling/dist](/dist)
 
-#### `gulp serve`
+### `gulp serve`
 
 Run this command to build the project and start the server with associated `gulp.watch` tasks
 
-#### `gulp database`
+### `gulp database`
 
 Run this command to export a copy of the project's database to [kindling/](/)
