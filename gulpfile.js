@@ -11,6 +11,7 @@ var settings = {
 * >>========================================>
 */
 
+var gulp = require("gulp");
 var git = require('gulp-git');
 var rename = require("gulp-rename");
 var prompt = require('gulp-prompt');
@@ -89,10 +90,11 @@ const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
 function promptForProjectInfo(cb){
 	return gulp.src('./package.json')
-		.pipe(prompt.prompt({
-			type: 'input',
+		.pipe(prompt.prompt([{
+			type: 'list',
 			name: 'type',
-			message: 'Please enter the project type (email, static, wordpress)...'
+			message: 'Please enter the project type...',
+			choices: ['email', 'static', 'wordpress']
 		},
 		{
 			type: 'input',
@@ -108,7 +110,7 @@ function promptForProjectInfo(cb){
 			type: 'input',
 			name: 'theme',
 			message: 'Please enter a theme name...'
-		}, function(res){
+		}], function(res){
 			changeProjectSettings(res.type, res.address, res.database, res.theme);
 			cb();
 		}))
@@ -117,31 +119,34 @@ function promptForProjectInfo(cb){
 }
 
 function changeProjectSettings(projectType, projectAddress, projectDatabase, projectTheme){
-	// return gulp.src('./.setup/settings.json')
-	// 	.pipe(jsonModify(
-	// 		{
-	// 			key: 'type',
-	// 			value: projectType
-	// 		},
-	// 		{
-	// 			key: 'address',
-	// 			value: projectAddress
-	// 		},
-	// 		{
-	// 			key: 'database',
-	// 			value: projectDatabase
-	// 		},
-	// 		{
-	// 			key: 'theme',
-	// 			value: projectTheme
-	// 		}
-	// 	))
-	// 	.pipe(gulp.dest('./'))
+	return gulp.src('./.setup/settings.json')
+		.pipe(jsonModify(
+			{
+				key: 'type',
+				value: projectType
+			},
+			{
+				key: 'address',
+				value: projectAddress
+			},
+			{
+				key: 'database',
+				value: projectDatabase
+			},
+			{
+				key: 'theme',
+				value: projectTheme
+			}
+		))
+		.pipe(gulp.dest('./'))
+		.pipe(function(){
+			settings = require('./settings.json')
+		})
 
-	settings.type = projectType;
-	settings.address = projectAddress;
-	settings.database = projectDatabase;
-	settings.theme = projectTheme;
+	// settings.type = projectType;
+	// settings.address = projectAddress;
+	// settings.database = projectDatabase;
+	// settings.theme = projectTheme;
 }
 
 function copyTemplateFilesToSrc(){
