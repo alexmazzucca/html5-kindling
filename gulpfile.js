@@ -117,26 +117,31 @@ function promptForProjectInfo(cb){
 }
 
 function changeProjectSettings(projectType, projectAddress, projectDatabase, projectTheme){
-	return gulp.src('./.setup/settings.json')
-		.pipe(jsonModify(
-			{
-				key: 'type',
-				value: projectType
-			},
-			{
-				key: 'address',
-				value: projectAddress
-			},
-			{
-				key: 'database',
-				value: projectDatabase
-			},
-			{
-				key: 'theme',
-				value: projectTheme
-			}
-		))
-		.pipe(gulp.dest('./'))
+	// return gulp.src('./.setup/settings.json')
+	// 	.pipe(jsonModify(
+	// 		{
+	// 			key: 'type',
+	// 			value: projectType
+	// 		},
+	// 		{
+	// 			key: 'address',
+	// 			value: projectAddress
+	// 		},
+	// 		{
+	// 			key: 'database',
+	// 			value: projectDatabase
+	// 		},
+	// 		{
+	// 			key: 'theme',
+	// 			value: projectTheme
+	// 		}
+	// 	))
+	// 	.pipe(gulp.dest('./'))
+
+	settings.type = projectType;
+	settings.address = projectAddress;
+	settings.database = projectDatabase;
+	settings.theme = projectTheme;
 }
 
 function copyTemplateFilesToSrc(){
