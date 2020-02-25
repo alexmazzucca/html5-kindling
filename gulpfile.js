@@ -51,8 +51,8 @@ function promptForPackageInfo(cb){
 		}], function(res){
 			renameWorkspaceFile(res.name);
 			changePackageName(res.name);
-			// changePackageDescription(res.description);
-			// changePackageRepo(res.repo);
+			changePackageDescription(res.description);
+			changePackageRepo(res.repo);
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
@@ -66,37 +66,33 @@ function renameWorkspaceFile(packageName){
 		.pipe(gulp.dest('./'))
 }
 
-function changePackageName(packageName, packageDescription){
+function changePackageName(packageName){
 	return gulp.src('./package.json')
 		.pipe(jsonModify({
 			key: 'name',
 			value: packageName
 		}))
+		.pipe(gulp.dest('./'))
+}
+
+function changePackageDescription(projectDescription){
+	return gulp.src('./package.json')
 		.pipe(jsonModify({
 			key: 'description',
-			value: packageDescription
+			value: projectDescription
 		}))
 		.pipe(gulp.dest('./'))
 }
 
-// function changePackageDescription(projectDescription){
-// 	return gulp.src('./package.json')
-// 		.pipe(jsonModify({
-// 			key: 'description',
-// 			value: projectDescription
-// 		}))
-// 		.pipe(gulp.dest('./'))
-// }
-
-// function changePackageRepo(packageRepo){
-// 	return gulp.src('./package.json')
-// 		.pipe(jsonModify({
-// 			key: 'repository.url',
-// 			value: packageRepo
-// 		}
-// 		))
-// 		.pipe(gulp.dest('./'))
-// }
+function changePackageRepo(packageRepo){
+	return gulp.src('./package.json')
+		.pipe(jsonModify({
+			key: 'repository.url',
+			value: packageRepo
+		}
+		))
+		.pipe(gulp.dest('./'))
+}
 
 const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
