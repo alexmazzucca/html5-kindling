@@ -53,13 +53,9 @@ function promptForPackageInfo(cb){
 			message: "Please enter the author's name..."
 		}], function(res){
 			settings.name = res.name;
-			settings.repo = res.repo;
 			settings.description = res.description;
-			
-			// renameWorkspaceFile(res.name);
-			// changePackageName(res.name);
-			// changePackageDescription(res.description);
-			// changePackageRepo(res.repo);
+			settings.repo = res.repo;
+			settings.author = res.author;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
@@ -96,8 +92,16 @@ function changePackageRepo(){
 		.pipe(jsonModify({
 			key: 'repository.url',
 			value: settings.repo
-		}
-		))
+		}))
+		.pipe(gulp.dest('./'))
+}
+
+function changePackageAuthor(){
+	return gulp.src('./package.json')
+		.pipe(jsonModify({
+			key: 'author',
+			value: settings.author
+		}))
 		.pipe(gulp.dest('./'))
 }
 
@@ -245,6 +249,7 @@ const setupProject = gulp.series(
 	changePackageName,
 	changePackageDescription,
 	changePackageRepo,
+	changePackageAuthor,
 	promptForProjectInfo,
 	changeProjectSettings,
 	copyGulpFileToRoot,
