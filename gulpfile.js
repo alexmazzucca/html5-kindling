@@ -26,18 +26,18 @@ const del = require("del");
 * >>========================================>
 */
 
-function setupInit(cb){
-	if(settings.type === 'wordpress'){
-		if(settings.theme != '' && settings.database != '' && settings.address != ''){
-			return del("./src/*");
-		}else{
-			console.log(c.bgRed('**ERROR** You must supply theme, database and address to start a WordPress project'));
-			process.exit();
-		}
-	}
+// function setupInit(cb){
+// 	if(settings.type === 'wordpress'){
+// 		if(settings.theme != '' && settings.database != '' && settings.address != ''){
+// 			return del("./src/*");
+// 		}else{
+// 			console.log(c.bgRed('**ERROR** You must supply theme, database and address to start a WordPress project'));
+// 			process.exit();
+// 		}
+// 	}
 
-	cb();
-}
+// 	cb();
+// }
 
 function promptForPackageInfo(cb){
 	return gulp.src('./package.json')
@@ -113,10 +113,10 @@ function promptForProjectInfo(cb){
 		}], function(res){
 			// changeProjectSettings(res.type, res.address, res.database, res.theme);
 
-			let projectType = res.type;
-			let projectAddress = res.address;
-			let projectDatabase = res.database;
-			let projectTheme = res.theme;
+			settings.type = res.type;
+			settings.address = res.address;
+			settings.database = res.database;
+			settings.theme = res.theme;
 
 			cb();
 		}))
@@ -126,19 +126,19 @@ function changeProjectSettings(){
 	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
 				key: 'type',
-				value: projectType
+				value: settings.type
 			}))
 		.pipe(jsonModify({
 				key: 'address',
-				value: projectAddress
+				value: settings.address
 			}))
 		.pipe(jsonModify({
 				key: 'database',
-				value: projectDatabase
+				value: settings.database
 			}))
 		.pipe(jsonModify({
 				key: 'theme',
-				value: projectTheme
+				value: settings.theme
 			}))
 		.pipe(gulp.dest('./'))
 		// .pipe(function(){
@@ -224,7 +224,7 @@ const removeSetupFiles = () => del(['./.setup']);
 */
 
 const setupProject = gulp.series(
-	setupInit,
+	// setupInit,
 	promptForPackageInfo,
 	removeWorkspaceFile,
 	promptForProjectInfo,
