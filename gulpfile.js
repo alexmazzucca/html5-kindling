@@ -21,6 +21,7 @@ var prompt = require('gulp-prompt');
 var notify = require("gulp-notify");
 var jsonModify = require("gulp-json-modify");
 var getRepoInfo = require('git-repo-info');
+const gitRemoteOriginUrl = require('git-remote-origin-url');
 
 const c = require('ansi-colors');
 const del = require("del");
@@ -56,7 +57,7 @@ function promptForPackageInfo(cb){
 		}], function(res){
 			settings.name = path.basename(process.cwd());
 			settings.description = res.description;
-			settings.repo = path.basename(process.cwd());
+			settings.repo = gitRemoteOriginUrl();
 			settings.author = getRepoInfo().author;
 			cb();
 		}))
