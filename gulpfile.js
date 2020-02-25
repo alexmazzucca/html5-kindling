@@ -112,26 +112,15 @@ function promptForProjectType(cb){
 		}))
 }
 
-function promptForWordpressInfo(cb){
+function promptForWordpressTheme(cb){
 	if(settings.type == 'wordpress'){
 		return gulp.src('./package.json')
-			.pipe(prompt.prompt([{
-					type: 'input',
-					name: 'address',
-					message: 'Please enter a development URL...'
-				},
-				{
-					type: 'input',
-					name: 'database',
-					message: 'Please enter a database name...'
-				},
+			.pipe(prompt.prompt([
 				{
 					type: 'input',
 					name: 'theme',
 					message: 'Please enter a theme name...'
 			}], function(res){
-				settings.address = res.address;
-				settings.database = res.database;
 				settings.theme = res.theme;
 				cb();
 			}));
@@ -140,20 +129,28 @@ function promptForWordpressInfo(cb){
 	}
 }
 
-function promptForEmailInfo(cb){
-	if(settings.type == 'email'){
-		return gulp.src('./package.json')
-			.pipe(prompt.prompt({
-					type: 'input',
-					name: 'address',
-					message: 'Please enter a remote deployment URL...'
-			}), function(res){
-				settings.address = res.address;
-				cb();
-			})
-	}else{
-		cb();
-	}
+function promptForAddressInfo(cb){
+	return gulp.src('./package.json')
+		.pipe(prompt.prompt({
+				type: 'input',
+				name: 'address',
+				message: 'Please enter a remote URL...'
+		}), function(res){
+			settings.address = res.address;
+			cb();
+		})
+}
+
+function promptForDatabaseInfo(cb){
+	return gulp.src('./package.json')
+		.pipe(prompt.prompt({
+			type: 'input',
+			name: 'database',
+			message: 'Please enter a database name...'
+		}), function(res){
+			settings.address = res.address;
+			cb();
+		})
 }
 
 function changeProjectType(cb){
@@ -280,7 +277,9 @@ const setupProject = gulp.series(
 	changePackageRepo,
 	changePackageAuthor,
 	promptForProjectType,
-	promptForWordpressInfo,
+	promptForAddressInfo,
+	promptForDatabaseInfo,
+	promptForWordpressTheme,
 	promptForEmailInfo,
 	changeProjectType,
 	changeProjectAddress,
