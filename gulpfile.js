@@ -110,7 +110,7 @@ function promptForProjectInfo(cb){
 			message: 'Please enter the project type...',
 			choices: ['email', 'static', 'wordpress']
 		},
-		.pipe(prompt.prompt([{
+		{
 			type: 'input',
 			name: 'type',
 			message: 'Please enter the project address...'
