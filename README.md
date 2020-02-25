@@ -28,7 +28,7 @@ After the Configuration steps are complete, the following Gulp tasks will become
 
 ### `gulp setup`
 
-<b>Run this command first.</b> This command will copy appropriate files from [kindling/setup/](/setup/) to the [kindling/src](/src) and [kindling/dist](/dist) directories. Please note, after running this command, 'Setup' will no longer appear as a build task in VSCode.
+<b>Run this command first.</b> This command will copy appropriate files from [kindling/setup](/setup) to the [kindling/src](/src) and [kindling/dist](/dist) directories. Please note, after running this command, 'Setup' will no longer appear as a build task in VSCode.
 
 ### `gulp build`
 
