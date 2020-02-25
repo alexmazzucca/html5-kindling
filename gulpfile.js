@@ -57,8 +57,13 @@ function promptForPackageInfo(cb){
 		}], function(res){
 			settings.name = path.basename(process.cwd());
 			settings.description = res.description;
-			settings.repo = gitRemoteOriginUrl(process.cwd());
 			settings.author = getRepoInfo().author;
+
+			(async() => {
+				console.log();
+				settings.repo = await gitRemoteOriginUrl();
+				//=> 'git@github.com:sindresorhus/git-remote-origin-url.git'
+			})();
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
