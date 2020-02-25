@@ -38,10 +38,21 @@ function promptForPackageInfo(cb){
 			type: 'input',
 			name: 'description',
 			message: 'Please enter a description of the project...'
+		},
+		{
+			type: 'input',
+			name: 'repo',
+			message: "Please enter the URL for the project's GitHub repository..."
+		},
+		{
+			type: 'input',
+			name: 'author',
+			message: "Please enter the author's name..."
 		}], function(res){
 			renameWorkspaceFile(res.name);
 			changePackageName(res.name);
 			changePackageDescription(res.description);
+			changePackageRepo(res.repo);
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
@@ -61,6 +72,20 @@ function changePackageName(packageName){
 			key: 'name',
 			value: packageName
 		}))
+		.pipe(gulp.dest('./'))
+}
+
+function changePackageRepo(packageRepo){
+	return gulp.src('./package.json')
+		.pipe(jsonModify([{
+			key: 'repository.url',
+			value: packageRepo
+		},
+		{
+			key: 'url',
+			value: packageRepo
+		}
+		]))
 		.pipe(gulp.dest('./'))
 }
 
