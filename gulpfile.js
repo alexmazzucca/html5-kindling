@@ -147,7 +147,7 @@ function promptForWordpressInfo(cb){
 }
 
 function promptForEmailInfo(cb){
-	if(settings.type == 'wordpress'){
+	if(settings.type == 'email'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt({
 					type: 'input',
@@ -155,8 +155,6 @@ function promptForEmailInfo(cb){
 					message: 'Please enter a remote deployment URL...'
 			}), function(res){
 				settings.address = res.address;
-				settings.database = res.database;
-				settings.theme = res.theme;
 				cb();
 			})
 	}
