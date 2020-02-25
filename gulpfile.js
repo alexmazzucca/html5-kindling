@@ -143,6 +143,8 @@ function promptForWordpressInfo(cb){
 				settings.theme = res.theme;
 				cb();
 			}));
+	}else{
+		cb();
 	}
 }
 
