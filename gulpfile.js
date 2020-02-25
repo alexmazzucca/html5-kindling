@@ -34,14 +34,14 @@ var log = require('fancy-log');
 * >>========================================>
 */
 
-function promptForPackageDescription(cb){
+function promptForProjectInfo(cb){
 	return gulp.src('./package.json')
 		.pipe(prompt.prompt([
 		{
 			type: 'list',
 			name: 'type',
 			message: 'Please enter the project type...',
-			choices: ['email', 'static', 'wordpress']
+			choices: ['email', 'static', 'wordpress'],
 		},
 		{
 			type: 'input',
@@ -68,7 +68,7 @@ function promptForPackageDescription(cb){
 		.pipe(gulp.dest('./'))
 }
 
-function setAdditionalPackageInfo(cb){
+function getAdditionalProjectInfo(cb){
 	settings.author = getRepoInfo().author;
 	settings.name = path.basename(process.cwd());
 	(async() => {
@@ -123,20 +123,6 @@ function changePackageAuthor(){
 
 const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
-// function promptForProjectInfo(cb){
-// 	return gulp.src('./package.json')
-// 		.pipe(prompt.prompt([,
-// 		{
-// 			type: 'input',
-// 			name: 'address',
-// 			message: 'Please enter the project address...'
-// 		}], function(res){
-// 			settings.type = res.type;
-// 			settings.address = res.address;
-// 			cb();
-// 		}))
-// }
-
 function changeProjectType(cb){
 	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
@@ -158,22 +144,6 @@ function changeProjectAddress(cb){
 
 	cb();
 }
-
-// function promptForDatabaseInfo(cb){
-// 	if(settings.type == 'wordpress' || settings.type == 'static'){
-// 		return gulp.src('./package.json')
-// 			.pipe(prompt.prompt([{
-// 				type: 'input',
-// 				name: 'database',
-// 				message: 'Please enter a database name...'
-// 			}]), function(res){
-// 				settings.database = res.database;
-// 				cb();
-// 			})
-// 	}else{
-// 		cb();
-// 	}
-// }
 
 function changeProjectDatabase(cb){
 	return gulp.src('./settings.json')
@@ -285,15 +255,14 @@ const removeSetupFiles = () => del(['./.setup']);
 */
 
 const setupProject = gulp.series(
-	promptForPackageDescription,
-	setAdditionalPackageInfo,
+	promptForProjectInfo,
+	getAdditionalProjectInfo,
 	renameWorkspaceFile,
 	removeWorkspaceFile,
 	changePackageName,
 	changePackageDescription,
 	changePackageRepo,
 	changePackageAuthor,
-	// promptForProjectInfo,
 	changeProjectType,
 	changeProjectAddress,
 	changeProjectDatabase,
