@@ -152,7 +152,9 @@ function promptForDatabaseInfo(cb){
 				settings.address = res.database;
 				cb();
 			})
-		}
+	}else{
+		cb();
+	}
 }
 
 function changeProjectType(cb){
