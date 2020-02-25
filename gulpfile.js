@@ -37,23 +37,8 @@ function promptForPackageInfo(cb){
 	return gulp.src('./package.json')
 		.pipe(prompt.prompt([{
 			type: 'input',
-			name: 'name',
-			message: 'Please enter the name of the project...'
-		},
-		{
-			type: 'input',
 			name: 'description',
 			message: 'Please enter a description of the project...'
-		},
-		// {
-		// 	type: 'input',
-		// 	name: 'repo',
-		// 	message: "Please enter the URL for the project's GitHub repository..."
-		// },
-		{
-			type: 'input',
-			name: 'author',
-			message: "Please enter the author's name..."
 		}], function(res){
 			settings.name = path.basename(process.cwd());
 			settings.description = res.description;
@@ -62,7 +47,6 @@ function promptForPackageInfo(cb){
 			(async() => {
 				console.log();
 				settings.repo = await gitRemoteOriginUrl();
-				//=> 'git@github.com:sindresorhus/git-remote-origin-url.git'
 			})();
 			cb();
 		}))
