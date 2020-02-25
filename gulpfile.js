@@ -146,11 +146,11 @@ function changeProjectAddress(cb){
 function promptForDatabaseInfo(cb){
 	if(settings.type == 'wordpress' || settings.type == 'static'){
 		return gulp.src('./package.json')
-			.pipe(prompt.prompt({
+			.pipe(prompt.prompt([{
 				type: 'input',
 				name: 'database',
 				message: 'Please enter a database name...'
-			}), function(res){
+			}]), function(res){
 				settings.database = res.database;
 				cb();
 			})
@@ -173,11 +173,10 @@ function changeProjectDatabase(cb){
 function promptForWordpressTheme(cb){
 	if(settings.type == 'wordpress'){
 		return gulp.src('./package.json')
-			.pipe(prompt.prompt([
-				{
-					type: 'input',
-					name: 'theme',
-					message: 'Please enter a theme name...'
+			.pipe(prompt.prompt([{
+				type: 'input',
+				name: 'theme',
+				message: 'Please enter a theme name...'
 			}], function(res){
 				settings.theme = res.theme;
 				cb();
