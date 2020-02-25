@@ -157,6 +157,8 @@ function promptForEmailInfo(cb){
 				settings.address = res.address;
 				cb();
 			})
+	}else{
+		cb();
 	}
 }
 
