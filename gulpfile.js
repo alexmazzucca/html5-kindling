@@ -152,9 +152,8 @@ function promptForDatabaseInfo(cb){
 				message: 'Please enter a database name...'
 			}]), function(res){
 				settings.database = res.database;
-				// cb();
+				cb();
 			})
-			.on('end', cb());
 	}else{
 		cb();
 	}
@@ -166,9 +165,9 @@ function changeProjectDatabase(cb){
 				key: 'database',
 				value: settings.database
 			}))
-		.pipe(gulp.dest('./'))
-		.on('end', cb());
-	// cb();
+		.pipe(gulp.dest('./'));
+
+	cb();
 }
 
 function promptForWordpressTheme(cb){
