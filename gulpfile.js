@@ -29,7 +29,7 @@ const del = require("del");
 
 function promptForPackageInfo(cb){
 	return gulp.src('./package.json')
-		.pipe(prompt.prompt({
+		.pipe(prompt.prompt([{
 			type: 'input',
 			name: 'name',
 			message: 'Please enter the name of the project...'
@@ -38,7 +38,7 @@ function promptForPackageInfo(cb){
 			type: 'input',
 			name: 'description',
 			message: 'Please enter a description of the project...'
-		}, function(res){
+		}], function(res){
 			renameWorkspaceFile(res.name);
 			changePackageName(res.name);
 			changePackageDescription(res.description);
