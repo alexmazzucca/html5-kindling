@@ -139,9 +139,11 @@ function promptForProjectInfo(cb){
 
 				// cb();
 			}
+
+			cb();
 		}))
 
-		cb();
+		
 }
 
 function changeProjectSettings(){
