@@ -46,12 +46,13 @@ function promptForPackageDescription(cb){
 		.pipe(gulp.dest('./'))
 }
 
-function setAdditionalPackageInfo(){
+function setAdditionalPackageInfo(cb){
 	settings.author = getRepoInfo().author;
 	settings.name = path.basename(process.cwd());
 	(async() => {
 		settings.repo = await gitRemoteOriginUrl();
 	})();
+	cb();
 }
 
 function renameWorkspaceFile(){
