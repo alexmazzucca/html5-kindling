@@ -57,7 +57,7 @@ function promptForPackageInfo(cb){
 		}], function(res){
 			settings.name = path.basename(process.cwd());
 			settings.description = res.description;
-			settings.repo = gitRemoteOriginUrl('cwd');
+			settings.repo = gitRemoteOriginUrl(process.cwd());
 			settings.author = getRepoInfo().author;
 			cb();
 		}))
