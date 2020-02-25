@@ -114,8 +114,6 @@ function promptForProjectInfo(cb){
 			changeProjectSettings(res.type, res.address, res.database, res.theme);
 			cb();
 		}))
-		
-		.pipe(gulp.dest('./'))
 }
 
 function changeProjectSettings(projectType, projectAddress, projectDatabase, projectTheme){
