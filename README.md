@@ -28,7 +28,7 @@ The following tasks can be run via CLI or as VSCode build tasks (Command + Shift
 
 ### `gulp setup`
 
-<b>Run this command first.</b> This command will copy appropriate files from [kindling/setup](/setup) to the [kindling/src](/src) and [kindling/dist](/dist) directories. Please note, after running this command, 'Setup' will no longer appear as a build task in VSCode.
+<b>Run this command first.</b> This command will copy appropriate files from [kindling/setup](/setup) to the [kindling/src](/src) and [kindling/dist](/dist) directories. Please note, this task will become disabled after it is executed for the first time. 'Setup' will also no longer appear as a build task in VSCode.
 
 ### `gulp build`*
 
