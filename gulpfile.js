@@ -44,7 +44,6 @@ function promptForPackageInfo(cb){
 			changePackageDescription(res.description);
 			cb();
 		}))
-		
 		.pipe(gulp.dest('./'))
 }
 
@@ -113,8 +112,6 @@ function promptForProjectInfo(cb){
 			}else{
 				settings.type = res.type;
 			}
-
-			
 		}))
 }
 
@@ -164,7 +161,6 @@ function copyTemplateAssetsToSrc(cb){
 			])
 			.pipe(gulp.dest('./src/'));
 	}
-
 	cb();
 }
 
@@ -177,7 +173,6 @@ function copyTemplateFilesToDist(cb){
 			])
 			.pipe(gulp.dest('./dist/'));
 	}
-
 	cb();
 }
 
@@ -187,7 +182,6 @@ function cloneWP(cb){
 			if(err) throw err;
 		});
 	}
-
 	cb();
 }
 
@@ -195,7 +189,6 @@ function modifyNotificationIcon(cb){
 	return gulp
 		.src('./.setup/Terminal.icns')
 		.pipe(gulp.dest('./node_modules/node-notifier/vendor/mac.noindex/terminal-notifier.app/Contents/Resources/'))
-
 	cb();
 }
 
@@ -203,7 +196,6 @@ function updateBuildTasks(cb){
 	return gulp
 		.src('./.setup/tasks.json')
 		.pipe(gulp.dest('./.vscode/'))
-
 	cb();
 }
 
