@@ -107,7 +107,7 @@ function changePackageAuthor(){
 
 const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
-function promptForProjectInfo(cb){
+function promptForProjectType(cb){
 	return gulp.src('./package.json')
 		.pipe(prompt.prompt({
 			type: 'list',
@@ -115,37 +115,48 @@ function promptForProjectInfo(cb){
 			message: 'Please enter the project type...',
 			choices: ['email', 'static', 'wordpress']
 		}, function(res){
-			if(res.type == 'wordpress') {
-				return gulp
-					.pipe(prompt.prompt(
-						[{
-							type: 'input',
-							name: 'address',
-							message: 'Please enter a development URL...'
-						},
-						{
-							type: 'input',
-							name: 'database',
-							message: 'Please enter a database name...'
-						},
-						{
-							type: 'input',
-							name: 'theme',
-							message: 'Please enter a theme name...'
-						}]
-					), function(res){
-						settings.type = res.type;
-						settings.address = res.address;
-						settings.database = res.database;
-						settings.theme = res.theme;
-
-						cb();
-					})
-			}else{
-				settings.type = res.type;
-				
-			}
+			settings.type = res.type;
 		}))
+}
+
+function promptForWordpressInfo(){
+	if(settings.type == 'wordpress'){
+		return gulp
+			.pipe(prompt.prompt([{
+					type: 'input',
+					name: 'address',
+					message: 'Please enter a development URL...'
+				},
+				{
+					type: 'input',
+					name: 'database',
+					message: 'Please enter a database name...'
+				},
+				{
+					type: 'input',
+					name: 'theme',
+					message: 'Please enter a theme name...'
+			}]), function(res){
+				settings.address = res.address;
+				settings.database = res.database;
+				settings.theme = res.theme;
+			})
+	}
+}
+
+function promptForEmailInfo(){
+	if(settings.type == 'wordpress'){
+		return gulp
+			.pipe(prompt.prompt({
+					type: 'input',
+					name: 'address',
+					message: 'Please enter a remote deployment URL...'
+			}), function(res){
+				settings.address = res.address;
+				settings.database = res.database;
+				settings.theme = res.theme;
+			})
+	}
 }
 
 function changeProjectSettings(){
@@ -248,7 +259,9 @@ const setupProject = gulp.series(
 	changePackageDescription,
 	changePackageRepo,
 	changePackageAuthor,
-	promptForProjectInfo,
+	promptForProjectType,
+	promptForWordpressInfo,
+	promptForEmailInfo,
 	changeProjectSettings,
 	copyGulpFileToRoot,
 	copyTemplateAssetsToSrc,
