@@ -118,24 +118,22 @@ function promptForProjectInfo(cb){
 
 function changeProjectSettings(projectType, projectAddress, projectDatabase, projectTheme){
 	return gulp.src('./.setup/settings.json')
-		.pipe(jsonModify([
-			{
+		.pipe(jsonModify({
 				key: 'type',
 				value: projectType
-			},
-			{
+			}))
+		.pipe(jsonModify({
 				key: 'address',
 				value: projectAddress
-			},
-			{
+			}))
+		.pipe(jsonModify({
 				key: 'database',
 				value: projectDatabase
-			},
-			{
+			}))
+		.pipe(jsonModify({
 				key: 'theme',
 				value: projectTheme
-			}]
-		))
+			}))
 		.pipe(gulp.dest('./'))
 		.pipe(function(){
 			settings = require('./settings.json')
