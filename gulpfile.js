@@ -408,7 +408,7 @@ function copyTemplateFilesToDist(cb){
 
 function cloneWP(cb){
 	if(settings.type == 'wordpress'){
-		git.clone('https://github.com/WordPress/WordPress', {args: './dist'}, function(err){
+		git.clone('https://github.com/WordPress/WordPress/releases/latest', {args: './dist'}, function(err){
 			if(err) throw err;
 		});
 	}
