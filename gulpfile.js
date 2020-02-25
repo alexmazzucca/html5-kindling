@@ -458,7 +458,7 @@ function renameWorkspaceFile(newName){
 		.pipe(gulp.dest('./'))
 }
 
-const removeWorkspaceFile = () => del(['./setup']);
+const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
 function updatePackageJSON(newName){
 	return gulp.src('./package.json')
