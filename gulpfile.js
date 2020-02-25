@@ -456,7 +456,6 @@ function renameWorkspace(newName){
 			path.basename = newName;
 		}))
 		.pipe(gulp.dest('./'))
-	cb();
 }
 
 function updatePackageJSON(newName){
