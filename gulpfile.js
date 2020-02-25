@@ -20,9 +20,11 @@ var rename = require("gulp-rename");
 var prompt = require('gulp-prompt');
 var notify = require("gulp-notify");
 var jsonModify = require("gulp-json-modify");
+// var getRepoInfo = require('git-repo-info');
 
 const c = require('ansi-colors');
 const del = require("del");
+const path = require('path');
 
 /*
 * >>========================================>
@@ -42,11 +44,11 @@ function promptForPackageInfo(cb){
 			name: 'description',
 			message: 'Please enter a description of the project...'
 		},
-		{
-			type: 'input',
-			name: 'repo',
-			message: "Please enter the URL for the project's GitHub repository..."
-		},
+		// {
+		// 	type: 'input',
+		// 	name: 'repo',
+		// 	message: "Please enter the URL for the project's GitHub repository..."
+		// },
 		{
 			type: 'input',
 			name: 'author',
@@ -54,7 +56,7 @@ function promptForPackageInfo(cb){
 		}], function(res){
 			settings.name = res.name;
 			settings.description = res.description;
-			settings.repo = res.repo;
+			settings.repo = path.basename(process.cwd());;
 			settings.author = res.author;
 			cb();
 		}))
