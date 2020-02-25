@@ -136,6 +136,8 @@ function promptForProjectInfo(cb){
 					})
 			}else{
 				settings.type = res.type;
+
+				cb();
 			}
 		}))
 }
