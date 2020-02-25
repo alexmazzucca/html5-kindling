@@ -439,11 +439,11 @@ function promptForName(cb){
 	return gulp.src('./package.json')
 		.pipe(prompt.prompt({
 			type: 'input',
-			name: 'commit',
-			message: 'Please enter commit message...'
+			name: 'repo',
+			message: 'Please enter the name of the project...'
 		}, function(res){
-			renameWorkspaceFile(res.commit);
-			updatePackageJSON(res.commit);
+			renameWorkspaceFile(res.repo);
+			renamePackageName(res.repo);
 			cb();
 		}))
 		
@@ -460,11 +460,34 @@ function renameWorkspaceFile(newName){
 
 const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
-function updatePackageJSON(newName){
+function renamePackageName(newName){
 	return gulp.src('./package.json')
 		.pipe(jsonModify({
 			key: 'name',
 			value: newName
+		}))
+		.pipe(gulp.dest('./'))
+}
+
+function promptForDescription(cb){
+	return gulp.src('./package.json')
+		.pipe(prompt.prompt({
+			type: 'input',
+			name: 'description',
+			message: 'Please enter a description of the project...'
+		}, function(res){
+			renamePackageDescription(res.description);
+			cb();
+		}))
+		
+		.pipe(gulp.dest('./'))
+}
+
+function renamePackageDescription(newDescription){
+	return gulp.src('./package.json')
+		.pipe(jsonModify({
+			key: 'name',
+			value: newDescription
 		}))
 		.pipe(gulp.dest('./'))
 }
@@ -479,6 +502,7 @@ const setupProject = gulp.series(
 	setupInit,
 	promptForName,
 	removeWorkspaceFile,
+	promptForDescription,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
