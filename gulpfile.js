@@ -139,7 +139,7 @@ function promptForWordpressInfo(cb){
 					message: 'Please enter a theme name...'
 			}]), function(res){
 				settings.address = res.address;
-				settings.database = res.database;
+				settings.database = 'hard-coded';
 				settings.theme = res.theme;
 				cb();
 			})
