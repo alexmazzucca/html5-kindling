@@ -132,14 +132,16 @@ function promptForProjectInfo(cb){
 						settings.database = res.database;
 						settings.theme = res.theme;
 
-						cb();
+						// cb();
 					})
 			}else{
 				settings.type = res.type;
 
-				cb();
+				// cb();
 			}
 		}))
+
+		cb();
 }
 
 function changeProjectSettings(){
