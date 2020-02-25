@@ -141,7 +141,7 @@ function changeProjectSettings(){
 
 function copyGulpFileToRoot(){
 	return gulp
-		.src('./setup/gulpfile.js')
+		.src('./.setup/gulpfile.js')
 		.pipe(gulp.dest('./'));
 }
 
