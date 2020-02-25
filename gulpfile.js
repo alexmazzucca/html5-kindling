@@ -20,7 +20,7 @@ var rename = require("gulp-rename");
 var prompt = require('gulp-prompt');
 var notify = require("gulp-notify");
 var jsonModify = require("gulp-json-modify");
-// var getRepoInfo = require('git-repo-info');
+var getRepoInfo = require('git-repo-info');
 
 const c = require('ansi-colors');
 const del = require("del");
@@ -54,10 +54,10 @@ function promptForPackageInfo(cb){
 			name: 'author',
 			message: "Please enter the author's name..."
 		}], function(res){
-			settings.name = res.name;
+			settings.name = path.basename(process.cwd());
 			settings.description = res.description;
-			settings.repo = path.basename(process.cwd());;
-			settings.author = res.author;
+			settings.repo = path.basename(process.cwd());
+			settings.author = getRepoInfo().author;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
