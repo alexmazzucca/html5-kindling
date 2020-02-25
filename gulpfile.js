@@ -172,7 +172,7 @@ function changeProjectType(){
 }
 
 function changeProjectAddress(){
-	return gulp.src('./.setup/settings.json')
+	return gulp.src('./settings.json')
 		.pipe(jsonModify({
 				key: 'address',
 				value: settings.address
@@ -181,7 +181,7 @@ function changeProjectAddress(){
 }
 
 function changeProjectDatabase(){
-	return gulp.src('./.setup/settings.json')
+	return gulp.src('./settings.json')
 		.pipe(jsonModify({
 				key: 'database',
 				value: settings.database
@@ -190,7 +190,7 @@ function changeProjectDatabase(){
 }
 
 function changeProjectTheme(){
-	return gulp.src('./.setup/settings.json')
+	return gulp.src('./settings.json')
 		.pipe(jsonModify({
 				key: 'theme',
 				value: settings.theme
