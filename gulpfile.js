@@ -280,7 +280,6 @@ const setupProject = gulp.series(
 	promptForAddressInfo,
 	promptForDatabaseInfo,
 	promptForWordpressTheme,
-	promptForEmailInfo,
 	changeProjectType,
 	changeProjectAddress,
 	changeProjectDatabase,
