@@ -1,18 +1,5 @@
 /*
 * >>========================================>
-* Settings
-* >>========================================>
-*/
-
-// const settings = {
-// 	type: 'static',
-// 	address: '', // Include 'http://' or 'https://' and trailing slash
-// 	database: '',
-// 	theme: ''
-// };
-
-/*
-* >>========================================>
 * Required
 * >>========================================>
 */
@@ -32,9 +19,7 @@ var git = require('gulp-git');
 var prompt = require('gulp-prompt');
 var cache = require('gulp-cache');
 var notify = require("gulp-notify");
-var jsonModify = require("gulp-json-modify");
 
-const c = require('ansi-colors');
 const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
 const del = require("del");
@@ -353,166 +338,6 @@ function liveReload(cb) {
 // 	});
 // 	cb();
 // }
-
-/*
-* >>========================================>
-* Build Project Directories on Setup
-* >>========================================>
-*/
-
-function setupInit(cb){
-	if(settings.type === 'wordpress'){
-		if(settings.theme != '' && settings.database != '' && settings.address != ''){
-			return del("./src/*");
-		}else{
-			console.log(c.bgRed('**ERROR** You must supply theme, database and address to start a WordPress project'));
-			process.exit();
-		}
-	}
-
-	cb();
-}
-
-function copyTemplateFilesToSrc(){
-	return gulp
-		.src([
-			'./setup/templates/' + settings.type +  '/**/*',
-			'!./setup/templates/static/robots.txt',
-			'!./setup/templates/static/.htaccess'
-		])
-		.pipe(gulp.dest('./src/'));
-}
-
-function copyTemplateAssetsToSrc(){
-	if(settings.type == 'static' || settings.type == 'wordpress'){
-		return gulp
-			.src([
-				'./setup/templates/scss*/**/*',
-				'./setup/templates/js*/**/*'
-			])
-			.pipe(gulp.dest('./src/'));
-	}
-}
-
-function copyTemplateFilesToDist(cb){
-	if(settings.type == 'static'){
-		return gulp
-			.src([
-				'./setup/templates/static/.htaccess',
-				'./setup/templates/static/robots.txt'
-			])
-			.pipe(gulp.dest('./dist/'));
-	}
-
-	cb();
-}
-
-function cloneWP(cb){
-	if(settings.type == 'wordpress'){
-		git.clone('https://github.com/WordPress/WordPress/releases/latest', {args: './dist'}, function(err){
-			if(err) throw err;
-		});
-	}
-
-	cb();
-}
-
-function modifyNotificationIcon(cb){
-	return gulp
-		.src('./setup/Terminal.icns')
-		.pipe(gulp.dest('./node_modules/node-notifier/vendor/mac.noindex/terminal-notifier.app/Contents/Resources/'))
-
-	cb();
-}
-
-function updateBuildTasks(cb){
-	return gulp
-		.src('./setup/tasks.json')
-		.pipe(gulp.dest('./.vscode/'))
-
-	cb();
-}
-
-const removeSetupFiles = () => del(['./setup']);
-
-function promptForName(cb){
-	return gulp.src('./package.json')
-		.pipe(prompt.prompt({
-			type: 'input',
-			name: 'repo',
-			message: 'Please enter the name of the project...'
-		}, function(res){
-			renameWorkspaceFile(res.repo);
-			renamePackageName(res.repo);
-			cb();
-		}))
-		
-		.pipe(gulp.dest('./'))
-}
-
-function renameWorkspaceFile(newName){
-	return gulp.src('./kindling.code-workspace')
-		.pipe(rename(function (path) {
-			path.basename = newName;
-		}))
-		.pipe(gulp.dest('./'))
-}
-
-const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
-
-function renamePackageName(newName){
-	return gulp.src('./package.json')
-		.pipe(jsonModify({
-			key: 'name',
-			value: newName
-		}))
-		.pipe(gulp.dest('./'))
-}
-
-function promptForDescription(cb){
-	return gulp.src('./package.json')
-		.pipe(prompt.prompt({
-			type: 'input',
-			name: 'description',
-			message: 'Please enter a description of the project...'
-		}, function(res){
-			renamePackageDescription(res.description);
-			cb();
-		}))
-		
-		.pipe(gulp.dest('./'))
-}
-
-function renamePackageDescription(newDescription){
-	return gulp.src('./package.json')
-		.pipe(jsonModify({
-			key: 'description',
-			value: newDescription
-		}))
-		.pipe(gulp.dest('./'))
-}
-
-/*
-* >>========================================>
-* Setup Tasks
-* >>========================================>
-*/
-
-const setupProject = gulp.series(
-	setupInit,
-	promptForName,
-	removeWorkspaceFile,
-	promptForDescription,
-	copyTemplateAssetsToSrc,
-	copyTemplateFilesToSrc,
-	copyTemplateFilesToDist,
-	cloneWP,
-	modifyNotificationIcon,
-	updateBuildTasks,
-	removeSetupFiles
-);
-
-gulp.task("setup", setupProject);
 
 /*
 * >>========================================>

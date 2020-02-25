@@ -18,6 +18,7 @@ var prompt = require('gulp-prompt');
 var notify = require("gulp-notify");
 var jsonModify = require("gulp-json-modify");
 
+const c = require('ansi-colors');
 const del = require("del");
 
 /*
@@ -138,6 +139,12 @@ function changeProjectSettings(){
 		.pipe(gulp.dest('./'))
 }
 
+function copyGulpFileToRoot(){
+	return gulp
+		.src('./setup/gulpfile.js')
+		.pipe(gulp.dest('./'));
+}
+
 function copyTemplateFilesToSrc(){
 	return gulp
 		.src([
@@ -213,6 +220,7 @@ const setupProject = gulp.series(
 	removeWorkspaceFile,
 	promptForProjectInfo,
 	changeProjectSettings,
+	copyGulpFileToRoot,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
