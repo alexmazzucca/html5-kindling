@@ -1,4 +1,7 @@
 var settings = {
+	name: '',
+	description: '',
+	repo: '',
 	type: '',
 	address: '',
 	database: '',
@@ -49,10 +52,14 @@ function promptForPackageInfo(cb){
 			name: 'author',
 			message: "Please enter the author's name..."
 		}], function(res){
-			renameWorkspaceFile(res.name);
-			changePackageName(res.name);
-			changePackageDescription(res.description);
-			changePackageRepo(res.repo);
+			settings.name = res.name;
+			settings.repo = res.repo;
+			settings.description = res.description;
+			
+			// renameWorkspaceFile(res.name);
+			// changePackageName(res.name);
+			// changePackageDescription(res.description);
+			// changePackageRepo(res.repo);
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
@@ -66,29 +73,29 @@ function renameWorkspaceFile(packageName){
 		.pipe(gulp.dest('./'))
 }
 
-function changePackageName(packageName){
+function changePackageName(){
 	return gulp.src('./package.json')
 		.pipe(jsonModify({
 			key: 'name',
-			value: packageName
+			value: settings.name
 		}))
 		.pipe(gulp.dest('./'))
 }
 
-function changePackageDescription(projectDescription){
+function changePackageDescription(){
 	return gulp.src('./package.json')
 		.pipe(jsonModify({
 			key: 'description',
-			value: projectDescription
+			value: settings.description
 		}))
 		.pipe(gulp.dest('./'))
 }
 
-function changePackageRepo(packageRepo){
+function changePackageRepo(){
 	return gulp.src('./package.json')
 		.pipe(jsonModify({
 			key: 'repository.url',
-			value: packageRepo
+			value: settings.repo
 		}
 		))
 		.pipe(gulp.dest('./'))
@@ -229,9 +236,15 @@ const removeSetupFiles = () => del(['./.setup']);
 * >>========================================>
 */
 
+
+
 const setupProject = gulp.series(
 	promptForPackageInfo,
+	renameWorkspaceFile,
 	removeWorkspaceFile,
+	changePackageName,
+	changePackageDescription,
+	changePackageRepo,
 	promptForProjectInfo,
 	changeProjectSettings,
 	copyGulpFileToRoot,
