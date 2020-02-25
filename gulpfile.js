@@ -57,12 +57,18 @@ function promptForProjectInfo(cb){
 			type: 'input',
 			name: 'database',
 			message: 'Please enter a database name...'
-		}
+		},
+		{
+			type: 'input',
+			name: 'theme',
+			message: 'Please enter a theme name...'
+		},
 		], function(res){
 			settings.description = res.description;
 			settings.type = res.type;
 			settings.database = res.database;
 			settings.address = res.address;
+			settings.theme = res.theme;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
@@ -154,22 +160,6 @@ function changeProjectDatabase(cb){
 		.pipe(gulp.dest('./'));
 
 	cb();
-}
-
-function promptForWordpressTheme(cb){
-	if(settings.type == 'wordpress'){
-		return gulp.src('./package.json')
-			.pipe(prompt.prompt([{
-				type: 'input',
-				name: 'theme',
-				message: 'Please enter a theme name...'
-			}], function(res){
-				settings.theme = res.theme;
-				cb();
-			}));
-	}else{
-		cb();
-	}
 }
 
 function changeProjectTheme(cb){
