@@ -142,15 +142,17 @@ function promptForAddressInfo(cb){
 }
 
 function promptForDatabaseInfo(cb){
-	return gulp.src('./package.json')
-		.pipe(prompt.prompt({
-			type: 'input',
-			name: 'database',
-			message: 'Please enter a database name...'
-		}), function(res){
-			settings.address = res.address;
-			cb();
-		})
+	if(settings.type == 'wordpress'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt({
+				type: 'input',
+				name: 'database',
+				message: 'Please enter a database name...'
+			}), function(res){
+				settings.address = res.database;
+				cb();
+			})
+		}
 }
 
 function changeProjectType(cb){
