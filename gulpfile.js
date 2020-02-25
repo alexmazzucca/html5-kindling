@@ -240,8 +240,6 @@ const removeSetupFiles = () => del(['./.setup']);
 * >>========================================>
 */
 
-
-
 const setupProject = gulp.series(
 	promptForPackageInfo,
 	renameWorkspaceFile,
