@@ -61,10 +61,10 @@ function promptForPackageInfo(cb){
 		.pipe(gulp.dest('./'))
 }
 
-function renameWorkspaceFile(packageName){
+function renameWorkspaceFile(){
 	return gulp.src('./kindling.code-workspace')
 		.pipe(rename(function (path) {
-			path.basename = packageName;
+			path.basename = res.name;
 		}))
 		.pipe(gulp.dest('./'))
 }
