@@ -111,12 +111,18 @@ function promptForProjectInfo(cb){
 			name: 'theme',
 			message: 'Please enter a theme name...'
 		}], function(res){
-			changeProjectSettings(res.type, res.address, res.database, res.theme);
+			// changeProjectSettings(res.type, res.address, res.database, res.theme);
+
+			let projectType = res.type;
+			let projectAddress = res.address;
+			let projectDatabase = res.database;
+			let projectTheme = res.theme;
+
 			cb();
 		}))
 }
 
-function changeProjectSettings(projectType, projectAddress, projectDatabase, projectTheme){
+function changeProjectSettings(){
 	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
 				key: 'type',
@@ -135,9 +141,9 @@ function changeProjectSettings(projectType, projectAddress, projectDatabase, pro
 				value: projectTheme
 			}))
 		.pipe(gulp.dest('./'))
-		.pipe(function(){
-			settings = require('./settings.json')
-		})
+		// .pipe(function(){
+		// 	settings = require('./settings.json')
+		// })
 
 	// settings.type = projectType;
 	// settings.address = projectAddress;
@@ -146,6 +152,8 @@ function changeProjectSettings(projectType, projectAddress, projectDatabase, pro
 }
 
 function copyTemplateFilesToSrc(){
+	settings = require('./settings.json')
+
 	return gulp
 		.src([
 			'./.setup/templates/' + settings.type +  '/**/*',
@@ -155,7 +163,7 @@ function copyTemplateFilesToSrc(){
 		.pipe(gulp.dest('./src/'));
 }
 
-function copyTemplateAssetsToSrc(){
+function copyTemplateAssetsToSrc(cb){
 	if(settings.type == 'static' || settings.type == 'wordpress'){
 		return gulp
 			.src([
@@ -164,6 +172,8 @@ function copyTemplateAssetsToSrc(){
 			])
 			.pipe(gulp.dest('./src/'));
 	}
+
+	cb();
 }
 
 function copyTemplateFilesToDist(cb){
@@ -218,6 +228,7 @@ const setupProject = gulp.series(
 	promptForPackageInfo,
 	removeWorkspaceFile,
 	promptForProjectInfo,
+	changeProjectSettings,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
