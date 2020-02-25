@@ -118,7 +118,7 @@ function promptForProjectInfo(cb){
 
 function changeProjectSettings(projectType, projectAddress, projectDatabase, projectTheme){
 	return gulp.src('./.setup/settings.json')
-		.pipe(jsonModify(
+		.pipe(jsonModify([
 			{
 				key: 'type',
 				value: projectType
@@ -134,7 +134,7 @@ function changeProjectSettings(projectType, projectAddress, projectDatabase, pro
 			{
 				key: 'theme',
 				value: projectTheme
-			}
+			}]
 		))
 		.pipe(gulp.dest('./'))
 		.pipe(function(){
