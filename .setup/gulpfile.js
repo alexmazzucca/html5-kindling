@@ -4,6 +4,8 @@
 * >>========================================>
 */
 
+var settings = require('./settings.json')
+
 var gulp = require("gulp");
 var browserSync = require("browser-sync").create();
 var uglify = require("gulp-uglify");
