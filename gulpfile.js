@@ -137,12 +137,12 @@ function promptForWordpressInfo(cb){
 					type: 'input',
 					name: 'theme',
 					message: 'Please enter a theme name...'
-			}]), function(res){
+			}], function(res){
 				settings.address = res.address;
-				settings.database = 'hard-coded';
+				settings.database = res.database;
 				settings.theme = res.theme;
 				cb();
-			})
+			}));
 	}
 }
 
