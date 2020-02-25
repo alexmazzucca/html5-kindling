@@ -32,6 +32,7 @@ var git = require('gulp-git');
 var prompt = require('gulp-prompt');
 var cache = require('gulp-cache');
 var notify = require("gulp-notify");
+var jsonModify = require("gulp-json-modify");
 
 const c = require('ansi-colors');
 const mysqldump = require('mysqldump')
@@ -434,6 +435,23 @@ function updateBuildTasks(cb){
 
 const removeSetupFiles = () => del(['./setup']);
 
+function updatePackageSettings(){
+	return gulp.src('./package.json')
+		.pipe(prompt.prompt({
+			type: 'input',
+			name: 'commit',
+			message: 'Please enter commit message...'
+		}, function(res){
+			return gulp
+				.pipe(jsonModify({
+					key: 'name',
+					value: res.message
+				}))
+		}))
+		
+		.pipe(gulp.dest('./'))
+}
+
 /*
 * >>========================================>
 * Setup Tasks
@@ -441,6 +459,7 @@ const removeSetupFiles = () => del(['./setup']);
 */
 
 const setupProject = gulp.series(
+	updatePackageSettings,
 	setupInit,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,

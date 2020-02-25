@@ -25,6 +25,7 @@
 		"gulp-htmlmin": "^5.0.1",
 		"gulp-imagemin": "^5.0.3",
 		"gulp-inline-css": "^3.4.0",
+		"gulp-json-modify": "^1.0.2",
 		"gulp-notify": "^3.2.0",
 		"gulp-pretty-html": "^2.0.10",
 		"gulp-prompt": "^1.2.0",
