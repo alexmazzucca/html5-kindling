@@ -42,4 +42,4 @@ Run this command to build the project and start the server with associated `gulp
 
 Run this command to export a copy of the project's database to [kindling/](/).
 
-*Please note, you must run the 'Setup' build task in VSCode to see this task as an available option.
+*You must run the 'Setup' build task in VSCode to see this task as an available build option.
