@@ -112,7 +112,7 @@ function promptForProjectInfo(cb){
 		},
 		{
 			type: 'input',
-			name: 'type',
+			name: 'address',
 			message: 'Please enter the project address...'
 		}], function(res){
 			settings.type = res.type;
