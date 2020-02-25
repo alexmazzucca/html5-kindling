@@ -33,7 +33,7 @@ const path = require('path');
 * >>========================================>
 */
 
-function promptForPackageInfo(cb){
+function promptForPackageDescription(cb){
 	return gulp.src('./package.json')
 		.pipe(prompt.prompt([{
 			type: 'input',
@@ -271,7 +271,7 @@ const removeSetupFiles = () => del(['./.setup']);
 */
 
 const setupProject = gulp.series(
-	promptForPackageInfo,
+	promptForPackageDescription,
 	renameWorkspaceFile,
 	removeWorkspaceFile,
 	changePackageName,
