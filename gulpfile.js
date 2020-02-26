@@ -76,6 +76,8 @@ function promptForSiteDetails(cb){
 				cb();
 			}))
 			.pipe(gulp.dest('./'))
+	}else{
+		cb();
 	}
 }
 
@@ -230,7 +232,7 @@ const removeSetupFiles = () => del(['./.setup']);
 
 function setupComplete(cb) {
 	return gulp
-		.src('./')
+		.src('./*')
 		.pipe(notify({
 			title: 'Kindling',
 			message: settings.name + 'successfully configured',
