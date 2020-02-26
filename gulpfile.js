@@ -21,12 +21,8 @@ var prompt = require('gulp-prompt');
 var notify = require("gulp-notify");
 var jsonModify = require("gulp-json-modify");
 var getRepoInfo = require('git-repo-info');
-var request = require('request');
-var source = require('vinyl-source-stream');
-var gunzip = require('gulp-gunzip');
-
 const gitRemoteOriginUrl = require('git-remote-origin-url');
-const decompress = require('gulp-decompress');
+
 const c = require('ansi-colors');
 const del = require("del");
 const path = require('path');
@@ -207,30 +203,16 @@ function copyTemplateFilesToDist(cb){
 	cb();
 }
 
-// function cloneWP(cb){
-// 	if(settings.type == 'wordpress'){
-// 		git.clone('https://github.com/WordPress/WordPress/', {args: './dist'}, function(err){
-// 			if(err) throw err;
-// 		});
-// 		cb();
-// 	}else{
-// 		cb();
-// 	}
-// }
-
-// function downloadWordpress(){
-
-// }
-
-function extractWordpress(cb){
-	return request('https://wordpress.org/latest.zip')
-		.pipe(source('latest.zip'))
-		.pipe(gunzip())
-		.pipe(gulp.dest('./dist'))
-	
-	cb();
+function cloneWP(cb){
+	if(settings.type == 'wordpress'){
+		git.clone('https://github.com/WordPress/WordPress/', {args: './dist'}, function(err){
+			if(err) throw err;
+		});
+		cb();
+	}else{
+		cb();
+	}
 }
-
 
 function modifyNotificationIcon(cb){
 	return gulp
@@ -281,9 +263,7 @@ const setupProject = gulp.series(
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
-	// downloadWordpress,
-	extractWordpress,
-	// cloneWP,
+	cloneWP,
 	modifyNotificationIcon,
 	updateBuildTasks,
 	removeSetupFiles,
