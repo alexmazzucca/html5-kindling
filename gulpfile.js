@@ -34,7 +34,7 @@ var log = require('fancy-log');
 * >>========================================>
 */
 
-function initialPromptForProjectInfo(cb){
+function initialPromptForProjectInfo(){
 	return gulp.src('./package.json')
 		.pipe(prompt.prompt([
 		{
@@ -56,7 +56,7 @@ function initialPromptForProjectInfo(cb){
 		.pipe(gulp.dest('./'))
 }
 
-function secondPromptForProjectInfo(cb){
+function secondPromptForProjectInfo(){
 	if(settings.type == 'wordpress' || settings.type == 'static'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
@@ -93,6 +93,8 @@ function thirdPromptForProjectInfo(cb){
 				cb();
 			}))
 			.pipe(gulp.dest('./'))
+	}else{
+		cb();
 	}
 }
 
