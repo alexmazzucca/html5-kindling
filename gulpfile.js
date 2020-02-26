@@ -232,7 +232,6 @@ const setupProject = gulp.series(
 	changeProjectType,
 	changeProjectAddress,
 	changeProjectDatabase,
-	promptForWordpressTheme,
 	changeProjectTheme,
 	copyGulpFileToRoot,
 	copyTemplateAssetsToSrc,
