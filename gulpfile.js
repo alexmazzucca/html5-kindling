@@ -220,12 +220,14 @@ function copyTemplateFilesToDist(cb){
 
 // }
 
-function extractWordpress(){
+function extractWordpress(cb){
 	return gulp
 		.src('./')
 		.pipe(download('https://wordpress.org/latest.zip}'))
 		.pipe(decompress({strip: 1}))
 		.pipe(gulp.dest('./dist'))
+	
+	cb();
 }
 
 function modifyNotificationIcon(cb){
