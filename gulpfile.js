@@ -227,7 +227,6 @@ function extractWordpress(cb){
 		.pipe(source('latest.zip'))
 		.pipe(gunzip())
 		.pipe(gulp.dest('./dist'))
-	  })
 	
 	cb();
 }
