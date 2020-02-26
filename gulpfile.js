@@ -203,15 +203,26 @@ function copyTemplateFilesToDist(cb){
 	cb();
 }
 
-function cloneWP(cb){
-	if(settings.type == 'wordpress'){
-		git.clone('https://github.com/WordPress/WordPress/', {args: './dist'}, function(err){
-			if(err) throw err;
-		});
-		cb();
-	}else{
-		cb();
-	}
+// function cloneWP(cb){
+// 	if(settings.type == 'wordpress'){
+// 		git.clone('https://github.com/WordPress/WordPress/', {args: './dist'}, function(err){
+// 			if(err) throw err;
+// 		});
+// 		cb();
+// 	}else{
+// 		cb();
+// 	}
+// }
+
+// function downloadWordpress(){
+
+// }
+
+function extractWordpress(){
+	return gulp
+		.src('https://wordpress.org/latest.zip}')
+		.pipe(decompress({strip: 1}))
+		.pipe(gulp.dest('./dist'))
 }
 
 function modifyNotificationIcon(cb){
@@ -263,7 +274,9 @@ const setupProject = gulp.series(
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
-	cloneWP,
+	// downloadWordpress,
+	extractWordpress,
+	// cloneWP,
 	modifyNotificationIcon,
 	updateBuildTasks,
 	removeSetupFiles,
