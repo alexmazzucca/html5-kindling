@@ -47,31 +47,31 @@ function initialPromptForProjectInfo(cb){
 			type: 'input',
 			name: 'description',
 			message: 'Project description:'
+		},
+		{
+			type: 'input',
+			name: 'address',
+			message: 'Development URL:'
 		}
 		], function(res){
 			settings.type = res.type;
 			settings.description = res.description;
+			settings.address = res.address;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
 }
 
-function secondPromptForProjectInfo(cb){
+function promptForSiteDetails(cb){
 	if(settings.type == 'wordpress' || settings.type == 'static'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
-			{
-				type: 'input',
-				name: 'address',
-				message: 'Development URL (optional):'
-			},
 			{
 				type: 'input',
 				name: 'database',
 				message: 'Database name (optional):'
 			}
 			], function(res){
-				settings.address = res.address;
 				settings.database = res.database;
 				cb();
 			}))
@@ -79,14 +79,14 @@ function secondPromptForProjectInfo(cb){
 	}
 }
 
-function thirdPromptForProjectInfo(cb){
+function promptForWordpressDetails(cb){
 	if(settings.type == 'wordpress'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
 			{
 				type: 'input',
 				name: 'theme',
-				message: 'Wordpress theme name (optional):'
+				message: 'Wordpress theme name:'
 			}
 			], function(res){
 				settings.theme = res.theme;
@@ -228,6 +228,20 @@ function updateBuildTasks(cb){
 
 const removeSetupFiles = () => del(['./.setup']);
 
+function setupComplete(cb) {
+	return gulp
+		.src('./')
+		.pipe(notify({
+			title: 'Kindling',
+			message: settings.name + 'successfully configured',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(gulp.dest('./'));
+
+	cb();
+}
+
 /*
 * >>========================================>
 * Setup Task Series
@@ -236,8 +250,8 @@ const removeSetupFiles = () => del(['./.setup']);
 
 const setupProject = gulp.series(
 	initialPromptForProjectInfo,
-	secondPromptForProjectInfo,
-	thirdPromptForProjectInfo,
+	promptForSiteDetails,
+	promptForWordpressDetails,
 	updateAdditionalProjectInfo,
 	renameWorkspaceFile,
 	removeWorkspaceFile,
@@ -250,7 +264,8 @@ const setupProject = gulp.series(
 	cloneWP,
 	modifyNotificationIcon,
 	updateBuildTasks,
-	removeSetupFiles
+	removeSetupFiles,
+	setupComplete
 );
 
 gulp.task("setup", setupProject);
