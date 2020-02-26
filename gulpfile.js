@@ -21,7 +21,9 @@ var prompt = require('gulp-prompt');
 var notify = require("gulp-notify");
 var jsonModify = require("gulp-json-modify");
 var getRepoInfo = require('git-repo-info');
-var download = require("gulp-download");
+var request = require('request');
+var source = require('vinyl-source-stream');
+var gunzip = require('gulp-gunzip');
 
 const gitRemoteOriginUrl = require('git-remote-origin-url');
 const decompress = require('gulp-decompress');
@@ -221,13 +223,15 @@ function copyTemplateFilesToDist(cb){
 // }
 
 function extractWordpress(cb){
-	return gulp
-		.get('https://wordpress.org/latest.zip')
-		.pipe(decompress({strip: 1}))
+	return request('https://wordpress.org/latest.zip')
+		.pipe(source('latest.zip'))
+		.pipe(gunzip())
 		.pipe(gulp.dest('./dist'))
+	  })
 	
 	cb();
 }
+
 
 function modifyNotificationIcon(cb){
 	return gulp
