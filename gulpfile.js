@@ -34,7 +34,7 @@ var log = require('fancy-log');
 * >>========================================>
 */
 
-function promptForProjectInfo(cb){
+function initialPromptForProjectInfo(cb){
 	return gulp.src('./package.json')
 		.pipe(prompt.prompt([
 		{
@@ -47,31 +47,53 @@ function promptForProjectInfo(cb){
 			type: 'input',
 			name: 'description',
 			message: 'Project description:'
-		},
-		{
-			type: 'input',
-			name: 'address',
-			message: 'Development URL (optional):'
-		},
-		{
-			type: 'input',
-			name: 'database',
-			message: 'Database name (optional):'
-		},
-		{
-			type: 'input',
-			name: 'theme',
-			message: 'Wordpress theme name (optional):'
-		},
+		}
 		], function(res){
-			settings.description = res.description;
 			settings.type = res.type;
-			settings.database = res.database;
-			settings.address = res.address;
-			settings.theme = res.theme;
+			settings.description = res.description;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
+}
+
+function secondPromptForProjectInfo(cb){
+	if(settings.type == 'wordpress' || settings.type == 'static'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+			{
+				type: 'input',
+				name: 'address',
+				message: 'Development URL (optional):'
+			},
+			{
+				type: 'input',
+				name: 'database',
+				message: 'Database name (optional):'
+			}
+			], function(res){
+				settings.address = res.address;
+				settings.database = res.database;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
+	}
+}
+
+function thirdPromptForProjectInfo(cb){
+	if(settings.type == 'wordpress'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+			{
+				type: 'input',
+				name: 'theme',
+				message: 'Wordpress theme name (optional):'
+			}
+			], function(res){
+				settings.theme = res.theme;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
+	}
 }
 
 function updateAdditionalProjectInfo(cb){
@@ -209,7 +231,9 @@ const removeSetupFiles = () => del(['./.setup']);
 */
 
 const setupProject = gulp.series(
-	promptForProjectInfo,
+	initialPromptForProjectInfo,
+	secondPromptForProjectInfo,
+	thirdPromptForProjectInfo,
 	updateAdditionalProjectInfo,
 	renameWorkspaceFile,
 	removeWorkspaceFile,
