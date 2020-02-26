@@ -21,6 +21,7 @@ var prompt = require('gulp-prompt');
 var notify = require("gulp-notify");
 var jsonModify = require("gulp-json-modify");
 var getRepoInfo = require('git-repo-info');
+var download = require("gulp-download");
 
 const gitRemoteOriginUrl = require('git-remote-origin-url');
 const decompress = require('gulp-decompress');
@@ -221,7 +222,7 @@ function copyTemplateFilesToDist(cb){
 
 function extractWordpress(){
 	return gulp
-		.src('https://wordpress.org/latest.zip}')
+		.download('https://wordpress.org/latest.zip}')
 		.pipe(decompress({strip: 1}))
 		.pipe(gulp.dest('./dist'))
 }
