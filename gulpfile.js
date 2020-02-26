@@ -232,10 +232,10 @@ const removeSetupFiles = () => del(['./.setup']);
 
 function setupComplete(cb) {
 	return gulp
-		.src('./*')
+		.src('./package.json')
 		.pipe(notify({
 			title: 'Kindling',
-			message: settings.name + 'successfully configured',
+			message: settings.name + ' successfully configured',
 			icon: 'undefined',
 			contentImage: 'undefined'
 		}))
