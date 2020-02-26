@@ -74,7 +74,7 @@ function promptForProjectInfo(cb){
 		.pipe(gulp.dest('./'))
 }
 
-function getAdditionalProjectInfo(cb){
+function updateAdditionalProjectInfo(cb){
 	settings.author = getRepoInfo().author;
 	settings.name = path.basename(process.cwd());
 	(async() => {
@@ -91,36 +91,15 @@ function renameWorkspaceFile(){
 		.pipe(gulp.dest('./'))
 }
 
-function changePackageName(){
+function updatePackageInfo(){
 	return gulp.src('./package.json')
 		.pipe(jsonModify({
 			key: 'name',
-			value: settings.name
-		}))
-		.pipe(gulp.dest('./'))
-}
-
-function changePackageDescription(){
-	return gulp.src('./package.json')
-		.pipe(jsonModify({
+			value: settings.name,
 			key: 'description',
-			value: settings.description
-		}))
-		.pipe(gulp.dest('./'))
-}
-
-function changePackageRepo(){
-	return gulp.src('./package.json')
-		.pipe(jsonModify({
+			value: settings.description,
 			key: 'repository.url',
-			value: settings.repo
-		}))
-		.pipe(gulp.dest('./'))
-}
-
-function changePackageAuthor(){
-	return gulp.src('./package.json')
-		.pipe(jsonModify({
+			value: settings.repo,
 			key: 'author',
 			value: settings.author
 		}))
@@ -246,13 +225,10 @@ const removeSetupFiles = () => del(['./.setup']);
 
 const setupProject = gulp.series(
 	promptForProjectInfo,
-	getAdditionalProjectInfo,
+	updateAdditionalProjectInfo,
 	renameWorkspaceFile,
 	removeWorkspaceFile,
-	changePackageName,
-	changePackageDescription,
-	changePackageRepo,
-	changePackageAuthor,
+	updatePackageInfo,
 	changeProjectType,
 	changeProjectAddress,
 	changeProjectDatabase,
