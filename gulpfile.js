@@ -40,28 +40,28 @@ function promptForProjectInfo(cb){
 		{
 			type: 'list',
 			name: 'type',
-			message: 'Please enter the project type...',
+			message: 'Project type:',
 			choices: ['email', 'static', 'wordpress'],
 		},
 		{
 			type: 'input',
 			name: 'description',
-			message: 'Please enter a description of the project...'
+			message: 'Project description:'
 		},
 		{
 			type: 'input',
 			name: 'address',
-			message: 'Please enter the project address...'
+			message: 'Development URL (optional):'
 		},
 		{
 			type: 'input',
 			name: 'database',
-			message: 'Please enter a database name...'
+			message: 'Database name (optional):'
 		},
 		{
 			type: 'input',
 			name: 'theme',
-			message: 'Please enter a theme name...'
+			message: 'Wordpress theme name (optional):'
 		},
 		], function(res){
 			settings.description = res.description;
@@ -114,47 +114,26 @@ function updatePackageInfo(){
 
 const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
 
-function changeProjectType(cb){
+function updateProjectSettings(cb){
 	return gulp.src('./.setup/settings.json')
 		.pipe(jsonModify({
-				key: 'type',
-				value: settings.type
-			}))
+			key: 'type',
+			value: settings.type
+		}))
+		.pipe(jsonModify({
+			key: 'address',
+			value: settings.address
+		}))
+		.pipe(jsonModify({
+			key: 'database',
+			value: settings.database
+		}))
+		.pipe(jsonModify({
+			key: 'theme',
+			value: settings.theme
+		}))
 		.pipe(gulp.dest('./'));
 	
-	cb();
-}
-
-function changeProjectAddress(cb){
-	return gulp.src('./settings.json')
-		.pipe(jsonModify({
-				key: 'address',
-				value: settings.address
-			}))
-		.pipe(gulp.dest('./'));
-
-	cb();
-}
-
-function changeProjectDatabase(cb){
-	return gulp.src('./settings.json')
-		.pipe(jsonModify({
-				key: 'database',
-				value: settings.database
-			}))
-		.pipe(gulp.dest('./'));
-
-	cb();
-}
-
-function changeProjectTheme(cb){
-	return gulp.src('./settings.json')
-		.pipe(jsonModify({
-				key: 'theme',
-				value: settings.theme
-			}))
-		.pipe(gulp.dest('./'))
-
 	cb();
 }
 
@@ -225,7 +204,7 @@ const removeSetupFiles = () => del(['./.setup']);
 
 /*
 * >>========================================>
-* Setup Tasks
+* Setup Task Series
 * >>========================================>
 */
 
@@ -235,10 +214,7 @@ const setupProject = gulp.series(
 	renameWorkspaceFile,
 	removeWorkspaceFile,
 	updatePackageInfo,
-	changeProjectType,
-	changeProjectAddress,
-	changeProjectDatabase,
-	changeProjectTheme,
+	updateProjectSettings,
 	copyGulpFileToRoot,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
