@@ -222,6 +222,7 @@ function copyTemplateFilesToDist(cb){
 
 function extractWordpress(){
 	return gulp
+		.src('./')
 		.pipe(download('https://wordpress.org/latest.zip}'))
 		.pipe(decompress({strip: 1}))
 		.pipe(gulp.dest('./dist'))
