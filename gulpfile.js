@@ -95,11 +95,17 @@ function updatePackageInfo(){
 	return gulp.src('./package.json')
 		.pipe(jsonModify({
 			key: 'name',
-			value: settings.name,
+			value: settings.name
+		}))
+		.pipe(jsonModify({
 			key: 'description',
-			value: settings.description,
+			value: settings.description
+		}))
+		.pipe(jsonModify({
 			key: 'repository.url',
-			value: settings.repo,
+			value: settings.repo
+		}))
+		.pipe(jsonModify({
 			key: 'author',
 			value: settings.author
 		}))
