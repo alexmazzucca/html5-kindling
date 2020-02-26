@@ -201,13 +201,12 @@ function copyTemplateFilesToDist(cb){
 	cb();
 }
 
-function cloneWP(cb){
+function cloneWP(){
 	if(settings.type == 'wordpress'){
 		git.clone('https://github.com/WordPress/WordPress/', {args: './dist'}, function(err){
 			if(err) throw err;
 		});
 	}
-	cb();
 }
 
 function modifyNotificationIcon(cb){
