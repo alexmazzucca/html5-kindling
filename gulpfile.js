@@ -21,8 +21,9 @@ var prompt = require('gulp-prompt');
 var notify = require("gulp-notify");
 var jsonModify = require("gulp-json-modify");
 var getRepoInfo = require('git-repo-info');
-const gitRemoteOriginUrl = require('git-remote-origin-url');
 
+const gitRemoteOriginUrl = require('git-remote-origin-url');
+const decompress = require('gulp-decompress');
 const c = require('ansi-colors');
 const del = require("del");
 const path = require('path');
