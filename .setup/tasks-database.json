@@ -6,7 +6,7 @@
 		{
 			"label": "Develop",
 			"type": "gulp",
-			"task": "serve",
+			"task": "develop",
 			"group": "build",
 			"problemMatcher": []
 		},
