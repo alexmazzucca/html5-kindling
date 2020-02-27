@@ -190,7 +190,7 @@ function compileCSS(cb) {
 			.on("error", function(err) {
 				notify({
 					title: 'Kindling',
-					message:  "Error: <%= error.message="" %="">",
+					message:  "Error: <%= error.message %>",
 					icon: 'undefined',
 					contentImage: 'undefined',
 					sound: "Beep"
@@ -217,7 +217,7 @@ function compileCSS(cb) {
 			.on("error", function(err) {
 				notify({
 					title: 'Kindling',
-					message:  "Error: <%= error.message="" %="">",
+					message:  "Error: <%= error.message %>",
 					icon: 'undefined',
 					contentImage: 'undefined',
 					sound: "Beep"
