@@ -32,7 +32,16 @@ This task will appear as "Build" in the VSCode build task menu. Once executed, t
 
 ### `gulp develop`
 
-This task will appear as "Develop" in the VSCode build task menu. Once executed, this command will start a local development server. It will concatenate and compile JS files, but it will not compress them, allowing for faster load times and readility. Gulp will watch for changes in 'main.js' and 'main.scss' and reload the local server when these files are updated.
+This task will appear as "Develop" in the VSCode build task menu. Once executed, this command will start a local development server. It will concatenate and compile JS files, but it will not compress them, allowing for faster load times and readility.
+
+Gulp will watch for changes in the following files and directories and process them accordingly. After the changes have been recognized, your browser will be automatically refreshed:
+
+1. "./src/js/vendor/*.js"
+2. "./src/js/main.js"
+3. "./src/scss/*.scss"
+4. "./src/**/*.html",
+5. "./src/**/*.php"
+6. "./src/img/*"
 
 ### `gulp database`
 
