@@ -190,11 +190,9 @@ function compileCSS(cb) {
 			.on("error", function(err) {
 				notify({
 					title: 'Kindling',
-					message:  "Error: <%= error.message %>",
 					icon: 'undefined',
-					contentImage: 'undefined',
-					sound: "Beep"
-				});
+					contentImage: 'undefined'
+				}).write(err);
 				this.emit('end');
 			})
 			.pipe(notify({
@@ -217,11 +215,9 @@ function compileCSS(cb) {
 			.on("error", function(err) {
 				notify({
 					title: 'Kindling',
-					message:  "Error: <%= error.message %>",
 					icon: 'undefined',
-					contentImage: 'undefined',
-					sound: "Beep"
-				});
+					contentImage: 'undefined'
+				}).write(err);
 				this.emit('end');
 			})
 			.pipe(autoprefixer())
