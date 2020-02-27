@@ -239,15 +239,12 @@ function updateBuildTasks(cb){
 const removeSetupFiles = () => del(['./.setup']);
 
 function setupComplete(){
-	return gulp
-		.src('./package.json')
-		.pipe(notify({
-			title: 'Kindling',
-			message: 'Project successfully configured',
-			icon: 'undefined',
-			contentImage: 'undefined'
-		}))
-		.pipe(gulp.dest('./'))
+	notifier.notify({
+		ttitle: 'Kindling',
+		message: 'Project successfully configured',
+		icon: 'undefined',
+		contentImage: 'undefined'
+	});
 }
 
 /*
