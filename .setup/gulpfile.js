@@ -105,6 +105,14 @@ function compressScripts(cb) {
 	if(settings.type != 'email') {
 		return gulp
 			.src(paths.scripts.src)
+			.on("error", function(err) {
+				notify({
+					title: 'Kindling',
+					icon: 'undefined',
+					contentImage: 'undefined'
+				}).write(err);
+				this.emit('end');
+			})
 			.pipe(concat("main.js"))
 			.pipe(uglify())
 			.pipe(notify({
@@ -123,6 +131,14 @@ function combineScripts(cb) {
 	if(settings.type != 'email') {
 		return gulp
 			.src(paths.scripts.src)
+			.on("error", function(err) {
+				notify({
+					title: 'Kindling',
+					icon: 'undefined',
+					contentImage: 'undefined'
+				}).write(err);
+				this.emit('end');
+			})
 			.pipe(concat("main.js"))
 			.pipe(notify({
 				title: 'Kindling',
