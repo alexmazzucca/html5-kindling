@@ -182,8 +182,14 @@ function compileCSS(cb) {
 	if(settings.type == 'email') {
 		return gulp
 			.src('./src/scss/email.scss')
-			.pipe(sass())
-			.on("error", sass.logError)
+			.pipe(
+				sass({
+					errLogToConsole: false,
+					onError: function(err) {
+						return notify().write(err);
+					}
+				})
+			)
 			.pipe(notify({
 				title: 'Kindling',
 				message: 'SASS successfully compiled',
@@ -198,7 +204,10 @@ function compileCSS(cb) {
 			.pipe(sourcemaps.init())
 			.pipe(
 				sass({
-					outputStyle: "compressed"
+					outputStyle: "compressed",
+					onError: function(err) {
+						return notify().write(err);
+					}
 				})
 			)
 			.on("error", sass.logError)
