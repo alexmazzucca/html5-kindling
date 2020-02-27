@@ -395,11 +395,11 @@ gulp.task("build", buildTasks);
 */
 
 const developmentTasks = gulp.series(
-	startServer,
 	combineScripts,
 	compileCSS,
 	compressDOM,
 	compressImages,
+	startServer,
 	watchForChanges
 );
 
