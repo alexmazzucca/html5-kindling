@@ -24,16 +24,16 @@ During the setup process, you can specify an absolute path for images by specify
   
 ## Build Tasks
 
-Once the setup process is complete, the following tasks will be enabled. These tasks can be run via CLI or via the VSCode build tasks menu.
+Once the setup process is complete, the following tasks will be enabled. These tasks can be run via CLI or via the VSCode build tasks menu (⇧⌘B).
 
-### `gulp build`*
+### `gulp build`
 
-Run this command to build the project to [kindling/dist](/dist).
+This task will appear as "Build" in the VSCode build task menu. Once executed, this command will compress the project's CSS files and uglify JS files, preparing your project for deployment.
 
-### `gulp serve`*
+### `gulp develop`
 
-Run this command to build the project and start the server with associated `gulp.watch` tasks.
+This task will appear as "Develop" in the VSCode build task menu. Once executed, this command will start a local development server. It will concatenate and compile JS files, but it will not compress them, allowing for faster load times and readility. Gulp will watch for changes in 'main.js' and 'main.scss' and reload the local server when these files are updated.
 
-### `gulp database`*
+### `gulp database`
 
-Run this command to export a copy of the project's database to [kindling/](/).
+This task will appear as "Database" in the VSCode build task menu. Once executed, this command will export a copy of the project's database to your project's root directory.

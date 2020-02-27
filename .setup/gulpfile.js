@@ -394,7 +394,7 @@ gulp.task("build", buildTasks);
 * >>========================================>
 */
 
-const serverTasks = gulp.series(
+const developmentTasks = gulp.series(
 	startServer,
 	combineScripts,
 	compileCSS,
@@ -403,7 +403,7 @@ const serverTasks = gulp.series(
 	watchForChanges
 );
 
-gulp.task("serve", serverTasks);
+gulp.task("develop", developmentTasks);
 
 /*
 * >>========================================>
