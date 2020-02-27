@@ -226,7 +226,7 @@ function updateBuildTasks(cb){
 		return gulp
 			.src('./.setup/tasks-database.json')
 			.pipe(rename(function (path) {
-				path.basename = tasks;
+				path.basename = 'tasks';
 			}))
 			.pipe(gulp.dest('./.vscode/'))
 		cb();
