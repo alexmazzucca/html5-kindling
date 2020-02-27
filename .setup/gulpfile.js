@@ -339,6 +339,16 @@ function startServer(cb) {
 			proxy: settings.address
 		});
 	}
+
+	return gulp
+		.src('./package.json')
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'Server started',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(gulp.dest('./'));
 	
 	cb();
 }
