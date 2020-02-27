@@ -272,7 +272,7 @@ function compressImages(cb) {
 		})))
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'Images successfully processed',
+			message: 'Images successfully compressed',
 			icon: 'undefined',
 			contentImage: 'undefined'
 		}))
