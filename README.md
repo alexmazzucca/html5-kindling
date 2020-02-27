@@ -14,7 +14,7 @@ This project is based on Kindling ([https://github.com/alexmazzucca/kindling/](h
 
 ### `gulp setup`
 
-This command will lead you through a series of prompts which will help you set up your new project appropriately. If you'd like to change a setting after the setup process has been completed, you can edit the `settings.json` file located in the root of your project's directory.
+This command will lead you through a series of prompts which will help you set up your new project appropriately. If you'd like to change a setting after the setup process has been completed, you can edit the `settings.json` file located in the root folder of your new project.
 
 This command will also create appropriate starter files depending on the project type that you select. These files will be moved to [kindling/src](/src) and [kindling/dist](/dist) directories where appropriate.
 
@@ -36,4 +36,4 @@ This task will appear as "Develop" in the VSCode build task menu. Once executed,
 
 ### `gulp database`
 
-This task will appear as "Database" in the VSCode build task menu. Once executed, this command will export a copy of the project's database to your project's root directory.
+This task will appear as "Database" in the VSCode build task menu. Once executed, this command will export a copy of the project's database to the root folder of your new project.
