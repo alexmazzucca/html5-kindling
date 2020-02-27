@@ -234,6 +234,12 @@ function compileCSS(cb) {
 				}).write(err);
 				this.emit('end');
 			})
+			.pipe(notify({
+				title: 'Kindling',
+				message: 'SASS successfully compiled',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}))
 			.pipe(autoprefixer())
 			.pipe(sourcemaps.write('.'))
 			.pipe(rename(
@@ -248,12 +254,6 @@ function compileCSS(cb) {
 					}
 				}
 			))
-			.pipe(notify({
-				title: 'Kindling',
-				message: 'SASS successfully compiled',
-				icon: 'undefined',
-				contentImage: 'undefined'
-			}))
 			.pipe(gulp.dest("./dist"))
 			.pipe(browserSync.stream());
 	}
