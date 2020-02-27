@@ -241,7 +241,7 @@ const removeSetupFiles = () => del(['./.setup']);
 
 function setupComplete(){
 	notifier.notify({
-		ttitle: 'Kindling',
+		title: 'Kindling',
 		message: 'Project successfully configured',
 		icon: 'undefined',
 		contentImage: 'undefined'

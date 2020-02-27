@@ -340,7 +340,7 @@ function startServer(cb) {
 	}
 
 	notifier.notify({
-		ttitle: 'Kindling',
+		title: 'Kindling',
 		message: 'Server started',
 		icon: 'undefined',
 		contentImage: 'undefined'
