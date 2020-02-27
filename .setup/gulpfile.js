@@ -119,6 +119,21 @@ function compressScripts(cb) {
 	cb();
 }
 
+function combineScripts(cb) {
+	return gulp
+		.src(paths.scripts.src)
+		.pipe(concat("main.js"))
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'Javascript successfully compiled',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(gulp.dest(paths.scripts.dest));
+
+	cb();
+}
+
 /*
 * >>========================================>
 * DOM Tasks
@@ -367,7 +382,7 @@ gulp.task("build", buildTasks);
 
 const serverTasks = gulp.series(
 	startServer,
-	compressScripts,
+	combineScripts,
 	compileCSS,
 	compressDOM,
 	compressImages,
