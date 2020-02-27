@@ -51,7 +51,7 @@ function initialPromptForProjectInfo(cb){
 		{
 			type: 'input',
 			name: 'address',
-			message: 'Development URL:'
+			message: 'Development URL (optional):'
 		}
 		], function(res){
 			settings.type = res.type;
