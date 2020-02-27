@@ -241,13 +241,19 @@ function inlineCSS(cb) {
 				removeHtmlSelectors: true,
 				xmlMode: true,
 			}))
+			.pipe(notify({
+				title: 'Kindling',
+				message: 'CSS successfully inlined',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}))
 			.pipe(gulp.dest(paths.dom.dest))
 	}
 
 	cb();
 }
 
-function deleteCSSDir(cb) {
+function deleteTemporaryCSSDir(cb) {
 	if(settings.type === 'email') {
 		return del(paths.styles.dest);
 	}
@@ -369,7 +375,7 @@ const buildTasks = gulp.series(
 		compressImages
 	),
 	inlineCSS,
-	deleteCSSDir
+	deleteTemporaryCSSDir
 );
 
 gulp.task("build", buildTasks);
