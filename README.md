@@ -45,4 +45,4 @@ Gulp will watch for changes in the following files and directories and process t
 
 ### `gulp database`
 
-This task will appear as "Database" in the VSCode build task menu. Once executed, this command will export a copy of the project's database to the root folder of your new project.
+This task will appear as "Backup Database" in the VSCode build task menu. Once executed, this command will export a copy of the project's database to the root folder of your new project.
