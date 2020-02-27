@@ -188,7 +188,12 @@ function compileCSS(cb) {
 				sass()
 			)
 			.on("error", function(err) {
-				notify().write(err);
+				notify({
+					title: 'Kindling',
+					message: err,
+					icon: 'undefined',
+					contentImage: 'undefined'
+				});
 				this.emit('end');
 			})
 			.pipe(notify({
@@ -209,7 +214,12 @@ function compileCSS(cb) {
 				})
 			)
 			.on("error", function(err) {
-				notify().write(err);
+				notify({
+					title: 'Kindling',
+					message: err,
+					icon: 'undefined',
+					contentImage: 'undefined'
+				});
 				this.emit('end');
 			})
 			.pipe(autoprefixer())
