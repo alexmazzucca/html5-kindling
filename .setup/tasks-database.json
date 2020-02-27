@@ -16,6 +16,13 @@
 			"task": "build",
 			"group": "build",
 			"problemMatcher": []
+		},
+		{
+			"label": "Backup Database",
+			"type": "gulp",
+			"task": "database",
+			"group": "build",
+			"problemMatcher": []
 		}
 	]
 }

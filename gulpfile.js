@@ -222,18 +222,19 @@ function modifyNotificationIcon(cb){
 }
 
 function updateBuildTasks(cb){
-	if(settings.type == 'static' || settings.type == 'wordpress'){
+	if(settings.database != ''){
 		return gulp
-			.src('./.setup/tasks.json')
-			.pipe(gulp.dest('./.vscode/'))
-		cb();
-	}else{
-		return gulp
-			.src('./.setup/tasks-email.json')
+			.src('./.setup/tasks-database.json')
 			.pipe(rename(function (path) {
 				path.basename = tasks;
 			}))
 			.pipe(gulp.dest('./.vscode/'))
+		cb();
+	}else{
+		return gulp
+			.src('./.setup/tasks.json')
+			.pipe(gulp.dest('./.vscode/'))
+		cb();
 	}
 }
 
