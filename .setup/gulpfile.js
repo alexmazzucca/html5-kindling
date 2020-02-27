@@ -416,18 +416,3 @@ const databaseTasks = gulp.series(
 );
 
 gulp.task("database", databaseTasks);
-
-/*
-* >>========================================>
-* Git Commit Tasks
-* >>========================================>
-*/
-
-// const syncTasks = gulp.series(
-// 	backupDatabase,
-// 	gitInit,
-// 	gitCommit,
-// 	gitPush
-// );
-
-// gulp.task("sync", syncTasks);
