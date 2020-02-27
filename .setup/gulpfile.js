@@ -373,6 +373,15 @@ function liveReload(cb) {
 * >>========================================>
 */
 
+function buildComplete(){
+	notifier.notify({
+		title: 'Kindling',
+		message: 'Project build complete',
+		icon: 'undefined',
+		contentImage: 'undefined'
+	});
+}
+
 const buildTasks = gulp.series(
 	gulp.parallel(
 		compressScripts,
@@ -381,7 +390,8 @@ const buildTasks = gulp.series(
 		compressImages
 	),
 	inlineCSS,
-	deleteTemporaryCSSDir
+	deleteTemporaryCSSDir,
+	buildComplete
 );
 
 gulp.task("build", buildTasks);
