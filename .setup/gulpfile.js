@@ -109,7 +109,7 @@ function compressScripts(cb) {
 			.pipe(uglify())
 			.pipe(notify({
 				title: 'Kindling',
-				message: 'Javascript successfully compiled',
+				message: 'Javascript successfully compressed',
 				icon: 'undefined',
 				contentImage: 'undefined'
 			}))
@@ -125,7 +125,7 @@ function combineScripts(cb) {
 		.pipe(concat("main.js"))
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'Javascript successfully compiled',
+			message: 'Javascript successfully concatenated',
 			icon: 'undefined',
 			contentImage: 'undefined'
 		}))
