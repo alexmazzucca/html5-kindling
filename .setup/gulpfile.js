@@ -120,16 +120,18 @@ function compressScripts(cb) {
 }
 
 function combineScripts(cb) {
-	return gulp
-		.src(paths.scripts.src)
-		.pipe(concat("main.js"))
-		.pipe(notify({
-			title: 'Kindling',
-			message: 'Javascript successfully concatenated',
-			icon: 'undefined',
-			contentImage: 'undefined'
-		}))
-		.pipe(gulp.dest(paths.scripts.dest));
+	if(settings.type != 'email') {
+		return gulp
+			.src(paths.scripts.src)
+			.pipe(concat("main.js"))
+			.pipe(notify({
+				title: 'Kindling',
+				message: 'Javascript successfully concatenated',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}))
+			.pipe(gulp.dest(paths.scripts.dest));
+	}
 
 	cb();
 }
