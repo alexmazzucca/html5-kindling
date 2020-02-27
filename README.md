@@ -16,7 +16,7 @@ This project is based on Kindling ([https://github.com/alexmazzucca/kindling/](h
 
 This command will lead you through a series of prompts which will help you set up your new project appropriately. If you'd like to change a setting after the setup process has been completed, you can edit the `settings.json` file located in the root folder of your new project.
 
-This command will also create appropriate starter files depending on the project type that you select. These files will be moved to [kindling/src](/src) and [kindling/dist](/dist) directories where appropriate.
+This command will create appropriate starter files for your new project depending on the project type that you select. These starter files will be moved to [./src](/src) and [./dist](/dist) directories as needed.
 
 **A note about working with email projects:**
 
