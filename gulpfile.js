@@ -239,7 +239,7 @@ function setupComplete(){
 			icon: 'undefined',
 			contentImage: 'undefined'
 		}))
-		.pipe(gulp.dest('./package.json'))
+		.pipe(gulp.dest('./'))
 }
 
 /*
