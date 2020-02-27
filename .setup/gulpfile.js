@@ -18,6 +18,7 @@ var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var cache = require('gulp-cache');
 var notify = require("gulp-notify");
+const notifier = require('node-notifier');
 
 const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
@@ -338,15 +339,12 @@ function startServer(cb) {
 		});
 	}
 
-	return gulp
-		.src('./package.json')
-		.pipe(notify({
-			title: 'Kindling',
-			message: 'Server started',
-			icon: 'undefined',
-			contentImage: 'undefined'
-		}))
-		.pipe(gulp.dest('./'));
+	notifier.notify({
+		ttitle: 'Kindling',
+		message: 'Server started',
+		icon: 'undefined',
+		contentImage: 'undefined'
+	});
 	
 	cb();
 }
