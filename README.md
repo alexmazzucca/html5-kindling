@@ -20,7 +20,7 @@ This command will create appropriate starter files for your new project dependin
 
 **A note about working with email projects:**
 
-During the setup process, you can specify an absolute path for images by specifying a Development URL. This will update all image paths in your compiled HTML automatically when the project is built. For example, by specifying `'http://yoursite.com/'` as the URL, image source attributes will change from `src="img/spacer.gif"` to `src="http://yoursite.com/img/spacer.gif"`.
+During the setup process, you can specify an absolute path for images by providing a "Development URL" when prompted. This will update all image paths in your compiled HTML automatically when the project is built. For example, by specifying `'http://yoursite.com/'` as the URL, image source attributes will change from `src="img/spacer.gif"` to `src="http://yoursite.com/img/spacer.gif"`.
   
 ## Build Tasks
 
