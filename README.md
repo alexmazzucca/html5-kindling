@@ -12,7 +12,7 @@ This project is based on Kindling ([https://github.com/alexmazzucca/kindling/](h
   
 ## Setup
 
-### `gulp setup`*
+### `gulp setup`
 
 <b>Run this command first.</b> This command will copy appropriate files from [kindling/setup](/setup) to the [kindling/src](/src) and [kindling/dist](/dist) directories. Please note, this task will become disabled after it is executed for the first time. 'Setup' will also no longer appear as a build task in VSCode.
 
@@ -35,5 +35,3 @@ Run this command to build the project and start the server with associated `gulp
 ### `gulp database`*
 
 Run this command to export a copy of the project's database to [kindling/](/).
-
-*You must run the 'Setup' build task in VSCode to see this task as an available build option.
