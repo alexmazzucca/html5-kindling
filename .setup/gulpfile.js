@@ -373,13 +373,15 @@ function liveReload(cb) {
 * >>========================================>
 */
 
-function buildComplete(){
+function buildComplete(cb){
 	notifier.notify({
 		title: 'Kindling',
 		message: 'Project build complete',
 		icon: 'undefined',
 		contentImage: 'undefined'
 	});
+
+	cb();
 }
 
 const buildTasks = gulp.series(
