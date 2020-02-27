@@ -25,6 +25,7 @@ var getRepoInfo = require('git-repo-info');
 const gitRemoteOriginUrl = require('git-remote-origin-url');
 const del = require("del");
 const path = require('path');
+const notifier = require('node-notifier');
 
 /*
 * >>========================================>

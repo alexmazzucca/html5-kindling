@@ -18,13 +18,13 @@ var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var cache = require('gulp-cache');
 var notify = require("gulp-notify");
-const notifier = require('node-notifier');
 
 const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
 const del = require("del");
 const imagemin = require("gulp-imagemin");
 const imageminMozjpeg = require('imagemin-mozjpeg');
+const notifier = require('node-notifier');
 
 /*
 * >>========================================>
