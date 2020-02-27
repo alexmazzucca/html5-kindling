@@ -185,13 +185,12 @@ function compileCSS(cb) {
 		return gulp
 			.src('./src/scss/email.scss')
 			.pipe(
-				sass({
-					errLogToConsole: false,
-					onError: function(err) {
-						return notify().write(err);
-					}
-				})
+				sass()
 			)
+			.on("error", function(err) {
+				notify().write(err);
+				this.emit('end');
+			})
 			.pipe(notify({
 				title: 'Kindling',
 				message: 'SASS successfully compiled',
@@ -206,13 +205,13 @@ function compileCSS(cb) {
 			.pipe(sourcemaps.init())
 			.pipe(
 				sass({
-					outputStyle: "compressed",
-					onError: function(err) {
-						return notify().write(err);
-					}
+					outputStyle: "compressed"
 				})
 			)
-			.on("error", sass.logError)
+			.on("error", function(err) {
+				notify().write(err);
+				this.emit('end');
+			})
 			.pipe(autoprefixer())
 			.pipe(sourcemaps.write('.'))
 			.pipe(rename(
