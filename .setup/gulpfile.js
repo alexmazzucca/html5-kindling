@@ -350,7 +350,7 @@ function startServer(cb) {
 */
 
 function watchForChanges() {
-	gulp.watch(paths.scripts.src, gulp.series(compressScripts, liveReload));
+	gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
 	gulp.watch(paths.styles.src, gulp.series(compileCSS));
 	gulp.watch(paths.dom.src, gulp.series(compressDOM, liveReload));
 	gulp.watch(paths.images.src, gulp.series(compressImages, liveReload));
