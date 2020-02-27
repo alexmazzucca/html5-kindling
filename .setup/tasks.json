@@ -11,7 +11,7 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Build",
+			"label": "Build/Compress",
 			"type": "gulp",
 			"task": "build",
 			"group": "build",
