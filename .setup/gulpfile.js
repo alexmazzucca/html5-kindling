@@ -16,8 +16,6 @@ var prettyHtml = require('gulp-pretty-html');
 var inlineCss = require('gulp-inline-css');
 var replace = require('gulp-replace');
 var rename = require("gulp-rename");
-var git = require('gulp-git');
-var prompt = require('gulp-prompt');
 var cache = require('gulp-cache');
 var notify = require("gulp-notify");
 
@@ -370,40 +368,6 @@ function liveReload(cb) {
 	browserSync.reload();
 	cb();
 }
-
-/*
-* >>========================================>
-* Git Commit & Push
-* >>========================================>
-*/
-
-// function gitInit(cb){
-// 	git.init(function (err) {
-// 		if (err) throw err;
-// 		cb();
-// 	});
-// }
-
-// function gitCommit(cb){
-// 	return gulp.src('./')
-// 		.pipe(prompt.prompt({
-// 			type: 'input',
-// 			name: 'commit',
-// 			message: 'Please enter commit message...'
-// 		}, function(res){
-// 			return gulp.src('./')
-// 				.pipe(git.add())
-// 				.pipe(git.commit(res.commit));
-// 			cb();
-// 		}));
-// }
-
-// function gitPush(cb){
-// 	git.push('origin', 'master', function (err) {
-// 		if (err) throw err;
-// 	});
-// 	cb();
-// }
 
 /*
 * >>========================================>

@@ -17,13 +17,6 @@
 			"group": "build",
 			"problemMatcher": []
 		},
-		// {
-		// 	"label": "Sync",
-		// 	"type": "gulp",
-		// 	"task": "sync",
-		// 	"group": "build",
-		// 	"problemMatcher": []
-		// },
 		{
 			"label": "Backup Database",
 			"type": "gulp",
