@@ -3,32 +3,26 @@
 # Kindling v2.0
 
 This project is based on Kindling ([https://github.com/alexmazzucca/kindling/](https://github.com/alexmazzucca/kindling)): a starting point for static website, WordPress and email development. The following instructions assume a basic knowledge of npm and gulp.js
-## Configuration
+
 **Please follow the following instructions to properly set up your project:**
+
   1. In the terminal go to the root folder of your new project
-  1. Download required node modules by running `npm i`
-  2. Open the Gulp configuration file (./gulpfile.js)
-  3. Specify a project type by modifying `type` on line 8. Available options are:
-  * `type: 'static'`
-  * `type: 'email'`
-  * `type: 'wordpress'`
+  2. Download required node modules by running `npm i`
+  3. Run `gulp setup` or use the VSCode build task called 'Setup' to begin
+  
+## Setup
 
-**When beginning a new WordPress project:**
-  1. Specify the website's address by modifying `address` on line 9. Please include necessary protocol and trailing slash.
-  2. Specify your local database name by modifying `database` on line 10.
-  3. Specify the name of your theme folder name by modifying `theme` on line 11.
+### `gulp setup`*
 
-**When beginning a new email project:**
+<b>Run this command first.</b> This command will copy appropriate files from [kindling/setup](/setup) to the [kindling/src](/src) and [kindling/dist](/dist) directories. Please note, this task will become disabled after it is executed for the first time. 'Setup' will also no longer appear as a build task in VSCode.
 
-You can specify an absolute image path by modifying `address` on line 9. This will update all image paths in your compiled HTML automatically. For example, by specifying `address = 'http://yoursite.com/'`, image paths will change from `src="img/spacer.gif"` to `src="http://yoursite.com/img/spacer.gif"` when the project is built.
+**A note about working with email projects:**
+
+During the setup process, you can specify an absolute path for images by providing a Development URL when prompted. This will update all image paths in your compiled HTML automatically when the project is built. For example, by specifying `'http://yoursite.com/'` as the URL, image source attributes will change from `src="img/spacer.gif"` to `src="http://yoursite.com/img/spacer.gif"`.
   
 ## Gulp Tasks
 
-The following tasks can be run via CLI or as VSCode build tasks (Command + Shift + B).
-
-### `gulp setup`
-
-<b>Run this command first.</b> This command will copy appropriate files from [kindling/setup](/setup) to the [kindling/src](/src) and [kindling/dist](/dist) directories. Please note, this task will become disabled after it is executed for the first time. 'Setup' will also no longer appear as a build task in VSCode.
+Once the setup process is complete, the following tasks will be enabled (see below). These tasks can be run via CLI or as VSCode build tasks (Command + Shift + B).
 
 ### `gulp build`*
 
