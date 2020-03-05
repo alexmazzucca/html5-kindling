@@ -157,24 +157,8 @@ function combineScripts(cb) {
 * >>========================================>
 */
 
-function compressDOM() {
-	if(settings.type == 'email') {
-		return gulp
-			.src('./src/index.html')
-			.pipe(replace('src="', 'src="' + settings.address))
-			.pipe(
-				htmlmin({
-					collapseWhitespace: true,
-					conservativeCollapse: true,
-					preserveLineBreaks: true,
-					removeComments: true,
-					keepClosingSlash: true,
-					removeEmptyAttributes: false
-				})
-			)
-			.pipe(prettyHtml())
-			.pipe(gulp.dest(paths.dom.dest));
-	}else{
+function compressDOM(cb) {
+	if(settings.type != 'email') {
 		return gulp
 			.src(paths.dom.src)
 			.pipe(
@@ -187,6 +171,40 @@ function compressDOM() {
 			)
 			.pipe(gulp.dest(paths.dom.dest));
 	}
+
+	cb();
+}
+
+function compressEmailDOM(cb){
+	if(settings.type == 'email') {
+		return gulp
+			.src('./src/index.html')
+			.pipe(
+				htmlmin({
+					collapseWhitespace: true,
+					conservativeCollapse: true,
+					preserveLineBreaks: true,
+					removeComments: true,
+					keepClosingSlash: true,
+					removeEmptyAttributes: false
+				})
+			)
+			.pipe(prettyHtml())
+			.pipe(gulp.dest(paths.dom.dest));
+	}
+	
+	cb();
+}
+
+function updateImagePaths(cb){
+	if(settings.type == 'email') {
+		return gulp
+			.src('./dist/index.html')
+			.pipe(replace('src="', 'src="' + settings.address))
+			.pipe(gulp.dest(paths.dom.dest));
+	}
+	
+	cb();
 }
 
 /*
@@ -358,7 +376,7 @@ function startServer(cb) {
 function watchForChanges() {
 	gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
 	gulp.watch(paths.styles.src, gulp.series(compileCSS));
-	gulp.watch(paths.dom.src, gulp.series(compressDOM, liveReload));
+	gulp.watch(paths.dom.src, gulp.series(compressDOM, compressEmailDOM, liveReload));
 	gulp.watch(paths.images.src, gulp.series(compressImages, liveReload));
 }
 
@@ -389,6 +407,8 @@ const buildTasks = gulp.series(
 		compressScripts,
 		compileCSS,
 		compressDOM,
+		compressEmailDOM,
+		updateImagePaths,
 		compressImages
 	),
 	inlineCSS,
@@ -400,7 +420,7 @@ gulp.task("build", buildTasks);
 
 /*
 * >>========================================>
-* Server Tasks
+* Development Tasks
 * >>========================================>
 */
 
@@ -408,6 +428,7 @@ const developmentTasks = gulp.series(
 	combineScripts,
 	compileCSS,
 	compressDOM,
+	compressEmailDOM,
 	compressImages,
 	startServer,
 	watchForChanges
