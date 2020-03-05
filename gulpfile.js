@@ -1,248 +1,400 @@
-var settings = {
-	name: '',
-	description: '',
-	repo: '',
-	type: '',
-	address: '',
-	database: '',
-	theme: ''
-};
-
 /*
 * >>========================================>
 * Required
 * >>========================================>
 */
 
+var settings = require('./settings.json')
 var gulp = require("gulp");
-var git = require('gulp-git');
+var browserSync = require("browser-sync").create();
+var uglify = require("gulp-uglify");
+var concat = require("gulp-concat");
+var sass = require("gulp-sass");
+var autoprefixer = require("gulp-autoprefixer");
+var sourcemaps = require('gulp-sourcemaps');
+var prettyHtml = require('gulp-pretty-html');
+var inlineCss = require('gulp-inline-css');
+var replace = require('gulp-replace');
 var rename = require("gulp-rename");
-var prompt = require('gulp-prompt');
+var cache = require('gulp-cache');
 var notify = require("gulp-notify");
-var jsonModify = require("gulp-json-modify");
-var getRepoInfo = require('git-repo-info');
 
-const gitRemoteOriginUrl = require('git-remote-origin-url');
+const mysqldump = require('mysqldump')
+const htmlmin = require("gulp-htmlmin");
 const del = require("del");
-const path = require('path');
+const imagemin = require("gulp-imagemin");
+const imageminMozjpeg = require('imagemin-mozjpeg');
 const notifier = require('node-notifier');
 
 /*
 * >>========================================>
-* Setup Tasks
+* File Paths
 * >>========================================>
 */
 
-function initialPromptForProjectInfo(cb){
-	return gulp.src('./package.json')
-		.pipe(prompt.prompt([
-		{
-			type: 'list',
-			name: 'type',
-			message: 'Project type:',
-			choices: ['email', 'static', 'wordpress'],
-		},
-		{
-			type: 'input',
-			name: 'description',
-			message: 'Project description:'
-		},
-		{
-			type: 'input',
-			name: 'address',
-			message: 'Development URL (optional):'
-		}
-		], function(res){
-			settings.type = res.type;
-			settings.description = res.description;
-			settings.address = res.address;
-			cb();
-		}))
-		.pipe(gulp.dest('./'))
+var pathToTheme = "";
+
+if(settings.theme != "") {
+	pathToTheme = "wp-content/themes/" + settings.theme + '/';
 }
 
-function promptForSiteDetails(cb){
-	if(settings.type == 'wordpress' || settings.type == 'static'){
-		return gulp.src('./package.json')
-			.pipe(prompt.prompt([
-			{
-				type: 'input',
-				name: 'database',
-				message: 'Database name (optional):'
-			}
-			], function(res){
-				settings.database = res.database;
-				cb();
-			}))
-			.pipe(gulp.dest('./'))
-	}else{
-		cb();
+const paths = {
+	scripts: {
+		src: [
+			"./node_modules/jquery/dist/jquery.js",
+			"./node_modules/gsap/src/uncompressed/TweenMax.js",
+			"./src/js/vendor/*.js",
+			"./src/js/main.js"
+		],
+		dest: "./dist/" + pathToTheme + "js/"
+	},
+	styles: {
+		src: [
+			"./src/scss/*.scss",
+		],
+		dest: "./dist/" + pathToTheme + "css/"
+	},
+	dom: {
+		src: [
+			"./src/**/*.html",
+			"./src/**/*.php"
+		],
+		dest: "./dist/" + pathToTheme
+	},
+	images: {
+		src: "./src/img/*",
+		dest: "./dist/" + pathToTheme + "img/"
 	}
-}
+};
 
-function promptForWordpressDetails(cb){
-	if(settings.type == 'wordpress'){
-		return gulp.src('./package.json')
-			.pipe(prompt.prompt([
-			{
-				type: 'input',
-				name: 'theme',
-				message: 'Wordpress theme name:'
-			}
-			], function(res){
-				settings.theme = res.theme;
-				cb();
-			}))
-			.pipe(gulp.dest('./'))
-	}else{
-		cb();
+/*
+* >>========================================>
+* Database Tasks
+* >>========================================>
+*/
+
+function backupDatabase(cb){
+	if(settings.database != '') {
+		return mysqldump({
+			connection: {
+				host: 'localhost',
+				user: 'root',
+				password: 'root',
+				database: settings.database
+			},
+			dump: {
+				data: {
+					format : false
+				}
+			},
+			dumpToFile: settings.database + '.sql'
+		});
 	}
-}
 
-function updateAdditionalProjectInfo(cb){
-	settings.author = getRepoInfo().author;
-	settings.name = path.basename(process.cwd());
-	(async() => {
-		settings.repo = await gitRemoteOriginUrl();
-	})();
+	cb();
+}
+ 
+/*
+* >>========================================>
+* Script (JS) Tasks
+* >>========================================>
+*/
+
+function compressScripts(cb) {
+	if(settings.type != 'email') {
+		return gulp
+			.src(paths.scripts.src)
+			.on("error", function(err) {
+				notify({
+					title: 'Kindling',
+					icon: 'undefined',
+					contentImage: 'undefined'
+				}).write(err);
+				this.emit('end');
+			})
+			.pipe(concat("main.js"))
+			.pipe(uglify())
+			.pipe(notify({
+				title: 'Kindling',
+				message: 'Javascript successfully compressed',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}))
+			.pipe(gulp.dest(paths.scripts.dest));
+	}
+
 	cb();
 }
 
-function renameWorkspaceFile(){
-	return gulp.src('./kindling.code-workspace')
-		.pipe(rename(function (path) {
-			path.basename = settings.name;
-		}))
-		.pipe(gulp.dest('./'))
+function combineScripts(cb) {
+	if(settings.type != 'email') {
+		return gulp
+			.src(paths.scripts.src)
+			.on("error", function(err) {
+				notify({
+					title: 'Kindling',
+					icon: 'undefined',
+					contentImage: 'undefined'
+				}).write(err);
+				this.emit('end');
+			})
+			.pipe(concat("main.js"))
+			.pipe(notify({
+				title: 'Kindling',
+				message: 'Javascript successfully concatenated',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}))
+			.pipe(gulp.dest(paths.scripts.dest));
+	}
+
+	cb();
 }
 
-function updatePackageInfo(){
-	return gulp.src('./package.json')
-		.pipe(jsonModify({
-			key: 'name',
-			value: settings.name
-		}))
-		.pipe(jsonModify({
-			key: 'description',
-			value: settings.description
-		}))
-		.pipe(jsonModify({
-			key: 'repository.url',
-			value: settings.repo
-		}))
-		.pipe(jsonModify({
-			key: 'author',
-			value: settings.author
-		}))
-		.pipe(gulp.dest('./'))
+/*
+* >>========================================>
+* DOM Tasks
+* >>========================================>
+*/
+
+function compressDOM(cb) {
+	if(settings.type != 'email') {
+		return gulp
+			.src(paths.dom.src)
+			.pipe(
+				htmlmin({
+					collapseWhitespace: true,
+					conservativeCollapse: true,
+					preserveLineBreaks: true,
+					removeComments: true
+				})
+			)
+			.pipe(gulp.dest(paths.dom.dest));
+	}
+
+	cb();
 }
 
-const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
-
-function updateProjectSettings(cb){
-	return gulp.src('./.setup/settings.json')
-		.pipe(jsonModify({
-			key: 'type',
-			value: settings.type
-		}))
-		.pipe(jsonModify({
-			key: 'address',
-			value: settings.address
-		}))
-		.pipe(jsonModify({
-			key: 'database',
-			value: settings.database
-		}))
-		.pipe(jsonModify({
-			key: 'theme',
-			value: settings.theme
-		}))
-		.pipe(gulp.dest('./'));
+function compressEmailDOM(cb){
+	if(settings.type == 'email') {
+		return gulp
+			.src('./src/index.html')
+			.pipe(
+				htmlmin({
+					collapseWhitespace: true,
+					conservativeCollapse: true,
+					preserveLineBreaks: true,
+					removeComments: true,
+					keepClosingSlash: true,
+					removeEmptyAttributes: false
+				})
+			)
+			.pipe(prettyHtml())
+			.pipe(gulp.dest(paths.dom.dest));
+	}
 	
 	cb();
 }
 
-function copyGulpFileToRoot(){
-	return gulp
-		.src('./.setup/gulpfile.js')
-		.pipe(gulp.dest('./'));
-}
-
-function copyTemplateFilesToSrc(){
-	return gulp
-		.src([
-			'./.setup/templates/' + settings.type +  '/**/*',
-			'!./.setup/templates/static/robots.txt',
-			'!./.setup/templates/static/.htaccess'
-		])
-		.pipe(gulp.dest('./src/'));
-}
-
-function copyTemplateAssetsToSrc(cb){
-	if(settings.type == 'static' || settings.type == 'wordpress'){
+function updateImagePaths(cb){
+	if(settings.type == 'email') {
 		return gulp
-			.src([
-				'./.setup/templates/scss*/**/*',
-				'./.setup/templates/js*/**/*'
-			])
-			.pipe(gulp.dest('./src/'));
+			.src('./dist/index.html')
+			.pipe(replace('src="img/', 'src="' + settings.address))
+			.pipe(gulp.dest(paths.dom.dest));
 	}
+	
 	cb();
 }
 
-function copyTemplateFilesToDist(cb){
-	if(settings.type == 'static'){
+/*
+* >>========================================>
+* Sass/CSS Tasks
+* >>========================================>
+*/
+
+function compileCSS(cb) {
+	if(settings.type == 'email') {
 		return gulp
-			.src([
-				'./.setup/templates/static/.htaccess',
-				'./.setup/templates/static/robots.txt'
-			])
-			.pipe(gulp.dest('./dist/'));
-	}
-	cb();
-}
-
-function cloneWP(cb){
-	if(settings.type == 'wordpress'){
-		git.clone('https://github.com/WordPress/WordPress/', {args: './dist'}, function(err){
-			if(err) throw err;
-		});
-		cb();
-	}else{
-		cb();
-	}
-}
-
-function modifyNotificationIcon(cb){
-	return gulp
-		.src('./.setup/Terminal.icns')
-		.pipe(gulp.dest('./node_modules/node-notifier/vendor/mac.noindex/terminal-notifier.app/Contents/Resources/'))
-	cb();
-}
-
-function updateBuildTasks(cb){
-	if(settings.database != ''){
-		return gulp
-			.src('./.setup/tasks-database.json')
-			.pipe(rename(function (path) {
-				path.basename = 'tasks';
+			.src('./src/scss/email.scss')
+			.pipe(
+				sass()
+			)
+			.on("error", function(err) {
+				notify({
+					title: 'Kindling',
+					icon: 'undefined',
+					contentImage: 'undefined'
+				}).write(err);
+				this.emit('end');
+			})
+			.pipe(notify({
+				title: 'Kindling',
+				message: 'SASS successfully compiled',
+				icon: 'undefined',
+				contentImage: 'undefined'
 			}))
-			.pipe(gulp.dest('./.vscode/'))
-		cb();
+			.pipe(gulp.dest(paths.styles.dest))
+			.pipe(browserSync.stream());
 	}else{
 		return gulp
-			.src('./.setup/tasks.json')
-			.pipe(gulp.dest('./.vscode/'))
-		cb();
+			.src(paths.styles.src)
+			.pipe(sourcemaps.init())
+			.pipe(
+				sass({
+					outputStyle: "compressed"
+				})
+			)
+			.on("error", function(err) {
+				notify({
+					title: 'Kindling',
+					icon: 'undefined',
+					contentImage: 'undefined'
+				}).write(err);
+				this.emit('end');
+			})
+			.pipe(notify({
+				title: 'Kindling',
+				message: 'SASS successfully compiled',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}))
+			.pipe(autoprefixer())
+			.pipe(sourcemaps.write('.'))
+			.pipe(rename(
+				function(path){
+					path.suffix += ".min";
+
+					if(pathToTheme === '') {
+						path.dirname += paths.styles.dest;
+					}else{
+						path.dirname += "./dist/" + pathToTheme;
+						path.basename = "style";
+					}
+				}
+			))
+			.pipe(gulp.dest("./dist"))
+			.pipe(browserSync.stream());
 	}
+
+	cb();
 }
 
-const removeSetupFiles = () => del(['./.setup']);
+function inlineCSS(cb) {
+	if(settings.type == 'email') {
+		return gulp
+			.src('./dist/index.html')
+			.pipe(inlineCss({
+				applyStyleTags: true,
+				applyLinkTags: true,
+				removeStyleTags: true,
+				removeLinkTags: true,
+				removeHtmlSelectors: true,
+				xmlMode: true,
+			}))
+			.pipe(notify({
+				title: 'Kindling',
+				message: 'CSS successfully inlined',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}))
+			.pipe(gulp.dest(paths.dom.dest))
+	}
 
-function setupComplete(cb){
+	cb();
+}
+
+function deleteTemporaryCSSDir(cb) {
+	if(settings.type === 'email') {
+		return del(paths.styles.dest);
+	}
+
+	cb();
+}
+
+/*
+* >>========================================>
+* Image Tasks
+* >>========================================>
+*/
+
+function compressImages(cb) {
+	return gulp
+		.src(paths.images.src)
+		.pipe(cache(imagemin([
+			imageminMozjpeg({quality: 85}),
+			imagemin.optipng({optimizationLevel: 5})
+		], {
+			verbose: true
+		})))
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'Images successfully compressed',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(gulp.dest(paths.images.dest));
+
+	cb();
+}
+
+/*
+* >>========================================>
+* Start Server and Live Reload
+* >>========================================>
+*/
+
+function startServer(cb) {
+	if(settings.address === '' || settings.type == 'email') {
+		browserSync.init({
+			server: {
+				baseDir: "./dist/"
+			}
+		});
+	}else{
+		browserSync.init({
+			proxy: settings.address
+		});
+	}
+
 	notifier.notify({
 		title: 'Kindling',
-		message: 'Project successfully configured',
+		message: 'Server started',
+		icon: 'undefined',
+		contentImage: 'undefined'
+	});
+	
+	cb();
+}
+
+/*
+* >>========================================>
+* Watch Folders for Changes
+* >>========================================>
+*/
+
+function watchForChanges() {
+	gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
+	gulp.watch(paths.styles.src, gulp.series(compileCSS));
+	gulp.watch(paths.dom.src, gulp.series(compressDOM, compressEmailDOM, liveReload));
+	gulp.watch(paths.images.src, gulp.series(compressImages, liveReload));
+}
+
+function liveReload(cb) {
+	browserSync.reload();
+	cb();
+}
+
+/*
+* >>========================================>
+* Build Tasks
+* >>========================================>
+*/
+
+function buildComplete(cb){
+	notifier.notify({
+		title: 'Kindling',
+		message: 'Project build complete',
 		icon: 'undefined',
 		contentImage: 'undefined'
 	});
@@ -250,30 +402,48 @@ function setupComplete(cb){
 	cb();
 }
 
+const buildTasks = gulp.series(
+	gulp.parallel(
+		compressScripts,
+		compileCSS,
+		compressDOM,
+		compressEmailDOM,
+		compressImages
+	),
+	updateImagePaths,
+	inlineCSS,
+	deleteTemporaryCSSDir,
+	buildComplete
+);
+
+gulp.task("build", buildTasks);
+
 /*
 * >>========================================>
-* Setup Task Series
+* Development Tasks
 * >>========================================>
 */
 
-const setupProject = gulp.series(
-	initialPromptForProjectInfo,
-	promptForSiteDetails,
-	promptForWordpressDetails,
-	updateAdditionalProjectInfo,
-	renameWorkspaceFile,
-	removeWorkspaceFile,
-	updatePackageInfo,
-	updateProjectSettings,
-	copyGulpFileToRoot,
-	copyTemplateAssetsToSrc,
-	copyTemplateFilesToSrc,
-	copyTemplateFilesToDist,
-	cloneWP,
-	modifyNotificationIcon,
-	updateBuildTasks,
-	removeSetupFiles,
-	setupComplete
+const developmentTasks = gulp.series(
+	combineScripts,
+	compileCSS,
+	compressDOM,
+	compressEmailDOM,
+	compressImages,
+	startServer,
+	watchForChanges
 );
 
-gulp.task("setup", setupProject);
+gulp.task("develop", developmentTasks);
+
+/*
+* >>========================================>
+* Database Tasks
+* >>========================================>
+*/
+
+const databaseTasks = gulp.series(
+	backupDatabase
+);
+
+gulp.task("database", databaseTasks);
