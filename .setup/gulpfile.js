@@ -200,7 +200,7 @@ function updateImagePaths(cb){
 	if(settings.type == 'email') {
 		return gulp
 			.src('./dist/index.html')
-			.pipe(replace('src="', 'src="' + settings.address))
+			.pipe(replace('src="img/', 'src="' + settings.address))
 			.pipe(gulp.dest(paths.dom.dest));
 	}
 	
@@ -408,9 +408,9 @@ const buildTasks = gulp.series(
 		compileCSS,
 		compressDOM,
 		compressEmailDOM,
-		updateImagePaths,
 		compressImages
 	),
+	updateImagePaths,
 	inlineCSS,
 	deleteTemporaryCSSDir,
 	buildComplete
