@@ -37,19 +37,21 @@ Additional Resets and Helpers
 
 @import 'imports/resets-helpers-email';
 
-// h1 {
-// 	sup {
-// 		font-size: 20px;
-// 		line-height: 0;
-// 		vertical-align: 7px;
-// 	}
-// }
+h1 {
+	sup {
+		/* Tweak these settings accordingly: */
 
-// img.retina {
-// 	&.img-class {
-// 		max-width: 200px;
-// 	}
-// }
+		// font-size: 12px;
+		// line-height: 0;
+		// vertical-align: 2px;
+	}
+}
+
+img.retina {
+	&.img-class {
+		/* max-width becomes the width of the image */
+	}
+}
 
 /*
 >>================================================================================>
@@ -61,14 +63,4 @@ Reuseable Styles / Framework
 	width: 650px;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-/*
->>================================================================================>
-Placeholder
->>================================================================================>
-*/
-
-#placeholder {
-    
 }

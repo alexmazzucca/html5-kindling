@@ -58,7 +58,6 @@ h5 {
     font-family: $font_primary;
     line-height: 1.2;
     margin-top: 0;
-    margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -79,4 +78,10 @@ h5 {
 
 .no-margin {
     margin-bottom: 0 !important;
+}
+
+img {
+    &.retina {
+        width: 100%;
+    }
 }
