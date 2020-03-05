@@ -239,13 +239,15 @@ function updateBuildTasks(cb){
 
 const removeSetupFiles = () => del(['./.setup']);
 
-function setupComplete(){
+function setupComplete(cb){
 	notifier.notify({
 		title: 'Kindling',
 		message: 'Project successfully configured',
 		icon: 'undefined',
 		contentImage: 'undefined'
 	});
+
+	cb();
 }
 
 /*
