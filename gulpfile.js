@@ -50,7 +50,7 @@ function initialPromptForProjectInfo(cb){
 		{
 			type: 'input',
 			name: 'address',
-			message: 'Development URL (optional):'
+			message: 'Development URL (include protocol and trailing slash) (optional):'
 		}
 		], function(res){
 			settings.type = res.type;
