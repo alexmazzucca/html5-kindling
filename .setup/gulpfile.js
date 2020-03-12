@@ -397,7 +397,7 @@ function liveReload(cb) {
 
 function deleteDist(cb) {
 	return del('./dist/');
-
+	
 	cb();
 }
 
@@ -447,7 +447,7 @@ if(settings.type == 'email') {
 * >>========================================>
 */
 
-const emailDevelopmentTasks = gulp.series(
+const emailDevTasks = gulp.series(
 	compileSass,
 	copyEmailDOM,
 	compressImages,
@@ -455,7 +455,7 @@ const emailDevelopmentTasks = gulp.series(
 	watchForChanges
 );
 
-const developmentTasks = gulp.series(
+const devTasks = gulp.series(
 	combineScripts,
 	compileSass,
 	compressDOM,
@@ -465,9 +465,9 @@ const developmentTasks = gulp.series(
 );
 
 if(settings.type == 'email') {
-	gulp.task("develop", emailDevelopmentTasks);
+	gulp.task("develop", emailDevTasks);
 }else{
-	gulp.task("develop", developmentTasks);
+	gulp.task("develop", devTasks);
 }
 
 /*
