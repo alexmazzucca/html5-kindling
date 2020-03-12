@@ -101,52 +101,48 @@ function backupDatabase(cb){
 */
 
 function compressScripts(cb) {
-	if(settings.type != 'email') {
-		return gulp
-			.src(paths.scripts.src)
-			.on("error", function(err) {
-				notify({
-					title: 'Kindling',
-					icon: 'undefined',
-					contentImage: 'undefined'
-				}).write(err);
-				this.emit('end');
-			})
-			.pipe(concat("main.js"))
-			.pipe(uglify())
-			.pipe(notify({
+	return gulp
+		.src(paths.scripts.src)
+		.on("error", function(err) {
+			notify({
 				title: 'Kindling',
-				message: 'Javascript successfully compressed',
 				icon: 'undefined',
 				contentImage: 'undefined'
-			}))
-			.pipe(gulp.dest(paths.scripts.dest));
-	}
+			}).write(err);
+			this.emit('end');
+		})
+		.pipe(concat("main.js"))
+		.pipe(uglify())
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'Javascript successfully compressed',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(gulp.dest(paths.scripts.dest));
 
 	cb();
 }
 
 function combineScripts(cb) {
-	if(settings.type != 'email') {
-		return gulp
-			.src(paths.scripts.src)
-			.on("error", function(err) {
-				notify({
-					title: 'Kindling',
-					icon: 'undefined',
-					contentImage: 'undefined'
-				}).write(err);
-				this.emit('end');
-			})
-			.pipe(concat("main.js"))
-			.pipe(notify({
+	return gulp
+		.src(paths.scripts.src)
+		.on("error", function(err) {
+			notify({
 				title: 'Kindling',
-				message: 'Javascript successfully concatenated',
 				icon: 'undefined',
 				contentImage: 'undefined'
-			}))
-			.pipe(gulp.dest(paths.scripts.dest));
-	}
+			}).write(err);
+			this.emit('end');
+		})
+		.pipe(concat("main.js"))
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'Javascript successfully concatenated',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(gulp.dest(paths.scripts.dest));
 
 	cb();
 }
@@ -158,19 +154,17 @@ function combineScripts(cb) {
 */
 
 function compressDOM(cb) {
-	if(settings.type != 'email') {
-		return gulp
-			.src(paths.dom.src)
-			.pipe(
-				htmlmin({
-					collapseWhitespace: true,
-					conservativeCollapse: true,
-					preserveLineBreaks: true,
-					removeComments: true
-				})
-			)
-			.pipe(gulp.dest(paths.dom.dest));
-	}
+	return gulp
+		.src(paths.dom.src)
+		.pipe(
+			htmlmin({
+				collapseWhitespace: true,
+				conservativeCollapse: true,
+				preserveLineBreaks: true,
+				removeComments: true
+			})
+		)
+		.pipe(gulp.dest(paths.dom.dest));
 
 	cb();
 }
@@ -196,8 +190,8 @@ function compressEmailDOM(cb){
 	cb();
 }
 
-function updateImagePaths(cb){
-	if(settings.type == 'email') {
+function updateEmailImagePaths(cb){
+	if(settings.address != '') {
 		return gulp
 			.src('./dist/index.html')
 			.pipe(replace('src="img/', 'src="' + settings.address))
@@ -214,100 +208,98 @@ function updateImagePaths(cb){
 */
 
 function compileCSS(cb) {
-	if(settings.type == 'email') {
-		return gulp
-			.src('./src/scss/email.scss')
-			.pipe(
-				sass()
-			)
-			.on("error", function(err) {
-				notify({
-					title: 'Kindling',
-					icon: 'undefined',
-					contentImage: 'undefined'
-				}).write(err);
-				this.emit('end');
+	return gulp
+		.src(paths.styles.src)
+		.pipe(sourcemaps.init())
+		.pipe(
+			sass({
+				outputStyle: "compressed"
 			})
-			.pipe(notify({
+		)
+		.on("error", function(err) {
+			notify({
 				title: 'Kindling',
-				message: 'SASS successfully compiled',
 				icon: 'undefined',
 				contentImage: 'undefined'
-			}))
-			.pipe(gulp.dest(paths.styles.dest))
-			.pipe(browserSync.stream());
-	}else{
-		return gulp
-			.src(paths.styles.src)
-			.pipe(sourcemaps.init())
-			.pipe(
-				sass({
-					outputStyle: "compressed"
-				})
-			)
-			.on("error", function(err) {
-				notify({
-					title: 'Kindling',
-					icon: 'undefined',
-					contentImage: 'undefined'
-				}).write(err);
-				this.emit('end');
-			})
-			.pipe(notify({
-				title: 'Kindling',
-				message: 'SASS successfully compiled',
-				icon: 'undefined',
-				contentImage: 'undefined'
-			}))
-			.pipe(autoprefixer())
-			.pipe(sourcemaps.write('.'))
-			.pipe(rename(
-				function(path){
-					path.suffix += ".min";
+			}).write(err);
+			this.emit('end');
+		})
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'SASS successfully compiled',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(autoprefixer())
+		.pipe(sourcemaps.write('.'))
+		.pipe(rename(
+			function(path){
+				path.suffix += ".min";
 
-					if(pathToTheme === '') {
-						path.dirname += paths.styles.dest;
-					}else{
-						path.dirname += "./dist/" + pathToTheme;
-						path.basename = "style";
-					}
+				if(pathToTheme === '') {
+					path.dirname += paths.styles.dest;
+				}else{
+					path.dirname += "./dist/" + pathToTheme;
+					path.basename = "style";
 				}
-			))
-			.pipe(gulp.dest("./dist"))
-			.pipe(browserSync.stream());
-	}
+			}
+		))
+		.pipe(gulp.dest("./dist"))
+		.pipe(browserSync.stream());
+
+	cb();
+}
+
+function compileEmailCSS(cb){
+	return gulp
+		.src('./src/scss/email.scss')
+		.pipe(
+			sass()
+		)
+		.on("error", function(err) {
+			notify({
+				title: 'Kindling',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}).write(err);
+			this.emit('end');
+		})
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'SASS successfully compiled',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(browserSync.stream());
 
 	cb();
 }
 
 function inlineCSS(cb) {
-	if(settings.type == 'email') {
-		return gulp
-			.src('./dist/index.html')
-			.pipe(inlineCss({
-				applyStyleTags: true,
-				applyLinkTags: true,
-				removeStyleTags: true,
-				removeLinkTags: true,
-				removeHtmlSelectors: true,
-				xmlMode: true,
-			}))
-			.pipe(notify({
-				title: 'Kindling',
-				message: 'CSS successfully inlined',
-				icon: 'undefined',
-				contentImage: 'undefined'
-			}))
-			.pipe(gulp.dest(paths.dom.dest))
-	}
+	return gulp
+		.src('./dist/index.html')
+		.pipe(inlineCss({
+			applyStyleTags: true,
+			applyLinkTags: true,
+			removeStyleTags: true,
+			removeLinkTags: true,
+			removeHtmlSelectors: true,
+			xmlMode: true,
+		}))
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'CSS successfully inlined',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(gulp.dest(paths.dom.dest))
 
 	cb();
 }
 
 function deleteTemporaryCSSDir(cb) {
-	if(settings.type === 'email') {
-		return del(paths.styles.dest);
-	}
+	return del(paths.styles.dest);
 
 	cb();
 }
@@ -374,9 +366,14 @@ function startServer(cb) {
 */
 
 function watchForChanges() {
-	gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
+	if(settings.type == 'email') {
+		gulp.watch(paths.dom.src, gulp.series(compressEmailDOM, liveReload));
+	}else{
+		gulp.watch(paths.dom.src, gulp.series(compressDOM, liveReload));
+		gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
+	}
+
 	gulp.watch(paths.styles.src, gulp.series(compileCSS));
-	gulp.watch(paths.dom.src, gulp.series(compressDOM, compressEmailDOM, liveReload));
 	gulp.watch(paths.images.src, gulp.series(compressImages, liveReload));
 }
 
@@ -402,21 +399,33 @@ function buildComplete(cb){
 	cb();
 }
 
-const buildTasks = gulp.series(
+const emailBuildTasks = gulp.series(
 	gulp.parallel(
-		compressScripts,
-		compileCSS,
-		compressDOM,
+		compileEmailCSS,
 		compressEmailDOM,
 		compressImages
 	),
-	updateImagePaths,
+	updateEmailImagePaths,
 	inlineCSS,
 	deleteTemporaryCSSDir,
 	buildComplete
 );
 
-gulp.task("build", buildTasks);
+const buildTasks = gulp.series(
+	gulp.parallel(
+		compressScripts,
+		compileCSS,
+		compressDOM,
+		compressImages
+	),
+	buildComplete
+);
+
+if(settings.type == 'email') {
+	gulp.task("build", emailBuildTasks);
+}else{
+	gulp.task("build", buildTasks);
+}
 
 /*
 * >>========================================>
@@ -424,17 +433,28 @@ gulp.task("build", buildTasks);
 * >>========================================>
 */
 
-const developmentTasks = gulp.series(
-	combineScripts,
+const emailDevelopmentTasks = gulp.series(
 	compileCSS,
-	compressDOM,
 	compressEmailDOM,
 	compressImages,
 	startServer,
 	watchForChanges
 );
 
-gulp.task("develop", developmentTasks);
+const developmentTasks = gulp.series(
+	combineScripts,
+	compileCSS,
+	compressDOM,
+	compressImages,
+	startServer,
+	watchForChanges
+);
+
+if(settings.type == 'email') {
+	gulp.task("develop", emailDevelopmentTasks);
+}else{
+	gulp.task("develop", developmentTasks);
+}
 
 /*
 * >>========================================>
