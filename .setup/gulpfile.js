@@ -380,7 +380,7 @@ function watchForChanges() {
 	}
 
 	gulp.watch(paths.styles.src, gulp.series(compileSass));
-	gulp.watch(paths.images.src, gulp.series(compressImages, liveReload));
+	gulp.watch(paths.images.src, {events: ['add']}, gulp.series(compressImages, liveReload));
 }
 
 function liveReload(cb) {
@@ -397,7 +397,7 @@ function liveReload(cb) {
 
 function deleteDist(cb) {
 	return del('./dist/');
-	
+
 	cb();
 }
 
