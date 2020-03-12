@@ -213,7 +213,7 @@ function updateEmailImagePaths(cb){
 * >>========================================>
 */
 
-function compileCSS(cb) {
+function compileSass(cb) {
 	return gulp
 		.src(paths.styles.src)
 		.pipe(sourcemaps.init())
@@ -256,7 +256,7 @@ function compileCSS(cb) {
 	cb();
 }
 
-function compileEmailCSS(cb){
+function compileEmailSass(cb){
 	return gulp
 		.src('./src/scss/email.scss')
 		.pipe(
@@ -304,7 +304,7 @@ function inlineCSS(cb) {
 	cb();
 }
 
-function deleteTemporaryCSSDir(cb) {
+function delTempCSSDir(cb) {
 	return del(paths.styles.dest);
 
 	cb();
@@ -379,7 +379,7 @@ function watchForChanges() {
 		gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
 	}
 
-	gulp.watch(paths.styles.src, gulp.series(compileCSS));
+	gulp.watch(paths.styles.src, gulp.series(compileSass));
 	gulp.watch(paths.images.src, gulp.series(compressImages, liveReload));
 }
 
@@ -415,20 +415,20 @@ function buildComplete(cb){
 const emailBuildTasks = gulp.series(
 	deleteDist,
 	gulp.parallel(
-		compileEmailCSS,
-		copyEmailDOM,
+		compileEmailSass,
+		compressEmailDOM,
 		compressImages
 	),
 	updateEmailImagePaths,
 	inlineCSS,
-	deleteTemporaryCSSDir,
+	delTempCSSDir,
 	buildComplete
 );
 
 const buildTasks = gulp.series(
 	gulp.parallel(
 		compressScripts,
-		compileCSS,
+		compileSass,
 		compressDOM,
 		compressImages
 	),
@@ -448,7 +448,7 @@ if(settings.type == 'email') {
 */
 
 const emailDevelopmentTasks = gulp.series(
-	compileCSS,
+	compileSass,
 	copyEmailDOM,
 	compressImages,
 	startServer,
@@ -457,7 +457,7 @@ const emailDevelopmentTasks = gulp.series(
 
 const developmentTasks = gulp.series(
 	combineScripts,
-	compileCSS,
+	compileSass,
 	compressDOM,
 	compressImages,
 	startServer,
