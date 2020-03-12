@@ -170,23 +170,29 @@ function compressDOM(cb) {
 }
 
 function compressEmailDOM(cb){
-	if(settings.type == 'email') {
-		return gulp
-			.src('./src/index.html')
-			.pipe(
-				htmlmin({
-					collapseWhitespace: true,
-					conservativeCollapse: true,
-					preserveLineBreaks: true,
-					removeComments: true,
-					keepClosingSlash: true,
-					removeEmptyAttributes: false
-				})
-			)
-			.pipe(prettyHtml())
-			.pipe(gulp.dest(paths.dom.dest));
-	}
+	return gulp
+		.src('./src/index.html')
+		.pipe(
+			htmlmin({
+				collapseWhitespace: true,
+				conservativeCollapse: true,
+				preserveLineBreaks: true,
+				removeComments: true,
+				keepClosingSlash: true,
+				removeEmptyAttributes: false
+			})
+		)
+		.pipe(prettyHtml())
+		.pipe(gulp.dest(paths.dom.dest));
 	
+	cb();
+}
+
+function copyEmailDOM(cb){
+	return gulp
+		.src('./src/index.html')
+		.pipe(gulp.dest(paths.dom.dest));
+
 	cb();
 }
 
@@ -367,7 +373,7 @@ function startServer(cb) {
 
 function watchForChanges() {
 	if(settings.type == 'email') {
-		gulp.watch(paths.dom.src, gulp.series(compressEmailDOM, liveReload));
+		gulp.watch(paths.dom.src, gulp.series(copyEmailDOM, liveReload));
 	}else{
 		gulp.watch(paths.dom.src, gulp.series(compressDOM, liveReload));
 		gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
@@ -402,7 +408,7 @@ function buildComplete(cb){
 const emailBuildTasks = gulp.series(
 	gulp.parallel(
 		compileEmailCSS,
-		compressEmailDOM,
+		copyEmailDOM,
 		compressImages
 	),
 	updateEmailImagePaths,
@@ -435,7 +441,7 @@ if(settings.type == 'email') {
 
 const emailDevelopmentTasks = gulp.series(
 	compileCSS,
-	compressEmailDOM,
+	copyEmailDOM,
 	compressImages,
 	startServer,
 	watchForChanges
