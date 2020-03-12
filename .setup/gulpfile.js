@@ -394,6 +394,13 @@ function liveReload(cb) {
 * >>========================================>
 */
 
+
+function deleteDist(cb) {
+	return del('./dist/');
+
+	cb();
+}
+
 function buildComplete(cb){
 	notifier.notify({
 		title: 'Kindling',
@@ -406,6 +413,7 @@ function buildComplete(cb){
 }
 
 const emailBuildTasks = gulp.series(
+	deleteDist,
 	gulp.parallel(
 		compileEmailCSS,
 		copyEmailDOM,
