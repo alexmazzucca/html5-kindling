@@ -13,7 +13,7 @@ var sass = require("gulp-sass");
 var autoprefixer = require("gulp-autoprefixer");
 var sourcemaps = require('gulp-sourcemaps');
 var prettyHtml = require('gulp-pretty-html');
-var inlineCss = require('gulp-inline-css');
+var inlineStyles = require('gulp-inline-css');
 var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var cache = require('gulp-cache');
@@ -100,7 +100,7 @@ function backupDatabase(cb){
 * >>========================================>
 */
 
-function compressScripts(cb) {
+function compressJS(cb) {
 	return gulp
 		.src(paths.scripts.src)
 		.on("error", function(err) {
@@ -124,7 +124,7 @@ function compressScripts(cb) {
 	cb();
 }
 
-function combineScripts(cb) {
+function combineJS(cb) {
 	return gulp
 		.src(paths.scripts.src)
 		.on("error", function(err) {
@@ -282,10 +282,10 @@ function compileEmailSass(cb){
 	cb();
 }
 
-function inlineCSS(cb) {
+function inlineStyles(cb) {
 	return gulp
 		.src('./dist/index.html')
-		.pipe(inlineCss({
+		.pipe(inlineStyles({
 			applyStyleTags: true,
 			applyLinkTags: true,
 			removeStyleTags: true,
@@ -316,7 +316,7 @@ function delTempCSSDir(cb) {
 * >>========================================>
 */
 
-function compressImages(cb) {
+function compressImg(cb) {
 	return gulp
 		.src(paths.images.src)
 		.pipe(cache(imagemin([
@@ -376,15 +376,16 @@ function watchForChanges() {
 		gulp.watch(paths.dom.src, gulp.series(copyEmailDOM, liveReload));
 	}else{
 		gulp.watch(paths.dom.src, gulp.series(compressDOM, liveReload));
-		gulp.watch(paths.scripts.src, gulp.series(combineScripts, liveReload));
+		gulp.watch(paths.scripts.src, gulp.series(combineJS, liveReload));
 	}
 
 	gulp.watch(paths.styles.src, gulp.series(compileSass));
-	gulp.watch(paths.images.src, {events: ['add']}, gulp.series(compressImages, liveReload));
+	gulp.watch(paths.images.src, {events: ['add']}, gulp.series(compressImg, liveReload));
 }
 
 function liveReload(cb) {
 	browserSync.reload();
+
 	cb();
 }
 
@@ -394,9 +395,14 @@ function liveReload(cb) {
 * >>========================================>
 */
 
-
-function deleteDist(cb) {
+function delDistDir(cb) {
 	return del('./dist/');
+
+	cb();
+}
+
+function delDistImgDir(cb) {
+	return del(paths.images.dest);
 
 	cb();
 }
@@ -413,24 +419,25 @@ function buildComplete(cb){
 }
 
 const emailBuildTasks = gulp.series(
-	deleteDist,
+	delDistDir,
 	gulp.parallel(
 		compileEmailSass,
 		compressEmailDOM,
-		compressImages
+		compressImg
 	),
 	updateEmailImagePaths,
-	inlineCSS,
+	inlineStyles,
 	delTempCSSDir,
 	buildComplete
 );
 
 const buildTasks = gulp.series(
+	delDistImgDir,
 	gulp.parallel(
-		compressScripts,
+		compressJS,
 		compileSass,
 		compressDOM,
-		compressImages
+		compressImg
 	),
 	buildComplete
 );
@@ -450,16 +457,16 @@ if(settings.type == 'email') {
 const emailDevTasks = gulp.series(
 	compileSass,
 	copyEmailDOM,
-	compressImages,
+	compressImg,
 	startServer,
 	watchForChanges
 );
 
 const devTasks = gulp.series(
-	combineScripts,
+	combineJS,
 	compileSass,
 	compressDOM,
-	compressImages,
+	compressImg,
 	startServer,
 	watchForChanges
 );
