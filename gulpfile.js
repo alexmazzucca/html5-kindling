@@ -254,8 +254,8 @@ function updateBuildTasks(cb){
 function updateREADME(cb){
 	return gulp.src(['./.setup/README.md'])
 		.pipe(replace('<title>', settings.title))
-		.pipe(replace('<title>', settings.title))
-		.pipe(replace('<title>', settings.title))
+		.pipe(replace('<description>', settings.description))
+		.pipe(replace('<type>', settings.type))
 		.pipe(gulp.dest('./'));
 
 	cb();
