@@ -20,21 +20,21 @@ This command will create appropriate starter files for your new project dependin
 
 **A note about working with email projects:**
 
-During the setup process, you can specify an absolute path for images by providing a "Development URL" when prompted. This will update all image paths in your compiled HTML automatically when the project is built. For example, by specifying `'http://yoursite.com/'` as the URL, image source attributes will change from `src="img/spacer.gif"` to `src="http://yoursite.com/img/spacer.gif"`.
+During the setup process, you can specify an absolute path for images by providing a "Development URL" when prompted. This will update all image paths in your compiled HTML automatically when the project is built. For example, by specifying `'http://yoursite.com/images/'` as the URL, image source attributes will change from `src="img/spacer.gif"` to `src="http://yoursite.com/images/spacer.gif"`.
   
-## Build Tasks
+## Available Tasks
 
 Once the setup process is complete, the following tasks will be enabled. These tasks can be run via CLI or via the VSCode build tasks menu (⇧⌘B).
 
 ### `gulp build`
 
-This task will appear as "Build" in the VSCode build task menu. Once executed, this command will compress the project's CSS files and uglify JS files, preparing your project for deployment.
+This task will appear as "Build" in the VSCode build task menu. Once executed, this command will perform operations such as compile and compress the project's Sass files, uglify JS files, etc..
 
 ### `gulp develop`
 
-This task will appear as "Develop" in the VSCode build task menu. Once executed, this command will start a local development server. It will concatenate and compile JS files, but it will not compress them, allowing for faster load times and readility.
+This task will appear as "Develop" in the VSCode build task menu. Once executed, this command will start a local development server. It will concatenate and compile JS files, but it will not compress them, allowing for faster load times and readility for debugging.
 
-Gulp will watch for changes in the following files and directories and process them accordingly. After the changes have been recognized, your browser will be automatically refreshed:
+Gulp will watch for changes in the following files and directories and process them accordingly. After the changes have been recognized, appropriate tasks will run and your browser will be automatically refreshed:
 
 1. "./src/js/vendor/*.js"
 2. "./src/js/main.js"
