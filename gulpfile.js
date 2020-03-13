@@ -186,6 +186,12 @@ function copyTemplateFilesToSrc(){
 		.pipe(gulp.dest('./src/'));
 }
 
+function delTempSrcFiles(cb) {
+	return del('./src/*');
+
+	cb();
+}
+
 function copyTemplateAssetsToSrc(cb){
 	if(settings.type == 'static' || settings.type == 'wordpress'){
 		return gulp
@@ -221,7 +227,7 @@ function cloneWP(cb){
 	}
 }
 
-function modifyNotificationIcon(cb){
+function changeNotificationIcon(cb){
 	return gulp
 		.src('./.setup/Terminal.icns')
 		.pipe(gulp.dest('./node_modules/node-notifier/vendor/mac.noindex/terminal-notifier.app/Contents/Resources/'))
@@ -245,17 +251,23 @@ function updateBuildTasks(cb){
 	}
 }
 
-function modifyREADME(cb){
+function updateREADME(cb){
 	return gulp.src(['./.setup/README.md'])
 		.pipe(replace('<title>', settings.title))
-		.pipe(replace('<description>', settings.description))
-		.pipe(replace('<type>', settings.type))
+		.pipe(replace('<title>', settings.title))
+		.pipe(replace('<title>', settings.title))
+		
+		.pipe(replace({
+			: ,
+			'<description>': settings.description,
+			'<type>': settings.type
+		}))
 		.pipe(gulp.dest('./'));
 
 	cb();
 }
 
-const removeSetupFiles = () => del(['./.setup']);
+const delSetupFiles = () => del(['./.setup']);
 
 function setupComplete(cb){
 	notifier.notify({
@@ -288,10 +300,11 @@ const setupProject = gulp.series(
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
 	cloneWP,
-	modifyNotificationIcon,
+	changeNotificationIcon,
 	updateBuildTasks,
-	modifyREADME,
-	removeSetupFiles,
+	updateREADME,
+	delSetupFiles,
+	delTempSrcFiles,
 	setupComplete
 );
 
