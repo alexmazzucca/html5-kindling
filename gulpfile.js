@@ -290,6 +290,7 @@ const setupProject = gulp.series(
 	updatePackageInfo,
 	updateProjectSettings,
 	copyGulpFileToRoot,
+	delTempSrcFiles,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
@@ -298,7 +299,6 @@ const setupProject = gulp.series(
 	updateBuildTasks,
 	updateREADME,
 	delSetupFiles,
-	delTempSrcFiles,
 	setupComplete
 );
 
