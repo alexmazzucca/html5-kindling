@@ -256,12 +256,6 @@ function updateREADME(cb){
 		.pipe(replace('<title>', settings.title))
 		.pipe(replace('<title>', settings.title))
 		.pipe(replace('<title>', settings.title))
-		
-		.pipe(replace({
-			: ,
-			'<description>': settings.description,
-			'<type>': settings.type
-		}))
 		.pipe(gulp.dest('./'));
 
 	cb();
