@@ -1,7 +1,8 @@
 var settings = {
-	name: '',
-	description: '',
+	title: '',
 	repo: '',
+	repoURL: '',
+	description: '',
 	type: '',
 	address: '',
 	database: '',
@@ -21,6 +22,7 @@ var prompt = require('gulp-prompt');
 var notify = require("gulp-notify");
 var jsonModify = require("gulp-json-modify");
 var getRepoInfo = require('git-repo-info');
+var replace = require('gulp-replace');
 
 const gitRemoteOriginUrl = require('git-remote-origin-url');
 const del = require("del");
@@ -44,6 +46,11 @@ function initialPromptForProjectInfo(cb){
 		},
 		{
 			type: 'input',
+			name: 'title',
+			message: 'Project title:'
+		},
+		{
+			type: 'input',
 			name: 'description',
 			message: 'Project description:'
 		},
@@ -53,6 +60,7 @@ function initialPromptForProjectInfo(cb){
 			message: 'Development URL (include protocol and trailing slash) (optional):'
 		}
 		], function(res){
+			settings.title = res.title;
 			settings.type = res.type;
 			settings.description = res.description;
 			settings.address = res.address;
@@ -101,9 +109,9 @@ function promptForWordpressDetails(cb){
 
 function updateAdditionalProjectInfo(cb){
 	settings.author = getRepoInfo().author;
-	settings.name = path.basename(process.cwd());
+	settings.repo = path.basename(process.cwd());
 	(async() => {
-		settings.repo = await gitRemoteOriginUrl();
+		settings.repoURL = await gitRemoteOriginUrl();
 	})();
 	cb();
 }
@@ -111,7 +119,7 @@ function updateAdditionalProjectInfo(cb){
 function renameWorkspaceFile(){
 	return gulp.src('./kindling.code-workspace')
 		.pipe(rename(function (path) {
-			path.basename = settings.name;
+			path.basename = settings.repo;
 		}))
 		.pipe(gulp.dest('./'))
 }
@@ -120,7 +128,7 @@ function updatePackageInfo(){
 	return gulp.src('./package.json')
 		.pipe(jsonModify({
 			key: 'name',
-			value: settings.name
+			value: settings.repo
 		}))
 		.pipe(jsonModify({
 			key: 'description',
@@ -128,7 +136,7 @@ function updatePackageInfo(){
 		}))
 		.pipe(jsonModify({
 			key: 'repository.url',
-			value: settings.repo
+			value: settings.repoURL
 		}))
 		.pipe(jsonModify({
 			key: 'author',
@@ -237,6 +245,18 @@ function updateBuildTasks(cb){
 	}
 }
 
+function modifyREADME(cb){
+	return gulp.src(['./.setup/README.md'])
+		.pipe(replace({
+			'<title>': settings.title,
+			'<description>': settings.description,
+			'<type>': settings.type
+		}))
+		.pipe(gulp.dest('./'));
+
+	cb();
+}
+
 const removeSetupFiles = () => del(['./.setup']);
 
 function setupComplete(cb){
@@ -272,6 +292,7 @@ const setupProject = gulp.series(
 	cloneWP,
 	modifyNotificationIcon,
 	updateBuildTasks,
+	modifyREADME,
 	removeSetupFiles,
 	setupComplete
 );
