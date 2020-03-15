@@ -262,7 +262,7 @@ function updateREADME(cb){
 }
 
 function updateGitIgnore(cb){
-	return gulp.src(['./'])
+	return gulp.src(['./.gitignore'])
 		.pipe(replace('# .setup/', '.setup/'))
 		.pipe(gulp.dest('./'));
 
