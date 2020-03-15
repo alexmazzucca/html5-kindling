@@ -261,6 +261,14 @@ function updateREADME(cb){
 	cb();
 }
 
+function updateGitIgnore(cb){
+	return gulp.src(['./'])
+		.pipe(replace('# .setup/', '.setup/'))
+		.pipe(gulp.dest('./'));
+
+	cb();
+}
+
 const delSetupFiles = () => del(['./.setup']);
 
 function setupComplete(cb){
@@ -298,6 +306,7 @@ const setupProject = gulp.series(
 	changeNotificationIcon,
 	updateBuildTasks,
 	updateREADME,
+	updateGitIgnore,
 	delSetupFiles,
 	setupComplete
 );
