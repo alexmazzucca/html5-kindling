@@ -261,17 +261,6 @@ function updateREADME(cb){
 	cb();
 }
 
-<<<<<<< HEAD
-function updateGitIgnore(cb){
-	return gulp.src(['./.gitignore'])
-		.pipe(replace('# .setup/', '.setup/'))
-		.pipe(gulp.dest('./'));
-
-	cb();
-}
-
-=======
->>>>>>> parent of 0a53554... Add .setup/ to gitignore as part of setup process
 const delSetupFiles = () => del(['./.setup']);
 
 function setupComplete(cb){
