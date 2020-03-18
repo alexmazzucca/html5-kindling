@@ -6,7 +6,8 @@ var settings = {
 	type: '',
 	address: '',
 	database: '',
-	theme: ''
+	theme: '',
+	author: ''
 };
 
 /*
