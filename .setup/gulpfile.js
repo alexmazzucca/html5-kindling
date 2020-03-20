@@ -13,7 +13,7 @@ var sass = require("gulp-sass");
 var autoprefixer = require("gulp-autoprefixer");
 var sourcemaps = require('gulp-sourcemaps');
 var prettyHtml = require('gulp-pretty-html');
-var inlineStyles = require('gulp-inline-css');
+var inlineCSS = require('gulp-inline-css');
 var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var cache = require('gulp-cache');
@@ -285,7 +285,7 @@ function compileEmailSass(cb){
 function inlineStyles(cb) {
 	return gulp
 		.src('./dist/index.html')
-		.pipe(inlineStyles({
+		.pipe(inlineCSS({
 			applyStyleTags: true,
 			applyLinkTags: true,
 			removeStyleTags: true,
