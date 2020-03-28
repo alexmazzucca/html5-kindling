@@ -209,8 +209,8 @@ function updateEmailImagePaths(cb){
 
 function copyFilesToDist(cb){
 	return gulp
-		.src(['./src/*', '!./src/js/', '!./src/scss/', '!./src/img/', './src/**/*.html', './src/**/*.php')
-		.pipe('./dist/'));
+		.src('./src/**', '!./src/js/', '!./src/scss/', '!./src/img/', './src/**/*.html', './src/**/*.php')
+		.pipe(gulp.dest('./dist/'));
 }
 
 /*
