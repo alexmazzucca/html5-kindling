@@ -387,6 +387,7 @@ function watchForChanges() {
 
 	gulp.watch(paths.styles.src, gulp.series(compileSass));
 	gulp.watch(paths.images.src, {events: ['add']}, gulp.series(compressImg, liveReload));
+	gulp.watch('./src/**', {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
 }
 
 function liveReload(cb) {
