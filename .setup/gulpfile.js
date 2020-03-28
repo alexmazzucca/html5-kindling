@@ -207,6 +207,12 @@ function updateEmailImagePaths(cb){
 	cb();
 }
 
+function copyFilesToDist(cb){
+	return gulp
+		.src(['./src/*', '!./src/js/', '!./src/scss/', '!./src/img/', './src/**/*.html', './src/**/*.php')
+		.pipe('./dist/'));
+}
+
 /*
 * >>========================================>
 * Sass/CSS Tasks
@@ -401,11 +407,11 @@ function delDistDir(cb) {
 	cb();
 }
 
-function delDistImgDir(cb) {
-	return del(paths.images.dest);
+// function delDistImgDir(cb) {
+// 	return del(paths.images.dest);
 
-	cb();
-}
+// 	cb();
+// }
 
 function buildComplete(cb){
 	notifier.notify({
@@ -432,7 +438,8 @@ const emailBuildTasks = gulp.series(
 );
 
 const buildTasks = gulp.series(
-	delDistImgDir,
+	delDistDir,
+	copyFilesToDist,
 	gulp.parallel(
 		compressJS,
 		compileSass,
@@ -455,6 +462,7 @@ if(settings.type == 'email') {
 */
 
 const emailDevTasks = gulp.series(
+	delDistDir,
 	compileSass,
 	copyEmailDOM,
 	compressImg,
@@ -463,6 +471,8 @@ const emailDevTasks = gulp.series(
 );
 
 const devTasks = gulp.series(
+	delDistDir,
+	copyFilesToDist,
 	combineJS,
 	compileSass,
 	compressDOM,
