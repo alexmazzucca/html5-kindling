@@ -115,7 +115,7 @@ function compressJS(cb) {
 		.pipe(uglify())
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'Javascript successfully compressed',
+			message: 'Javascript compression complete',
 			icon: 'undefined',
 			contentImage: 'undefined'
 		}))
@@ -138,7 +138,7 @@ function combineJS(cb) {
 		.pipe(concat("main.js"))
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'Javascript successfully concatenated',
+			message: 'Javascript concatenated complete',
 			icon: 'undefined',
 			contentImage: 'undefined'
 		}))
@@ -209,7 +209,14 @@ function updateEmailImagePaths(cb){
 
 function copyFilesToDist(cb){
 	return gulp
-		.src('./src/**', '!./src/js/', '!./src/scss/', '!./src/img/', './src/**/*.html', './src/**/*.php')
+		.src(['./src/**', '!./src/js/', '!./src/scss/', '!./src/img/', '!./src/**/*.html', '!./src/**/*.php'])
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'Files successfully copied to ./dist',
+			icon: 'undefined',
+			contentImage: 'undefined',
+			onLast: true
+		}))
 		.pipe(gulp.dest('./dist/'));
 }
 
@@ -238,9 +245,10 @@ function compileSass(cb) {
 		})
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'SASS successfully compiled',
+			message: 'SASS compilation complete',
 			icon: 'undefined',
-			contentImage: 'undefined'
+			contentImage: 'undefined',
+			onLast: true
 		}))
 		.pipe(autoprefixer())
 		.pipe(sourcemaps.write('.'))
@@ -278,7 +286,7 @@ function compileEmailSass(cb){
 		})
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'SASS successfully compiled',
+			message: 'SASS compilation complete',
 			icon: 'undefined',
 			contentImage: 'undefined'
 		}))
@@ -301,7 +309,7 @@ function inlineStyles(cb) {
 		}))
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'CSS successfully inlined',
+			message: 'CSS inline complete',
 			icon: 'undefined',
 			contentImage: 'undefined'
 		}))
@@ -333,9 +341,10 @@ function compressImg(cb) {
 		})))
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'Images successfully compressed',
+			message: 'Image compression complete',
 			icon: 'undefined',
-			contentImage: 'undefined'
+			contentImage: 'undefined',
+			onLast: true
 		}))
 		.pipe(gulp.dest(paths.images.dest));
 
@@ -387,7 +396,7 @@ function watchForChanges() {
 
 	gulp.watch(paths.styles.src, gulp.series(compileSass));
 	gulp.watch(paths.images.src, {events: ['add']}, gulp.series(compressImg, liveReload));
-	gulp.watch('./src/**', {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
+	gulp.watch(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/img/**', '!./src/**/*.html', '!./src/**/*.php'], {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
 }
 
 function liveReload(cb) {
@@ -403,16 +412,10 @@ function liveReload(cb) {
 */
 
 function delDistDir(cb) {
-	return del('./dist/');
+	return del('./dist/' + pathToTheme);
 
 	cb();
 }
-
-// function delDistImgDir(cb) {
-// 	return del(paths.images.dest);
-
-// 	cb();
-// }
 
 function buildComplete(cb){
 	notifier.notify({
