@@ -217,7 +217,7 @@ function copyFilesToDist(cb){
 			contentImage: 'undefined',
 			onLast: true
 		}))
-		.pipe(gulp.dest('./dist/'));
+		.pipe(gulp.dest('./dist/' + pathToTheme));
 }
 
 /*

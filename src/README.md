@@ -1,1 +1,1 @@
-Please do not remove this file. It will ve removed automatically once setup has completed.
+Please do not remove this file. It will be removed automatically once setup has completed.
