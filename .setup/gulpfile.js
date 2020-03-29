@@ -222,11 +222,11 @@ function copyFilesToDist(cb){
 
 /*
 * >>========================================>
-* Sass/CSS Tasks
+* SASS/CSS Tasks
 * >>========================================>
 */
 
-function compileSass(cb) {
+function compressSASS(cb) {
 	return gulp
 		.src(paths.styles.src)
 		.pipe(sourcemaps.init())
@@ -243,13 +243,6 @@ function compileSass(cb) {
 			}).write(err);
 			this.emit('end');
 		})
-		.pipe(notify({
-			title: 'Kindling',
-			message: 'SASS compilation complete',
-			icon: 'undefined',
-			contentImage: 'undefined',
-			onLast: true
-		}))
 		.pipe(autoprefixer())
 		.pipe(sourcemaps.write('.'))
 		.pipe(rename(
@@ -264,13 +257,20 @@ function compileSass(cb) {
 				}
 			}
 		))
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'SASS compilation and compression complete',
+			icon: 'undefined',
+			contentImage: 'undefined',
+			onLast: true
+		}))
 		.pipe(gulp.dest("./dist"))
 		.pipe(browserSync.stream());
 
 	cb();
 }
 
-function compileEmailSass(cb){
+function compileEmailSASS(cb){
 	return gulp
 		.src('./src/scss/email.scss')
 		.pipe(
@@ -394,7 +394,7 @@ function watchForChanges() {
 		gulp.watch(paths.scripts.src, gulp.series(combineJS, liveReload));
 	}
 
-	gulp.watch(paths.styles.src, gulp.series(compileSass));
+	gulp.watch(paths.styles.src, gulp.series(compressSASS));
 	gulp.watch(paths.images.src, {events: ['add']}, gulp.series(compressImg, liveReload));
 	gulp.watch(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/img/**', '!./src/**/*.html', '!./src/**/*.php'], {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
 }
@@ -431,7 +431,7 @@ function buildComplete(cb){
 const emailBuildTasks = gulp.series(
 	delDistDir,
 	gulp.parallel(
-		compileEmailSass,
+		compileEmailSASS,
 		compressEmailDOM,
 		compressImg
 	),
@@ -446,7 +446,7 @@ const buildTasks = gulp.series(
 	copyFilesToDist,
 	gulp.parallel(
 		compressJS,
-		compileSass,
+		compressSASS,
 		compressDOM,
 		compressImg
 	),
@@ -467,7 +467,7 @@ if(settings.type == 'email') {
 
 const emailDevTasks = gulp.series(
 	delDistDir,
-	compileSass,
+	compressSASS,
 	copyEmailDOM,
 	compressImg,
 	startServer,
@@ -478,7 +478,7 @@ const devTasks = gulp.series(
 	delDistDir,
 	copyFilesToDist,
 	combineJS,
-	compileSass,
+	compressSASS,
 	compressDOM,
 	compressImg,
 	startServer,
