@@ -62,7 +62,7 @@ const paths = {
 		dest: "./dist/" + pathToTheme
 	},
 	images: {
-		src: "./src/img/*",
+		src: "./src/img/**",
 		dest: "./dist/" + pathToTheme + "img/"
 	}
 };
@@ -138,7 +138,7 @@ function combineJS(cb) {
 		.pipe(concat("main.js"))
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'Javascript concatenated complete',
+			message: 'Javascript concatenation complete',
 			icon: 'undefined',
 			contentImage: 'undefined'
 		}))
@@ -209,7 +209,7 @@ function updateEmailImagePaths(cb){
 
 function copyFilesToDist(cb){
 	return gulp
-		.src(['./src/**', '!./src/js/', '!./src/scss/', '!./src/img/', '!./src/**/*.html', '!./src/**/*.php'])
+		.src(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/img/**', '!./src/**/*.html', '!./src/**/*.php'])
 		.pipe(notify({
 			title: 'Kindling',
 			message: 'Files successfully copied to ./dist',
