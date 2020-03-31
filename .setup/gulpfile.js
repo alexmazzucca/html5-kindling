@@ -87,7 +87,7 @@ function backupDatabase(cb){
 					format : false
 				}
 			},
-			dumpToFile: './db/' + settings.database + '.sql'
+			dumpToFile: settings.database + '.sql'
 		});
 	}
 
