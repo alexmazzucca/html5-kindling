@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<?php echo '<html class="no-js" lang="en">'; ?>
     <head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -24,7 +24,7 @@
 
 	</head>
 
-	<body <?php body_class(); ?>>
+	<?php echo '<body '; ?><?php body_class(); ?><?php echo '>'; ?>
 
 		<!--[if lte IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/" target="_blank" rel="noopener">upgrade your browser</a> to improve your experience and security.</p>

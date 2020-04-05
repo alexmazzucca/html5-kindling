@@ -20,5 +20,5 @@
     </script>
     <script src="https://www.google-analytics.com/analytics.js" async></script>
 
-    </body>
-</html>
+    <?php echo '</body>'; ?>
+<?php echo '</html>'; ?>
