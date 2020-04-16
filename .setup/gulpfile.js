@@ -209,7 +209,7 @@ function updateEmailImagePaths(cb){
 
 function copyFilesToDist(cb){
 	return gulp
-		.src(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/img/**', '!./src/**/*.html', '!./src/**/*.php'])
+		.src(['./src/**', './src/**/.*', '!./src/js/**', '!./src/scss/**'])
 		.pipe(notify({
 			title: 'Kindling',
 			message: 'Files successfully copied to ./dist',
