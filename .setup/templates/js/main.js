@@ -1,5 +1,4 @@
 console.log('%cΔRCHER', 'background: #14548A; color: #ffffff; border-left: 5px solid #14548A; border-right: 5px solid #14548A; font-size: 15px;', 'http://archerinteractive.com');
-console.log(' ');
 
 /*
 * >>========================================>
