@@ -123,24 +123,27 @@ function promptForWordpressDetails(cb){
 	}
 }
 
-function promptForInitialDeployentDetails(cb){
-	if(settings.server == 'yes'){
-		return gulp.src('./package.json')
-			.pipe(prompt.prompt([
-			{
-				type: 'list',
-				name: 'staging',
-				message: 'Is there a staging environment for this site?',
-				choices: ['yes', 'no']
-			}
-			], function(res){
-				settings.staging = res.staging;
-				cb();
-			}))
-			.pipe(gulp.dest('./'))
-	}else{
-		cb();
-	}
+function initialPromptForDeploymentOptions(){
+	return gulp.src('./package.json')
+		.pipe(prompt.prompt([
+		{
+			type: 'list',
+			name: 'server_live',
+			message: 'Would you like to configure a production (live) server?',
+			choices: ['yes', 'no']
+		},
+		{
+			type: 'list',
+			name: 'server_staging',
+			message: 'Would you like to configure a staging server?',
+			choices: ['yes', 'no']
+		}
+		], function(res){
+			settings.server_live = res.server_live;
+			settings.server_staging = res.server_staging;
+			cb();
+		}))
+		.pipe(gulp.dest('./'))
 }
 
 function promptForStagingDeployentDetails(cb){
@@ -407,7 +410,7 @@ const setupProject = gulp.series(
 	initialPromptForProjectInfo,
 	promptForSiteDetails,
 	promptForWordpressDetails,
-	promptForInitialDeployentDetails,
+	initialPromptForDeploymentOptions,
 	promptForStagingDeployentDetails,
 	promptForLiveDeployentDetails,
 	updateAdditionalProjectInfo,
