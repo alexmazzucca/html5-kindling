@@ -67,19 +67,12 @@ function initialPromptForProjectInfo(cb){
 			type: 'input',
 			name: 'address',
 			message: 'Development URL (include protocol and trailing slash) (optional):'
-		},
-		{
-			type: 'list',
-			name: 'server',
-			message: 'Would you like to configure deployment server(s)?',
-			choices: ['yes', 'no']
 		}
 		], function(res){
 			settings.title = res.title;
 			settings.type = res.type;
 			settings.description = res.description;
 			settings.address = res.address;
-			settings.server = res.server;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
@@ -93,9 +86,16 @@ function promptForSiteDetails(cb){
 				type: 'input',
 				name: 'database',
 				message: 'Database name (optional):'
+			},
+			{
+				type: 'list',
+				name: 'server',
+				message: 'Would you like to configure deployment server(s)?',
+				choices: ['yes', 'no']
 			}
 			], function(res){
 				settings.database = res.database;
+				settings.server = res.server;
 				cb();
 			}))
 			.pipe(gulp.dest('./'))
