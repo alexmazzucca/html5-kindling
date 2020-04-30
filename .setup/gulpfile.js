@@ -20,6 +20,7 @@ var cache = require('gulp-cache');
 var notify = require("gulp-notify");
 var gutil = require( 'gulp-util' );
 var ftp = require( 'vinyl-ftp' );
+var prompt = require('gulp-prompt');
 
 const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
@@ -417,23 +418,19 @@ var deploymentEnvironment = 'production';
 
 function promptForDeploymentOptions(cb){
 	if(settings.staging_host != ''){
-		if(settings.staging_host != ''){
-			return gulp.src('./package.json')
-				.pipe(prompt.prompt([
-				{
-					type: 'list',
-					name: 'environment',
-					message: 'Select the deployment environment:',
-					choices: ['staging', 'production'],
-				},
-				], function(res){
-					deploymentEnvironment = res.environment;
-					cb();
-				}))
-				.pipe(gulp.dest('./'))
-		}else{
-			cb();
-		}
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+			{
+				type: 'list',
+				name: 'environment',
+				message: 'Select the deployment environment:',
+				choices: ['staging', 'production'],
+			},
+			], function(res){
+				deploymentEnvironment = res.environment;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
 	}else{
 		cb();
 	}
