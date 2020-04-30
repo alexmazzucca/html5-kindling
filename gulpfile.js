@@ -123,7 +123,7 @@ function promptForWordpressDetails(cb){
 	}
 }
 
-function initialPromptForDeploymentOptions(){
+function promptforLiveServer(){
 	if(settings.type == 'wordpress' || settings.type == 'static'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
@@ -133,6 +133,20 @@ function initialPromptForDeploymentOptions(){
 				message: 'Would you like to configure a production (live) server?',
 				choices: ['yes', 'no']
 			},
+			], function(res){
+				settings.server_live = res.server_live;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
+		}else{
+			cb();
+		}
+}
+
+function promptForStagingServer(){
+	if(settings.type == 'wordpress' || settings.type == 'static'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
 			{
 				type: 'list',
 				name: 'server_staging',
@@ -140,7 +154,6 @@ function initialPromptForDeploymentOptions(){
 				choices: ['yes', 'no']
 			}
 			], function(res){
-				settings.server_live = res.server_live;
 				settings.server_staging = res.server_staging;
 				cb();
 			}))
@@ -414,8 +427,9 @@ const setupProject = gulp.series(
 	initialPromptForProjectInfo,
 	promptForSiteDetails,
 	promptForWordpressDetails,
-	initialPromptForDeploymentOptions,
+	promptForStagingServer,
 	promptForStagingDeployentDetails,
+	promptForLiveServer,
 	promptForLiveDeployentDetails,
 	updateAdditionalProjectInfo,
 	renameWorkspaceFile,
