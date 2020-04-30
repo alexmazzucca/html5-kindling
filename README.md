@@ -1,6 +1,6 @@
 <img src="https://user-images.githubusercontent.com/333020/69454644-a2dbdd80-0d34-11ea-8463-2c6b3337e277.png" width="200" height="200">
 
-# Kindling v2.7
+# Kindling v2.8
 
 This project is based on Kindling ([https://github.com/alexmazzucca/kindling/](https://github.com/alexmazzucca/kindling)): a starting point for static website, WordPress and email development. The following instructions assume a basic knowledge of npm and gulp.js
   
@@ -46,3 +46,7 @@ Gulp will watch for changes in the following files and directories and process t
 ### `gulp database`
 
 This task will appear as "Backup Database" in the VSCode build task menu. Once executed, this command will export a copy of the project's database to the root folder of your new project.
+
+### `gulp deploy`
+
+This task will appear as "Deploy" in the VSCode build task menu. Once executed, this command will upload files to the Production or Staging server that was specified during the setup process.
