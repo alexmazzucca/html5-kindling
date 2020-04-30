@@ -416,8 +416,8 @@ function liveReload(cb) {
 var deploymentEnvironment = 'production';
 
 function promptForDeploymentOptions(cb){
-	if(settings.server == 'yes'){
-		if(settings.staging == 'yes'){
+	if(settings.host != ''){
+		if(settings.staging_host != ''){
 			return gulp.src('./package.json')
 				.pipe(prompt.prompt([
 				{
