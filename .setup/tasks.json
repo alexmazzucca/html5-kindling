@@ -16,6 +16,14 @@
 			"task": "build",
 			"group": "build",
 			"problemMatcher": []
+		},
+		,
+		{
+			"label": "Deploy",
+			"type": "gulp",
+			"task": "deploy",
+			"group": "build",
+			"problemMatcher": []
 		}
 	]
 }

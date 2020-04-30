@@ -7,7 +7,15 @@ var settings = {
 	address: '',
 	database: '',
 	theme: '',
-	author: ''
+	author: '',
+	server: ''
+	staging: '',
+	staging_host: '',
+	staging_username: '',
+	staging_password: '',
+	live_host: '',
+	live_username: '',
+	live_password: '',
 };
 
 /*
@@ -59,12 +67,19 @@ function initialPromptForProjectInfo(cb){
 			type: 'input',
 			name: 'address',
 			message: 'Development URL (include protocol and trailing slash) (optional):'
+		},
+		{
+			type: 'input',
+			name: 'server',
+			message: 'Would you like to configure deployment server(s)?'
+			choices: ['yes', 'no'],
 		}
 		], function(res){
 			settings.title = res.title;
 			settings.type = res.type;
 			settings.description = res.description;
 			settings.address = res.address;
+			settings.server = res.server;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
@@ -100,6 +115,89 @@ function promptForWordpressDetails(cb){
 			}
 			], function(res){
 				settings.theme = res.theme;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
+	}else{
+		cb();
+	}
+}
+
+function promptForInitialDeployentDetails(cb){
+	if(settings.server == 'yes'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+			{
+				type: 'input',
+				name: 'staging',
+				message: 'Is there a staging environment for this site?',
+				choices: ['yes', 'no']
+			}
+			], function(res){
+				settings.staging = res.staging;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
+	}else{
+		cb();
+	}
+}
+
+function promptForStagingDeployentDetails(cb){
+	if(settings.staging == 'yes'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+			{
+				type: 'input',
+				name: 'host',
+				message: 'Staging FTP Host:'
+			},
+			{
+				type: 'input',
+				name: 'username',
+				message: 'Staging FTP Username:'
+			},
+			{
+				type: 'input',
+				name: 'password',
+				message: 'Staging FTP Password:'
+			}
+			], function(res){
+				settings.staging_host = res.host;
+				settings.staging_username = res.username;
+				settings.staging_password = res.password;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
+	}else{
+		cb();
+	}
+}
+
+
+function promptForLiveDeployentDetails(cb){
+	if(settings.server == 'yes'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+			{
+				type: 'input',
+				name: 'host',
+				message: 'Live FTP Host:'
+			},
+			{
+				type: 'input',
+				name: 'username',
+				message: 'Live FTP Username:'
+			},
+			{
+				type: 'input',
+				name: 'password',
+				message: 'Live FTP Password:'
+			}
+			], function(res){
+				settings.live_host = res.host;
+				settings.live_username = res.username;
+				settings.live_password = res.password;
 				cb();
 			}))
 			.pipe(gulp.dest('./'))
@@ -165,6 +263,30 @@ function updateProjectSettings(cb){
 		.pipe(jsonModify({
 			key: 'theme',
 			value: settings.theme
+		})),
+		.pipe(jsonModify({
+			key: 'staging_host',
+			value: settings.staging_host
+		}))
+		.pipe(jsonModify({
+			key: 'staging_username',
+			value: settings.staging_username
+		}))
+		.pipe(jsonModify({
+			key: 'staging_password',
+			value: settings.staging_password
+		}))
+		.pipe(jsonModify({
+			key: 'live_host',
+			value: settings.staging_host
+		}))
+		.pipe(jsonModify({
+			key: 'live_username',
+			value: settings.staging_username
+		}))
+		.pipe(jsonModify({
+			key: 'live_password',
+			value: settings.staging_password
 		}))
 		.pipe(gulp.dest('./'));
 	
@@ -285,6 +407,9 @@ const setupProject = gulp.series(
 	initialPromptForProjectInfo,
 	promptForSiteDetails,
 	promptForWordpressDetails,
+	promptForInitialDeployentDetails,
+	promptForStagingDeployentDetails,
+	promptForLiveDeployentDetails,
 	updateAdditionalProjectInfo,
 	renameWorkspaceFile,
 	removeWorkspaceFile,

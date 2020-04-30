@@ -2,5 +2,11 @@
 	"type": "",
 	"address": "",
 	"database": "",
-	"theme": ""
+	"theme": "",
+	"staging_host": "",
+	"staging_username": "",
+	"staging_password": "",
+	"live_host": "",
+	"live_username": "",
+	"live_password": ""
 }

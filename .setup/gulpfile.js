@@ -407,6 +407,64 @@ function liveReload(cb) {
 
 /*
 * >>========================================>
+* Deployment Tasks
+* >>========================================>
+*/
+
+function promptForDeploymentOptions(cb){
+	return gulp.src('./package.json')
+		.pipe(prompt.prompt([
+		{
+			type: 'list',
+			name: 'type',
+			message: 'Select the deployment environment:',
+			choices: ['staging', 'live'],
+		},
+		], function(res){
+			var environment = res.environment;
+
+			if(environment == 'staging'){
+				deployToStagingSite();
+			}else{
+				deployToLiveSite();
+			}
+			cb();
+		}))
+		.pipe(gulp.dest('./'))
+}
+
+function deployToStagingSite(){
+	var conn = ftp.create( {
+		host:     'mywebsite.tld',
+		user:     'me',
+		password: 'mypass',
+		parallel: 10,
+		log:      gutil.log
+	});
+
+	return gulp.src( './src/', { base: '.', buffer: false } )
+		.pipe(conn.newer('/public_html/test/'));
+		
+	cb();
+}
+
+function deployToLiveSite(){
+	var conn = ftp.create( {
+		host:     'mywebsite.tld',
+		user:     'me',
+		password: 'mypass',
+		parallel: 10,
+		log:      gutil.log
+	});
+
+	return gulp.src( './src/', { base: '.', buffer: false } )
+		.pipe(conn.newer('/public_html/test/'));
+		
+	cb();
+}
+
+/*
+* >>========================================>
 * Build Tasks
 * >>========================================>
 */
@@ -502,3 +560,15 @@ const databaseTasks = gulp.series(
 );
 
 gulp.task("database", databaseTasks);
+
+/*
+* >>========================================>
+* Deployment Tasks
+* >>========================================>
+*/
+
+const deploymentTasks = gulp.series(
+	promptForDeploymentOptions
+);
+
+gulp.task("deploy", deploymentTasks);
