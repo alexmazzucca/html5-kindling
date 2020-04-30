@@ -69,7 +69,7 @@ function initialPromptForProjectInfo(cb){
 			message: 'Development URL (include protocol and trailing slash) (optional):'
 		},
 		{
-			type: 'input',
+			type: 'list',
 			name: 'server',
 			message: 'Would you like to configure deployment server(s)?',
 			choices: ['yes', 'no']
@@ -128,7 +128,7 @@ function promptForInitialDeployentDetails(cb){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
 			{
-				type: 'input',
+				type: 'list',
 				name: 'staging',
 				message: 'Is there a staging environment for this site?',
 				choices: ['yes', 'no']
