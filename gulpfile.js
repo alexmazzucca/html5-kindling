@@ -289,16 +289,24 @@ function updateProjectSettings(cb){
 			value: settings.staging_password
 		}))
 		.pipe(jsonModify({
-			key: 'live_host',
-			value: settings.staging_host
+			key: 'staging_remote_path',
+			value: settings.staging_remote_path
 		}))
 		.pipe(jsonModify({
-			key: 'live_username',
-			value: settings.staging_username
+			key: 'host',
+			value: settings.host
 		}))
 		.pipe(jsonModify({
-			key: 'live_password',
-			value: settings.staging_password
+			key: 'username',
+			value: settings.username
+		}))
+		.pipe(jsonModify({
+			key: 'password',
+			value: settings.password
+		}))
+		.pipe(jsonModify({
+			key: 'remote_path',
+			value: settings.remote_path
 		}))
 		.pipe(gulp.dest('./'));
 	
