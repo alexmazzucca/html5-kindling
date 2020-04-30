@@ -3,10 +3,12 @@
 	"address": "",
 	"database": "",
 	"theme": "",
+	"host": "",
+	"username": "",
+	"password": "",
+	"remote_path": "",
 	"staging_host": "",
 	"staging_username": "",
 	"staging_password": "",
-	"live_host": "",
-	"live_username": "",
-	"live_password": ""
+	"staging_remote_path": ""
 }
