@@ -131,7 +131,7 @@ function promptForStagingServer(cb){
 			.pipe(prompt.prompt([
 			{
 				type: 'list',
-				name: 'server_staging',
+				name: 'staging',
 				message: 'Would you like to configure a staging server?',
 				choices: ['yes', 'no']
 			}
