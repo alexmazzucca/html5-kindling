@@ -12,10 +12,12 @@ var settings = {
 	host: '',
 	username: '',
 	password: '',
+	remote_path: '',
 	staging: '',
 	staging_host: '',
 	staging_username: '',
-	staging_password: ''
+	staging_password: '',
+	staging_remote_path: ''
 };
 
 /*
@@ -143,37 +145,6 @@ function promptForStagingServer(cb){
 		}
 }
 
-function promptForStagingDeployentDetails(cb){
-	if(settings.staging == 'yes'){
-		return gulp.src('./package.json')
-			.pipe(prompt.prompt([
-			{
-				type: 'input',
-				name: 'host',
-				message: 'Staging FTP Host:'
-			},
-			{
-				type: 'input',
-				name: 'username',
-				message: 'Staging FTP Username:'
-			},
-			{
-				type: 'input',
-				name: 'password',
-				message: 'Staging FTP Password:'
-			}
-			], function(res){
-				settings.staging_host = res.host;
-				settings.staging_username = res.username;
-				settings.staging_password = res.password;
-				cb();
-			}))
-			.pipe(gulp.dest('./'))
-	}else{
-		cb();
-	}
-}
-
 function promptForLiveDeployentDetails(cb){
 	if(settings.server == 'yes'){
 		return gulp.src('./package.json')
@@ -192,11 +163,53 @@ function promptForLiveDeployentDetails(cb){
 				type: 'input',
 				name: 'password',
 				message: 'FTP Password:'
+			},
+			{
+				type: 'input',
+				name: 'remote_path',
+				message: 'Remote Path (optional):'
 			}
 			], function(res){
-				settings.live_host = res.host;
-				settings.live_username = res.username;
-				settings.live_password = res.password;
+				settings.host = res.host;
+				settings.username = res.username;
+				settings.password = res.password;
+				settings.remote_path = res.remote_path;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
+	}else{
+		cb();
+	}
+}
+function promptForStagingDeployentDetails(cb){
+	if(settings.staging == 'yes'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+			{
+				type: 'input',
+				name: 'host',
+				message: 'Staging FTP Host:'
+			},
+			{
+				type: 'input',
+				name: 'username',
+				message: 'Staging FTP Username:'
+			},
+			{
+				type: 'input',
+				name: 'password',
+				message: 'Staging FTP Password:'
+			},
+			{
+				type: 'input',
+				name: 'path',
+				message: 'Staging Remote Path (optional):'
+			}
+			], function(res){
+				settings.staging_host = res.host;
+				settings.staging_username = res.username;
+				settings.staging_password = res.password;
+				settings.staging_remote_path = res.path;
 				cb();
 			}))
 			.pipe(gulp.dest('./'))
