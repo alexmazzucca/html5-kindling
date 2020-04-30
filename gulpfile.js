@@ -123,8 +123,8 @@ function promptForWordpressDetails(cb){
 	}
 }
 
-function promptforLiveServer(){
-	if(settings.type == 'wordpress' || settings.type == 'static'){
+function promptforLiveServer(cb){
+	if(settings.type == 'wordpress' || settings.type == 'static' && settings.server == 'yes'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
 			{
@@ -141,10 +141,11 @@ function promptforLiveServer(){
 		}else{
 			cb();
 		}
+	}
 }
 
 function promptForStagingServer(){
-	if(settings.type == 'wordpress' || settings.type == 'static'){
+	if(settings.type == 'wordpress' || settings.type == 'static' && settings.server == 'yes'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
 			{
