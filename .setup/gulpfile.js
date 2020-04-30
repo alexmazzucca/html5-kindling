@@ -449,7 +449,7 @@ function deployToServer(){
 			log:      gutil.log
 		});
 	
-		return gulp.src( './src/', { base: '.', buffer: false } )
+		return gulp.src( './dist/**', { base: '.', buffer: false } )
 			.pipe(conn.newer(settings.remote_path))
 			.pipe(conn.dest(settings.remote_path));
 	}else{
@@ -461,7 +461,7 @@ function deployToServer(){
 			log:      gutil.log
 		});
 	
-		return gulp.src( './src/', { base: '.', buffer: false } )
+		return gulp.src( './dist/**', { base: '.', buffer: false } )
 			.pipe(conn.newer(settings.staging_remote_path))
 			.pipe(conn.dest(settings.staging_remote_path));
 	}
