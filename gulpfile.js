@@ -8,14 +8,14 @@ var settings = {
 	database: '',
 	theme: '',
 	author: '',
-	server: ''
+	server: '',
 	staging: '',
 	staging_host: '',
 	staging_username: '',
 	staging_password: '',
 	live_host: '',
 	live_username: '',
-	live_password: '',
+	live_password: ''
 };
 
 /*
