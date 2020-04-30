@@ -263,7 +263,7 @@ function updateProjectSettings(cb){
 		.pipe(jsonModify({
 			key: 'theme',
 			value: settings.theme
-		})),
+		}))
 		.pipe(jsonModify({
 			key: 'staging_host',
 			value: settings.staging_host
