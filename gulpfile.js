@@ -9,13 +9,13 @@ var settings = {
 	theme: '',
 	author: '',
 	server: '',
+	host: '',
+	username: '',
+	password: '',
 	staging: '',
 	staging_host: '',
 	staging_username: '',
-	staging_password: '',
-	live_host: '',
-	live_username: '',
-	live_password: ''
+	staging_password: ''
 };
 
 /*
@@ -134,8 +134,7 @@ function promptForStagingServer(cb){
 				choices: ['yes', 'no']
 			}
 			], function(res){
-				settings.server_live = res.server_live;
-				settings.server_staging = res.server_staging;
+				settings.staging = res.staging;
 				cb();
 			}))
 			.pipe(gulp.dest('./'))
