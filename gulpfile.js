@@ -90,7 +90,7 @@ function promptForSiteDetails(cb){
 			{
 				type: 'list',
 				name: 'server',
-				message: 'Would you like to configure deployment server(s)?',
+				message: 'Would you like to configure a deployment server?',
 				choices: ['yes', 'no']
 			}
 			], function(res){
@@ -123,29 +123,8 @@ function promptForWordpressDetails(cb){
 	}
 }
 
-function promptforLiveServer(cb){
-	if(settings.type == 'wordpress' || settings.type == 'static' && settings.server == 'yes'){
-		return gulp.src('./package.json')
-			.pipe(prompt.prompt([
-			{
-				type: 'list',
-				name: 'server_live',
-				message: 'Would you like to configure a production (live) server?',
-				choices: ['yes', 'no']
-			},
-			], function(res){
-				settings.server_live = res.server_live;
-				cb();
-			}))
-			.pipe(gulp.dest('./'))
-		}else{
-			cb();
-		}
-	}
-}
-
-function promptForStagingServer(){
-	if(settings.type == 'wordpress' || settings.type == 'static' && settings.server == 'yes'){
+function promptForStagingServer(cb){
+	if(settings.type == 'wordpress' || settings.type == 'static'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
 			{
@@ -155,6 +134,7 @@ function promptForStagingServer(){
 				choices: ['yes', 'no']
 			}
 			], function(res){
+				settings.server_live = res.server_live;
 				settings.server_staging = res.server_staging;
 				cb();
 			}))
@@ -195,7 +175,6 @@ function promptForStagingDeployentDetails(cb){
 	}
 }
 
-
 function promptForLiveDeployentDetails(cb){
 	if(settings.server == 'yes'){
 		return gulp.src('./package.json')
@@ -203,17 +182,17 @@ function promptForLiveDeployentDetails(cb){
 			{
 				type: 'input',
 				name: 'host',
-				message: 'Live FTP Host:'
+				message: 'FTP Host:'
 			},
 			{
 				type: 'input',
 				name: 'username',
-				message: 'Live FTP Username:'
+				message: 'FTP Username:'
 			},
 			{
 				type: 'input',
 				name: 'password',
-				message: 'Live FTP Password:'
+				message: 'FTP Password:'
 			}
 			], function(res){
 				settings.live_host = res.host;
@@ -430,7 +409,6 @@ const setupProject = gulp.series(
 	promptForWordpressDetails,
 	promptForStagingServer,
 	promptForStagingDeployentDetails,
-	promptForLiveServer,
 	promptForLiveDeployentDetails,
 	updateAdditionalProjectInfo,
 	renameWorkspaceFile,
