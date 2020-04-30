@@ -448,7 +448,7 @@ function deployToServer(){
 		});
 	
 		return gulp.src( './src/', { base: '.', buffer: false } )
-			.pipe(conn.newer('/' + settings.remote_path));
+			.pipe(conn.newer(settings.remote_path));
 	}else{
 		var conn = ftp.create( {
 			host:     settings.staging_host,
@@ -459,7 +459,7 @@ function deployToServer(){
 		});
 	
 		return gulp.src( './src/', { base: '.', buffer: false } )
-			.pipe(conn.newer('/' + settings.staging_remote_path));
+			.pipe(conn.newer(settings.staging_remote_path));
 	}
 		
 	cb();
