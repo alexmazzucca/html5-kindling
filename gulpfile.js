@@ -370,14 +370,24 @@ function changeNotificationIcon(cb){
 }
 
 function updateBuildTasks(cb){
-	if(settings.database != '' && settings.server == 'yes'){
-		return gulp
-			.src('./.setup/tasks-deployment-database.json')
-			.pipe(rename(function (path) {
-				path.basename = 'tasks';
-			}))
-			.pipe(gulp.dest('./.vscode/'))
-		cb();
+	if(settings.server == 'yes'){
+		if(settings.database != ''){
+			return gulp
+				.src('./.setup/tasks-deployment-database.json')
+				.pipe(rename(function (path) {
+					path.basename = 'tasks';
+				}))
+				.pipe(gulp.dest('./.vscode/'))
+			cb();
+		}else{
+			return gulp
+				.src('./.setup/tasks-deployment.json')
+				.pipe(rename(function (path) {
+					path.basename = 'tasks';
+				}))
+				.pipe(gulp.dest('./.vscode/'))
+			cb();
+		}
 	}else if(settings.database != ''){
 		return gulp
 			.src('./.setup/tasks-database.json')
