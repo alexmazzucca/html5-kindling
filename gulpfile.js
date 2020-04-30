@@ -126,7 +126,7 @@ function promptForWordpressDetails(cb){
 }
 
 function promptForStagingServer(cb){
-	if(settings.type == 'wordpress' || settings.type == 'static'){
+	if(settings.type == 'wordpress' || settings.type == 'static' && settings.server == 'yes'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
 			{
