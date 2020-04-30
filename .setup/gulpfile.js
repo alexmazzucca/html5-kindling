@@ -411,54 +411,71 @@ function liveReload(cb) {
 * >>========================================>
 */
 
-function promptForDeploymentOptions(cb){
-	return gulp.src('./package.json')
-		.pipe(prompt.prompt([
-		{
-			type: 'list',
-			name: 'type',
-			message: 'Select the deployment environment:',
-			choices: ['staging', 'live'],
-		},
-		], function(res){
-			var environment = res.environment;
+var deploymentEnvironment = 'production';
 
-			if(environment == 'staging'){
-				deployToStagingSite();
-			}else{
-				deployToLiveSite();
-			}
+function promptForDeploymentOptions(cb){
+	if(settings.server == 'yes'){
+		if(settings.staging == 'yes'){
+			return gulp.src('./package.json')
+				.pipe(prompt.prompt([
+				{
+					type: 'list',
+					name: 'environment',
+					message: 'Select the deployment environment:',
+					choices: ['staging', 'production'],
+				},
+				], function(res){
+					deploymentEnvironment = res.environment;
+					cb();
+				}))
+				.pipe(gulp.dest('./'))
+		}else{
 			cb();
-		}))
-		.pipe(gulp.dest('./'))
+		}
+	}else{
+		cb();
+	}
 }
 
-function deployToStagingSite(){
-	var conn = ftp.create( {
-		host:     'mywebsite.tld',
-		user:     'me',
-		password: 'mypass',
-		parallel: 10,
-		log:      gutil.log
-	});
-
-	return gulp.src( './src/', { base: '.', buffer: false } )
-		.pipe(conn.newer('/public_html/test/'));
+function deployToServer(){
+	if(deploymentEnvironment == 'production'){
+		var conn = ftp.create( {
+			host:     settings.host,
+			user:     settings.username,
+			password: settings.password,
+			parallel: 10,
+			log:      gutil.log
+		});
+	
+		return gulp.src( './src/', { base: '.', buffer: false } )
+			.pipe(conn.newer('/' + settings.remote_path));
+	}else{
+		var conn = ftp.create( {
+			host:     settings.staging_host,
+			user:     settings.staging_username,
+			password: settings.staging_password,
+			parallel: 10,
+			log:      gutil.log
+		});
+	
+		return gulp.src( './src/', { base: '.', buffer: false } )
+			.pipe(conn.newer('/' + settings.staging_remote_path));
+	}
 		
 	cb();
 }
 
-function deployToLiveSite(){
+function deployToStagingServer(){
 	var conn = ftp.create( {
-		host:     'mywebsite.tld',
-		user:     'me',
-		password: 'mypass',
+		host:     settings.host,
+		user:     settings.username,
+		password: settings.password,
 		parallel: 10,
 		log:      gutil.log
 	});
 
 	return gulp.src( './src/', { base: '.', buffer: false } )
-		.pipe(conn.newer('/public_html/test/'));
+		.pipe(conn.newer('/' + settings.remote_path));
 		
 	cb();
 }
@@ -568,7 +585,9 @@ gulp.task("database", databaseTasks);
 */
 
 const deploymentTasks = gulp.series(
-	promptForDeploymentOptions
+	promptForDeploymentOptions,
+	deployToServer,
+	deployToStagingServer
 );
 
 gulp.task("deploy", deploymentTasks);
