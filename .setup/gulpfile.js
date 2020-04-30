@@ -18,6 +18,7 @@ var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var cache = require('gulp-cache');
 var notify = require("gulp-notify");
+var gutil = require( 'gulp-util' );
 var ftp = require( 'vinyl-ftp' );
 
 const mysqldump = require('mysqldump')
@@ -449,7 +450,8 @@ function deployToServer(){
 		});
 	
 		return gulp.src( './src/', { base: '.', buffer: false } )
-			.pipe(conn.newer(settings.remote_path));
+			.pipe(conn.newer(settings.remote_path))
+			.pipe(conn.dest(settings.remote_path));
 	}else{
 		var conn = ftp.create( {
 			host:     settings.staging_host,
@@ -460,23 +462,9 @@ function deployToServer(){
 		});
 	
 		return gulp.src( './src/', { base: '.', buffer: false } )
-			.pipe(conn.newer(settings.staging_remote_path));
+			.pipe(conn.newer(settings.staging_remote_path))
+			.pipe(conn.dest(settings.staging_remote_path));
 	}
-		
-	cb();
-}
-
-function deployToStagingServer(){
-	var conn = ftp.create( {
-		host:     settings.host,
-		user:     settings.username,
-		password: settings.password,
-		parallel: 10,
-		log:      gutil.log
-	});
-
-	return gulp.src( './src/', { base: '.', buffer: false } )
-		.pipe(conn.newer('/' + settings.remote_path));
 		
 	cb();
 }
@@ -587,8 +575,7 @@ gulp.task("database", databaseTasks);
 
 const deploymentTasks = gulp.series(
 	promptForDeploymentOptions,
-	deployToServer,
-	deployToStagingServer
+	deployToServer
 );
 
 gulp.task("deploy", deploymentTasks);
