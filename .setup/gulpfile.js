@@ -18,6 +18,7 @@ var replace = require('gulp-replace');
 var rename = require("gulp-rename");
 var cache = require('gulp-cache');
 var notify = require("gulp-notify");
+var ftp = require( 'vinyl-ftp' );
 
 const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
