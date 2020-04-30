@@ -71,8 +71,8 @@ function initialPromptForProjectInfo(cb){
 		{
 			type: 'input',
 			name: 'server',
-			message: 'Would you like to configure deployment server(s)?'
-			choices: ['yes', 'no'],
+			message: 'Would you like to configure deployment server(s)?',
+			choices: ['yes', 'no']
 		}
 		], function(res){
 			settings.title = res.title;
