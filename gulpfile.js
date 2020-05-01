@@ -88,22 +88,31 @@ function promptForSiteDetails(cb){
 				type: 'input',
 				name: 'database',
 				message: 'Database name (optional):'
-			},
-			{
-				type: 'list',
-				name: 'server',
-				message: 'Would you like to configure a deployment server?',
-				choices: ['yes', 'no']
 			}
 			], function(res){
 				settings.database = res.database;
-				settings.server = res.server;
 				cb();
 			}))
 			.pipe(gulp.dest('./'))
 	}else{
 		cb();
 	}
+}
+
+function promptForDeploymentOptions(cb){
+	return gulp.src('./package.json')
+		.pipe(prompt.prompt([
+		{
+			type: 'list',
+			name: 'server',
+			message: 'Would you like to configure a deployment server?',
+			choices: ['yes', 'no']
+		}
+		], function(res){
+			settings.server = res.server;
+			cb();
+		}))
+		.pipe(gulp.dest('./'))
 }
 
 function promptForWordpressDetails(cb){
@@ -444,6 +453,7 @@ function setupComplete(cb){
 const setupProject = gulp.series(
 	initialPromptForProjectInfo,
 	promptForSiteDetails,
+	promptForDeploymentOptions,
 	promptForWordpressDetails,
 	promptForLiveDeployentDetails,
 	promptForStagingServer,
