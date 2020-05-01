@@ -447,7 +447,7 @@ function deployToServer(){
 		});
 	
 		return gulp.src( './dist/**', { base: './dist/', buffer: false } )
-			.pipe(conn.newer(settings.remote_path))
+			.pipe(conn.newerOrDifferentSize(settings.remote_path))
 			.pipe(conn.dest(settings.remote_path));
 	}else{
 		var conn = ftp.create( {
@@ -459,7 +459,7 @@ function deployToServer(){
 		});
 	
 		return gulp.src( './dist/**', { base: './dist/', buffer: false } )
-			.pipe(conn.newer(settings.staging_remote_path))
+			.pipe(conn.newerOrDifferentSize(settings.staging_remote_path))
 			.pipe(conn.dest(settings.staging_remote_path));
 	}
 		
