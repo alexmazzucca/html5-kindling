@@ -1,64 +1,64 @@
 {
-	"Creates SASS markup for new element": {
-		"prefix": "Kindling: Style Block",
-		"body": [
-		  "/*",
-		  ">>================================================================================>",
-		  "${1:Title}",
-		  ">>================================================================================>",
-		  "*/",
-		  "",
-		  ".${2:Class} {",
-		  "",
-		  "    /*",
-		  "    All Resolutions",
-		  "    >>------------->",
-		  "    */",
-		  "",
-		  "    /*",
-		  "    Desktop",
-		  "    >>------------->",
-		  "    */",
-		  "",
-		  "    @media screen and (min-width: $$breakpoint_desktop) {",
-		  "        ",
-		  "    }",
-		  "",
-		  "    /*",
-		  "    Mobile",
-		  "    >>------------->",
-		  "    */",
-		  "",
-		  "    @media screen and (max-width: $$breakpoint_mobile) {",
-		  "        ",
-		  "    }",
-		  "}"
-		],
-		"description": "Creates SASS markup for new DOM element"
-	  },
-	  "Block DOM": {
-		"prefix": "Kindling: DOM Block",
-		"body": [
-		  "<!--",
-		  ">>================================================================================>",
-		  "${1:Title}",
-		  ">>================================================================================>",
-		  "-->",
-		  "",
-		  "<section id=\"${2:Class}\">",
-		  "    <div class=\"container\"></div>",
-		  "</section>"
-		],
-		"description": "Creates HTML markup for new DOM element"
-	  },
-	  "Creates markup for retina image": {
-	  "prefix": "Kindling: Retina Image",
-	  "body": [
-	    "<picture>",
-	    "	<source srcset=\"${1:Standard Resolution Path}, ${2:High Resolution Path} 2x\">",
-	    "	<img src=\"${1:Standard Resolution Path}\" alt=\"${3:Alt Tag}\">",
-	    "</picture>"
-	  ],
-	  "description": "Creates SASS markup for "
-	}
+    "Creates SASS markup for new element": {
+        "prefix": "Kindling: Style Block",
+        "body": [
+            "/*",
+            ">>================================================================================>",
+            "${1:Title}",
+            ">>================================================================================>",
+            "*/",
+            "",
+            "#${2:ID} {",
+            "",
+            "    /*",
+            "    All Resolutions",
+            "    >>------------->",
+            "    */",
+            "",
+            "    /*",
+            "    Desktop",
+            "    >>------------->",
+            "    */",
+            "",
+            "    @media screen and (min-width: $$breakpoint_desktop) {",
+            "        ",
+            "    }",
+            "",
+            "    /*",
+            "    Mobile",
+            "    >>------------->",
+            "    */",
+            "",
+            "    @media screen and (max-width: $$breakpoint_mobile) {",
+            "        ",
+            "    }",
+            "}"
+        ],
+        "description": "Creates SASS markup for new DOM element"
+    },
+    "Block DOM": {
+        "prefix": "Kindling: DOM Block",
+        "body": [
+            "<!--",
+            ">>================================================================================>",
+            "${1:Title}",
+            ">>================================================================================>",
+            "-->",
+            "",
+            "<section id=\"${2:ID}\">",
+            "    <div class=\"container\"></div>",
+            "</section>"
+        ],
+        "description": "Creates HTML markup for new DOM element"
+    },
+    "Creates markup for retina image": {
+        "prefix": "Kindling: Retina Image",
+        "body": [
+            "<picture>",
+		    "	<source srcset=\"${1:Standard Resolution Path}, ${2:High Resolution Path} 2x\">",
+		    "	<img src=\"${1:Standard Resolution Path}\" alt=\"${3:Alt Tag}\">",
+		    "</picture>"
+        ],
+        "description": "Creates markup for retina image"
+    }
 }

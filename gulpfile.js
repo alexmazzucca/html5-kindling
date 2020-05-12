@@ -135,7 +135,7 @@ function promptForWordpressDetails(cb){
 }
 
 function promptForStagingServer(cb){
-	if(settings.type == 'wordpress' || settings.type == 'static' && settings.server == 'yes'){
+	if(settings.server == 'yes'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
 			{
@@ -454,10 +454,10 @@ const setupProject = gulp.series(
 	initialPromptForProjectInfo,
 	promptForSiteDetails,
 	promptForDeploymentOptions,
-	promptForWordpressDetails,
 	promptForLiveDeployentDetails,
 	promptForStagingServer,
 	promptForStagingDeployentDetails,
+	promptForWordpressDetails,
 	updateAdditionalProjectInfo,
 	renameWorkspaceFile,
 	removeWorkspaceFile,
