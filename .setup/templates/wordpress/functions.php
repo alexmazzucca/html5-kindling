@@ -101,12 +101,12 @@
 	>>================================================================================>
 	*/
 
-	function theme_name_scripts() {
+	function theme_scripts() {
 		wp_enqueue_style( 'main-styles', get_stylesheet_uri(), '', '1' );
 		wp_enqueue_script( 'main-scripts', get_template_directory_uri() . '/js/main.js', array(), '3', true );
 	}
 
-	add_action( 'wp_enqueue_scripts', 'theme_name_scripts' );
+	add_action( 'wp_enqueue_scripts', 'theme_scripts' );
 
 	/*
 	>>================================================================================>

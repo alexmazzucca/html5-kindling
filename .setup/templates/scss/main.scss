@@ -66,8 +66,10 @@ Dimensions
 */
 
 $site_width: 1400px;
-$padding_desktop: 55px;
+$padding_desktop: 30px;
 $padding_mobile: 15px;
+$gutter_normal: 50px;
+$gutter_small: 20px;
 
 /*
 >>================================================================================>
@@ -79,7 +81,89 @@ Additional Resets and Helpers
 
 /*
 >>================================================================================>
-Typography
+Global: Framework
+>>================================================================================>
+*/
+
+main {
+
+    /*
+    All Resolutions
+    >>------------->
+    */
+
+    overflow: hidden;
+
+    section {
+        position: relative;
+
+        &.no-top-padding {
+            .container {
+                padding-top: 0;
+            }
+        }
+
+        &.no-bottom-padding {
+            .container {
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    /*
+    Desktop
+    >>------------->
+    */
+
+    @media screen and (min-width: 768px) {
+        .container {
+            padding: 0 $padding_desktop;
+        }
+
+        section {
+            .container {
+                padding-top: 50px;
+                padding-bottom: 50px;
+            }
+
+            &.extra-top-padding {
+                .container {
+                    padding-top: 120px;
+                }
+            }
+
+            &.extra-bottom-padding {
+                .container {
+                    padding-bottom: 120px;
+                }
+            }
+        }
+    }
+
+    /*
+    Mobile
+    >>------------->
+    */
+
+
+    @media screen and (max-width: 767px) {
+
+        .container {
+            padding: 0 $padding_mobile;
+        }
+
+        section {
+            .container {
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+        }
+    }
+}
+
+/*
+>>================================================================================>
+Global: Typography (Heading, Copy, Lists, etc.)
 >>================================================================================>
 */
 
@@ -92,13 +176,29 @@ body {
     color: $color_black;
 }
 
+main {
+    p,
+    li {
+        
+    }
+}
+
+.heading-1 {
+    
+}
+
 /*
 Desktop
 >>------------->
 */
 
 @media screen and (min-width: $breakpoint_desktop) {
-    
+    main {
+        p,
+        li {
+
+        }
+    }
 }
 
 /*
@@ -107,7 +207,41 @@ Mobile
 */
 
 @media screen and (max-width: $breakpoint_mobile) {
-    
+    main {
+        p,
+        li {
+            
+        }
+    }
+}
+
+/*
+>>================================================================================>
+Global: Interactive Elements (Buttons, CTAs, Form Stuff, etc.)
+>>================================================================================>
+*/
+
+/*
+All Resolutions 
+>>------------->
+*/
+
+/*
+Desktop
+>>------------->
+*/
+
+@media screen and (min-width: $breakpoint_desktop) {
+
+}
+
+/*
+Mobile
+>>------------->
+*/
+
+@media screen and (max-width: $breakpoint_mobile) {
+
 }
 
 /*
@@ -125,12 +259,6 @@ Main Header
 
     .site-logo {
         margin: 0;
-
-        img {
-            display: block;
-            max-width: 100%;
-            height: auto;
-        }
 
         span {
             @include hidden();

@@ -23,6 +23,28 @@ Mixins
 }
 
 /*
+ * Mixin: @centered
+ * --------------------------
+ * Absolutely-positioned elements become centered
+ */
+
+@mixin centered($axis) {
+    position: absolute;
+    
+    @if $axis == 'y' {
+        top: 50%;
+        transform: translateY(-50%);
+    } @else if $axis == 'x' {
+        left: 50%;
+        transform: translateX(-50%);
+    } @else if $axis == 'xy' {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+
+/*
  * Mixin: @scrollable
  * --------------------------
  * Applies some styles that make scrollable elements behave a little better
@@ -57,14 +79,12 @@ Mixins
 }
 
 /*
- * Mixin:; @modal
+ * Mixin:; @has_modals
  * --------------------------
- * Create necessary styles
- * for implementation of
- * modal windows
+ * Outputs necessary styles for implementation of modal windows
  */
 
- @mixin modal() {
+ @mixin has_modals() {
 
     .modal {
 
@@ -78,26 +98,34 @@ Mixins
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 9990;
+        z-index: 1000;
         opacity: 0;
         visibility: hidden;
         transition: visibility 300ms ease-in-out, opacity 300ms ease-in-out;
         background-color: rgba(0,0,0,.6);
 
+        @at-root .modal-overflow & {
+            @include scrollable();
+            
+            .window {
+                top: 20px;
+                transform: translateX(-50%) !important;
+                margin-bottom: 20px;
+            }
+        }
+
         .window {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%,-55%);
+            transform: translate(-50%,-50%);
             width: calc(100% - 40px);
-            max-width: 880px;
+            max-width: 720px;
             overflow: hidden;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            border: 3px solid $color_black;
-            transition: transform 500ms ease, opacity 300ms ease-in-out, visibility 300ms ease-in-out;
+            transition: margin 500ms ease, opacity 300ms ease-in-out, visibility 300ms ease-in-out;
             opacity: 0;
             visibility: hidden;
+            margin-top: -50px;
         }
 
         &.active {
@@ -105,6 +133,7 @@ Mixins
             opacity: 1;
 
             .window {
+                margin: 0;
                 transform: translate(-50%,-50%);
                 visibility: visible;
                 opacity: 1;
@@ -112,30 +141,17 @@ Mixins
         }
         
         .content {
-            background-color: #ebebeb;
-            padding: 30px 45px 50px 45px;
+            background-color: rgba(255,255,255,.9);
         }
 
         .close {
             position: absolute;
-            border-radius: 50%;
             right: 10px;
             top: 10px;
-            background-color: $color_white;
             margin-left: auto;
             width: 45px;
             height: 45px;
-
-            svg {
-                display: block;
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%,-50%);
-                transition: transform 200ms ease;
-                width: 20px;
-                height: 20px;
-            }
+            background-color: red;
         }
 
         /*
@@ -144,7 +160,9 @@ Mixins
         */
 
         @media screen and (min-width: $breakpoint_desktop) {
-
+            .content {
+               padding: 60px 30px 30px 30px;
+            }
         }
 
         /*
@@ -153,7 +171,9 @@ Mixins
         */
 
         @media screen and (max-width: $breakpoint_mobile) {
-        
+            .content {
+                padding: 60px 20px 20px 20px;
+            }
         }
     }
 }
