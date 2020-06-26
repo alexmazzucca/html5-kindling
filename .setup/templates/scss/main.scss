@@ -68,6 +68,8 @@ Dimensions
 $site_width: 1400px;
 $padding_desktop: 30px;
 $padding_mobile: 15px;
+$spacing_desktop: 60px;
+$spacing_mobile: 60px;
 $gutter_normal: 50px;
 $gutter_small: 20px;
 
@@ -122,19 +124,19 @@ main {
 
         section {
             .container {
-                padding-top: 50px;
-                padding-bottom: 50px;
+                padding-top: $spacing_desktop;
+                padding-bottom: $spacing_desktop;
             }
 
             &.extra-top-padding {
                 .container {
-                    padding-top: 120px;
+                    padding-top: ($spacing_desktop*2);
                 }
             }
 
             &.extra-bottom-padding {
                 .container {
-                    padding-bottom: 120px;
+                    padding-bottom: ($spacing_desktop*2);
                 }
             }
         }
@@ -153,8 +155,8 @@ main {
 
         section {
             .container {
-                padding-top: 20px;
-                padding-bottom: 20px;
+                padding-top: $spacing_mobile;
+                padding-bottom: $spacing_mobile;
             }
         }
     }
