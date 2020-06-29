@@ -217,7 +217,7 @@ Multiple Column Layouts
     @media screen and (min-width: 768px) {
         display: flex;
         flex-wrap: wrap;
-        margin: 0 (-$gutter_normal);
+        margin: 0 (-($gutter_normal / 2));
 
         > * {
             margin: 0 ($gutter_normal / 2);
@@ -232,7 +232,7 @@ Multiple Column Layouts
         }
 
         &.has-small-gutter {
-            margin: 0 (-$gutter_small);
+            margin: 0 (-($gutter_small / 2));
 
             > * {
                 margin: 0 ($gutter_small / 2);
