@@ -177,3 +177,113 @@ Mixins
         }
     }
 }
+
+/*
+ * Mixin:; @has_columns
+ * --------------------------
+ * Outputs necessary styles for implementation of columns
+ */
+
+ @mixin has_columns() {
+
+    .columns {
+        
+        /*
+        Desktop
+        >>------------->
+        */
+
+        @media screen and (min-width: 768px) {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 (-($gutter_normal / 2));
+
+            > * {
+                margin: 0 ($gutter_normal / 2);
+            }
+
+            > .col-50 {
+                width: calc(50% - #{($gutter_normal)});
+
+                &:nth-child(n+3) {
+                    margin-top: $gutter_normal;
+                }
+            }
+
+            &.has-small-gutter {
+                margin: 0 (-($gutter_small / 2));
+
+                > * {
+                    margin: 0 ($gutter_small / 2);
+                }
+
+                > .col-50 {
+                    width: calc(50% - #{($gutter_small)});
+
+                    &:nth-child(n+3) {
+                        margin-top: $gutter_small;
+                    }
+                }
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            .col-33 {
+                width: calc(33.333% - #{($gutter_normal)});
+
+                &:nth-child(n+4) {
+                    margin-top: $gutter_normal;
+                }
+            }
+
+            &.has-small-gutter {
+                > * {
+                    margin: 0 ($gutter_small / 2);
+                }
+
+                > .col-33 {
+                    width: calc(33.333% - #{($gutter_small)});
+
+                    &:nth-child(n+4) {
+                        margin-top: $gutter_small;
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width: 1023px) and (min-width: 768px) {
+            .col-33 {
+                width: calc(50% - #{($gutter_normal)});
+
+                &:nth-child(n+3) {
+                    margin-top: $gutter_normal;
+                }
+            }
+
+            &.has-small-gutter {
+                > * {
+                    margin: 0 ($gutter_small / 2);
+                }
+
+                > .col-33 {
+                    width: calc(50% - #{($gutter_small)});
+
+                    &:nth-child(n+3) {
+                        margin-top: $gutter_small;
+                    }
+                }
+            }
+        }
+
+        /*
+        Mobile
+        >>------------->
+        */
+
+        @media screen and (max-width: 767px) {
+            > *:not(:last-child) {
+                margin-bottom: $padding_mobile;
+            }
+        }
+    }
+}
