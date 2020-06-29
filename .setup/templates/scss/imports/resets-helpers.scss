@@ -258,8 +258,6 @@ Multiple Column Layouts
         }
 
         &.has-small-gutter {
-            margin: 0 (-$gutter_small);
-
             > * {
                 margin: 0 ($gutter_small / 2);
             }
@@ -284,8 +282,6 @@ Multiple Column Layouts
         }
 
         &.has-small-gutter {
-            margin: 0 (-$gutter_small);
-
             > * {
                 margin: 0 ($gutter_small / 2);
             }
