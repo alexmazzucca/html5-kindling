@@ -442,7 +442,7 @@ function deployToServer(){
 			host:     settings.host,
 			user:     settings.username,
 			password: settings.password,
-			parallel: 10,
+			parallel: 4,
 			log:      gutil.log
 		});
 	
@@ -454,7 +454,7 @@ function deployToServer(){
 			host:     settings.staging_host,
 			user:     settings.staging_username,
 			password: settings.staging_password,
-			parallel: 10,
+			parallel: 4,
 			log:      gutil.log
 		});
 	
