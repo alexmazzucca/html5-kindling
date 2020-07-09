@@ -106,7 +106,7 @@ function promptForDeploymentOptions(cb){
 			type: 'list',
 			name: 'server',
 			message: 'Would you like to configure a deployment server?',
-			choices: ['yes', 'no']
+			choices: ['no', 'yes']
 		}
 		], function(res){
 			settings.server = res.server;
@@ -142,7 +142,7 @@ function promptForStagingServer(cb){
 				type: 'list',
 				name: 'staging',
 				message: 'Would you like to configure a staging server?',
-				choices: ['yes', 'no']
+				choices: ['no', 'yes']
 			}
 			], function(res){
 				settings.staging = res.staging;
