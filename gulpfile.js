@@ -4,7 +4,7 @@ var settings = {
 	repoURL: '',
 	description: '',
 	type: '',
-	address: '',
+	url: '',
 	database: '',
 	theme: '',
 	author: '',
@@ -64,20 +64,52 @@ function initialPromptForProjectInfo(cb){
 			type: 'input',
 			name: 'description',
 			message: 'Project description:'
-		},
-		{
-			type: 'input',
-			name: 'address',
-			message: 'Development URL (include protocol and trailing slash) (optional):'
 		}
 		], function(res){
 			settings.title = res.title;
 			settings.type = res.type;
 			settings.description = res.description;
-			settings.address = res.address;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))
+}
+
+function promptForEmailURL(cb){
+	if(settings.type == 'email'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+			{
+				type: 'input',
+				name: 'url',
+				message: 'Remote image path URL (e.g. "https://yoursite.com/path/to/img/"):'
+			}
+			], function(res){
+				settings.url = res.url;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
+	}else{
+		cb();
+	}
+}
+
+function promptForDevURL(cb){
+	if(settings.type == 'static'){
+		return gulp.src('./package.json')
+			.pipe(prompt.prompt([
+			{
+				type: 'input',
+				name: 'url',
+				message: 'Local development (MAMP) URL (e.g. "https://yoursite.com/"):'
+			}
+			], function(res){
+				settings.url = res.url;
+				cb();
+			}))
+			.pipe(gulp.dest('./'))
+	}else{
+		cb();
+	}
 }
 
 function promptForSiteDetails(cb){
@@ -87,7 +119,7 @@ function promptForSiteDetails(cb){
 			{
 				type: 'input',
 				name: 'database',
-				message: 'Database name (optional):'
+				message: 'Database name:'
 			}
 			], function(res){
 				settings.database = res.database;
@@ -274,8 +306,8 @@ function updateProjectSettings(cb){
 			value: settings.type
 		}))
 		.pipe(jsonModify({
-			key: 'address',
-			value: settings.address
+			key: 'url',
+			value: settings.url
 		}))
 		.pipe(jsonModify({
 			key: 'database',
@@ -454,6 +486,8 @@ function setupComplete(cb){
 
 const setupProject = gulp.series(
 	initialPromptForProjectInfo,
+	promptForDevURL,
+	promptForEmailURL,
 	promptForSiteDetails,
 	promptForDeploymentOptions,
 	promptForLiveDeployentDetails,
