@@ -200,10 +200,10 @@ function copyEmailDOM(cb){
 }
 
 function updateEmailImagePaths(cb){
-	if(settings.address != '') {
+	if(settings.url != '') {
 		return gulp
 			.src('./dist/index.html')
-			.pipe(replace('src="img/', 'src="' + settings.address))
+			.pipe(replace('src="img/', 'src="' + settings.url))
 			.pipe(gulp.dest(paths.dom.dest));
 	}
 	
