@@ -361,7 +361,7 @@ function compressImg(cb) {
 */
 
 function startServer(cb) {
-	if(settings.address === '' || settings.type == 'email') {
+	if(settings.url === '' || settings.type == 'email') {
 		browserSync.init({
 			server: {
 				baseDir: "./dist/"
@@ -369,7 +369,7 @@ function startServer(cb) {
 		});
 	}else{
 		browserSync.init({
-			proxy: settings.address
+			proxy: settings.url
 		});
 	}
 
