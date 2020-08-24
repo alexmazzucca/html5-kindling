@@ -269,7 +269,7 @@ function updateAdditionalProjectInfo(cb){
 }
 
 function renameWorkspaceFile(){
-	return gulp.src('./kindling.code-workspace')
+	return gulp.src('./start-here.code-workspace')
 		.pipe(rename(function (path) {
 			path.basename = settings.repo;
 		}))
@@ -297,7 +297,7 @@ function updatePackageInfo(){
 		.pipe(gulp.dest('./'))
 }
 
-const removeWorkspaceFile = () => del(['./kindling.code-workspace']);
+const removeWorkspaceFile = () => del(['./start-here.code-workspace']);
 
 function updateProjectSettings(cb){
 	return gulp.src('./.setup/settings.json')
