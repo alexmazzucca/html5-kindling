@@ -87,78 +87,36 @@ Global: Framework
 >>================================================================================>
 */
 
-main {
+/*
+All Resolutions
+>>------------->
+*/
 
-    /*
-    All Resolutions
-    >>------------->
-    */
+body {
+    background-color: $color_light-purple;
+    color: $color_black;
+}
 
-    overflow: hidden;
+/*
+Desktop
+>>------------->
+*/
 
-    section {
-        position: relative;
-
-        &.no-top-padding {
-            .container {
-                padding-top: 0;
-            }
-        }
-
-        &.no-bottom-padding {
-            .container {
-                padding-bottom: 0;
-            }
-        }
+@media screen and (min-width: 768px) {
+    .container {
+        padding: 0 $padding_desktop;
     }
+}
 
-    /*
-    Desktop
-    >>------------->
-    */
-
-    @media screen and (min-width: 768px) {
-        .container {
-            padding: 0 $padding_desktop;
-        }
-
-        section {
-            .container {
-                padding-top: $spacing_desktop;
-                padding-bottom: $spacing_desktop;
-            }
-
-            &.extra-top-padding {
-                .container {
-                    padding-top: ($spacing_desktop*2);
-                }
-            }
-
-            &.extra-bottom-padding {
-                .container {
-                    padding-bottom: ($spacing_desktop*2);
-                }
-            }
-        }
-    }
-
-    /*
-    Mobile
-    >>------------->
-    */
+/*
+Mobile
+>>------------->
+*/
 
 
-    @media screen and (max-width: 767px) {
-        .container {
-            padding: 0 $padding_mobile;
-        }
-
-        section {
-            .container {
-                padding-top: $spacing_mobile;
-                padding-bottom: $spacing_mobile;
-            }
-        }
+@media screen and (max-width: 767px) {
+    .container {
+        padding: 0 $padding_mobile;
     }
 }
 
@@ -173,9 +131,6 @@ All Resolutions
 >>------------->
 */
 
-body {
-    color: $color_black;
-}
 
 main {
     p,
