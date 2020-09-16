@@ -430,7 +430,12 @@ function watchForChanges() {
 		gulp.watch(paths.scripts.src, gulp.series(combineJS, liveReload));
 	}
 
-	gulp.watch(paths.styles.src, gulp.series(compressSASS));
+	if(settings.type == 'wordpress'){
+		gulp.watch(paths.styles.src, gulp.series(compressWPSASS));
+	}else{
+		gulp.watch(paths.styles.src, gulp.series(compressSASS));
+	}
+	
 	gulp.watch(paths.images.src, {events: ['all']}, gulp.series(compressImg, liveReload));
 	gulp.watch(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/img/**', '!./src/**/*.html', '!./src/**/*.php'], {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
 }
