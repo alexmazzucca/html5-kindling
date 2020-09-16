@@ -57,6 +57,12 @@ const paths = {
 		],
 		dest: "./dist/" + pathToTheme + "css/"
 	},
+	wp_styles: {
+		src: [
+			"./src/scss/*.scss",
+		],
+		dest: "./dist/" + pathToTheme
+	},
 	dom: {
 		src: [
 			"./src/**/*.html",
@@ -251,13 +257,7 @@ function compressSASS(cb) {
 		.pipe(rename(
 			function(path){
 				path.suffix += ".min";
-
-				if(pathToTheme === '') {
-					path.dirname += paths.styles.dest;
-				}else{
-					path.dirname += "./dist/" + pathToTheme;
-					path.basename = "style";
-				}
+				path.dirname += paths.styles.dest;
 			}
 		))
 		.pipe(notify({
@@ -268,6 +268,50 @@ function compressSASS(cb) {
 			onLast: true
 		}))
 		.pipe(gulp.dest("./dist"))
+		.pipe(browserSync.stream());
+
+	cb();
+}
+
+function compressWPSASS(cb) {
+	return gulp
+		.src(paths.wp_styles.src)
+		.pipe(sourcemaps.init())
+		.pipe(
+			sass({
+				outputStyle: "compressed"
+			})
+		)
+		.on("error", function(err) {
+			notify({
+				title: 'Kindling',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}).write(err);
+			this.emit('end');
+		})
+		.pipe(autoprefixer())
+		.pipe(sourcemaps.write('.'))
+		.pipe(rename(
+			function(path){
+				path.suffix += ".min";
+
+				if(path.basename == 'main') {
+					// path.dirname += "./dist/" + pathToTheme;
+					path.basename = "style";
+				}else if(path.basename == 'editor-style') {
+					// path.dirname += "./dist/" + pathToTheme;
+				}
+			}
+		))
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'SASS compilation and compression complete',
+			icon: 'undefined',
+			contentImage: 'undefined',
+			onLast: true
+		}))
+		.pipe(gulp.dest(paths.wp_styles.dest))
 		.pipe(browserSync.stream());
 
 	cb();
@@ -535,6 +579,17 @@ const emailDevTasks = gulp.series(
 	watchForChanges
 );
 
+const wpDevTasks = gulp.series(
+	delDistDir,
+	copyFilesToDist,
+	combineJS,
+	compressWPSASS,
+	compressDOM,
+	compressImg,
+	startServer,
+	watchForChanges
+);
+
 const devTasks = gulp.series(
 	delDistDir,
 	copyFilesToDist,
@@ -548,6 +603,8 @@ const devTasks = gulp.series(
 
 if(settings.type == 'email') {
 	gulp.task("develop", emailDevTasks);
+}else if(settings.type == 'wordpress') {
+	gulp.task("develop", wpDevTasks);
 }else{
 	gulp.task("develop", devTasks);
 }
