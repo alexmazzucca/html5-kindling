@@ -254,12 +254,6 @@ function compressSASS(cb) {
 		})
 		.pipe(autoprefixer())
 		.pipe(sourcemaps.write('.'))
-		.pipe(rename(
-			function(path){
-				path.suffix += ".min";
-				path.dirname += paths.styles.dest;
-			}
-		))
 		.pipe(notify({
 			title: 'Kindling',
 			message: 'SASS compilation and compression complete',
@@ -267,7 +261,7 @@ function compressSASS(cb) {
 			contentImage: 'undefined',
 			onLast: true
 		}))
-		.pipe(gulp.dest("./dist"))
+		.pipe(gulp.dest(paths.styles.dest))
 		.pipe(browserSync.stream());
 
 	cb();
@@ -294,13 +288,8 @@ function compressWPSASS(cb) {
 		.pipe(sourcemaps.write('.'))
 		.pipe(rename(
 			function(path){
-				path.suffix += ".min";
-
 				if(path.basename == 'main') {
-					// path.dirname += "./dist/" + pathToTheme;
 					path.basename = "style";
-				}else if(path.basename == 'editor-style') {
-					// path.dirname += "./dist/" + pathToTheme;
 				}
 			}
 		))
