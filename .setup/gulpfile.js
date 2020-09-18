@@ -552,8 +552,22 @@ const buildTasks = gulp.series(
 	buildComplete
 );
 
+const wpBuildTasks = gulp.series(
+	delDistDir,
+	copyFilesToDist,
+	gulp.parallel(
+		compressJS,
+		compressWPSASS,
+		compressDOM,
+		compressImg
+	),
+	buildComplete
+);
+
 if(settings.type == 'email') {
 	gulp.task("build", emailBuildTasks);
+}else if(settings.type == 'wordpress') {
+	gulp.task("build", wpBuildTasks);
 }else{
 	gulp.task("build", buildTasks);
 }
