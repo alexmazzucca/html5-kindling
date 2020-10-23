@@ -1,23 +1,8 @@
 /*
 >>================================================================================>
-Additional "Helper" Classes and Resets
+Additional Resets to supplement Normalize.css
 >>================================================================================>
 */
-
-::-moz-selection {
-    background: $color_highlighted_text_background;
-    color: $color_highlighted_text;
-}
-
-::selection {
-    background: $color_highlighted_text_background;
-    color: $color_highlighted_text;
-}
-
-::-moz-selection {
-    background: $color_highlighted_text_background;
-    color: $color_highlighted_text;
-}
 
 *,
 *:before,
@@ -32,33 +17,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100%;
-}
-
-body {
-    font-family: $font_primary;
-    background-color: $color_background;
-
-    &:before {
-        position: fixed;
-        content:'';
-        background-color: $color_background;
-        width: 100%;
-        height: 100%;
-        z-index: 1000;
-        transition: opacity 500ms ease, visibility 500ms ease;
-        top: 0;
-        left: 0;
-    }
-
-    @at-root &.page-loaded:before {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    &.modal-active {
-        height: 100vh;
-        overflow-y: hidden
-    }
 }
 
 p,
@@ -95,11 +53,43 @@ img {
     height: auto;
 }
 
+/*
+>>================================================================================>
+"Helper" Classes
+>>================================================================================>
+*/
+
+body {
+
+    /* Page Loading Fade-In */
+
+    &:before {
+        content:'';
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        transition: opacity 500ms ease, visibility 500ms ease;
+        top: 0;
+        left: 0;
+    }
+
+    @at-root &.page-loaded:before {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    &.scroll-inactive {
+        height: 100vh;
+        overflow-y: hidden
+    }
+}
+
 a,
 button,
 input[type=submit] {
     @at-root .no-touchevents & {
-        transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease, opacity 300ms ease,   
+        transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease, opacity 300ms ease;
     }
 }
 
@@ -108,7 +98,6 @@ textarea,
 button,
 fieldset,
 legend {
-    font-family: $font_primary;
     border-radius: 0;
     outline: none;
     border:none;
@@ -134,7 +123,6 @@ a:hover {
 }
 
 .container {
-    max-width: $site_width + ($padding_desktop * 2);
     width: 100%;
     margin: 0 auto;
 
@@ -183,6 +171,11 @@ Desktop
     .mobile-only {
         display: none;
     }
+
+    .has-columns {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 
 /*
@@ -193,117 +186,5 @@ Mobile
 @media screen and (max-width: $breakpoint_mobile) {
     .desktop-only {
         display: none !important;
-    }
-}
-
-/*
->>================================================================================>
-Multiple Column Layouts
->>================================================================================>
-*/
-
-.has-columns {
-
-    /*
-    All Resolutions
-    >>------------->
-    */
-
-    /*
-    Desktop
-    >>------------->
-    */
-
-    @media screen and (min-width: 768px) {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 (-($gutter_normal / 2));
-
-        > * {
-            margin: 0 ($gutter_normal / 2);
-        }
-
-        > .col-50 {
-            width: calc(50% - #{($gutter_normal)});
-
-            &:nth-child(n+3) {
-                margin-top: $gutter_normal;
-            }
-        }
-
-        &.has-small-gutter {
-            margin: 0 (-($gutter_small / 2));
-
-            > * {
-                margin: 0 ($gutter_small / 2);
-            }
-
-            > .col-50 {
-                width: calc(50% - #{($gutter_small)});
-
-                &:nth-child(n+3) {
-                    margin-top: $gutter_small;
-                }
-            }
-        }
-    }
-
-    @media screen and (min-width: 1024px) {
-        .col-33 {
-            width: calc(33.333% - #{($gutter_normal)});
-
-            &:nth-child(n+4) {
-                margin-top: $gutter_normal;
-            }
-        }
-
-        &.has-small-gutter {
-            > * {
-                margin: 0 ($gutter_small / 2);
-            }
-
-            > .col-33 {
-                width: calc(33.333% - #{($gutter_small)});
-
-                &:nth-child(n+4) {
-                    margin-top: $gutter_small;
-                }
-            }
-        }
-    }
-
-    @media screen and (max-width: 1023px) and (min-width: 768px) {
-        .col-33 {
-            width: calc(50% - #{($gutter_normal)});
-
-            &:nth-child(n+3) {
-                margin-top: $gutter_normal;
-            }
-        }
-
-        &.has-small-gutter {
-            > * {
-                margin: 0 ($gutter_small / 2);
-            }
-
-            > .col-33 {
-                width: calc(50% - #{($gutter_small)});
-
-                &:nth-child(n+3) {
-                    margin-top: $gutter_small;
-                }
-            }
-        }
-    }
-
-    /*
-    Mobile
-    >>------------->
-    */
-
-    @media screen and (max-width: 767px) {
-        > *:not(:last-child) {
-            margin-bottom: $padding_mobile;
-        }
     }
 }

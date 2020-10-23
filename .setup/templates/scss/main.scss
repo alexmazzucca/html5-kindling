@@ -68,10 +68,7 @@ Dimensions
 $site_width: 1400px;
 $padding_desktop: 30px;
 $padding_mobile: 15px;
-$spacing_desktop: 60px;
-$spacing_mobile: 60px;
-$gutter_normal: 50px;
-$gutter_small: 20px;
+$default_column_gutter: 50px;
 
 /*
 >>================================================================================>
@@ -80,6 +77,51 @@ Resets and Helper Classes
 */
 
 @import 'imports/resets-helpers';
+
+::-moz-selection {
+    background: $color_highlighted_text_background;
+    color: $color_highlighted_text;
+}
+
+::selection {
+    background: $color_highlighted_text_background;
+    color: $color_highlighted_text;
+}
+
+::-moz-selection {
+    background: $color_highlighted_text_background;
+    color: $color_highlighted_text;
+}
+
+body {
+    font-family: $font_primary;
+    background-color: $color_background;
+
+    &:before {
+        background-color: $color_background;
+    }
+}
+
+input,
+textarea,
+button,
+fieldset,
+legend {
+    font-family: $font_primary;
+}
+
+.container {
+    max-width: $site_width + ($padding_desktop * 2);
+}
+
+/*
+>>================================================================================>
+Site Options
+>>================================================================================>
+*/
+
+// @include has_columns();
+// @include has_modals();
 
 /*
 >>================================================================================>
