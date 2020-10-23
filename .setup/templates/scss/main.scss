@@ -44,15 +44,6 @@ $color_white: #ffffff;
 $color_black: #000000;
 
 /*
-Site Colors
->>------------->
-*/
-
-$color_background: $color_white;
-$color_highlighted_text: $color_white;
-$color_highlighted_text_background: $color_black;
-
-/*
 Breakpoints
 >>------------->
 */
@@ -68,7 +59,15 @@ Dimensions
 $site_width: 1400px;
 $padding_desktop: 30px;
 $padding_mobile: 15px;
-$default_column_gutter: 50px;
+
+/*
+Color Settings
+>>------------->
+*/
+
+$color_background: $color_white;
+$color_highlighted_text: $color_white;
+$color_highlighted_text_background: $color_black;
 
 /*
 >>================================================================================>
@@ -79,18 +78,18 @@ Resets and Helper Classes
 @import 'imports/resets-helpers';
 
 ::-moz-selection {
-    background: $color_highlighted_text_background;
-    color: $color_highlighted_text;
+    background: $color_black;
+    color: $color_white;
 }
 
 ::selection {
-    background: $color_highlighted_text_background;
-    color: $color_highlighted_text;
+    background: $color_black;
+    color: $color_white;
 }
 
 ::-moz-selection {
-    background: $color_highlighted_text_background;
-    color: $color_highlighted_text;
+    background: $color_black;
+    color: $color_white;
 }
 
 body {
@@ -120,37 +119,7 @@ Site Options
 >>================================================================================>
 */
 
-// @include has_columns();
 // @include has_modals();
-
-/*
->>================================================================================>
-Global: Reusable Styles
->>================================================================================>
-*/
-
-/*
-All Resolutions
->>------------->
-*/
-
-/*
-Desktop
->>------------->
-*/
-
-@media screen and (min-width: $breakpoint_desktop) {
-    
-}
-
-/*
-Mobile
->>------------->
-*/
-
-@media screen and (max-width: $breakpoint_mobile) {
-    
-}
 
 /*
 >>================================================================================>
@@ -162,11 +131,6 @@ Global: Framework
 All Resolutions
 >>------------->
 */
-
-body {
-    background-color: $color_background;
-    color: $color_black;
-}
 
 /*
 Desktop
@@ -184,7 +148,6 @@ Mobile
 >>------------->
 */
 
-
 @media screen and (max-width: 767px) {
     .container {
         padding: 0 $padding_mobile;
@@ -201,7 +164,6 @@ Global: Typography (Heading, Copy, Lists, etc.)
 All Resolutions 
 >>------------->
 */
-
 
 main {
     p,
@@ -244,12 +206,12 @@ Mobile
 
 /*
 >>================================================================================>
-Global: Interactive Elements (Buttons, CTAs, Form Stuff, etc.)
+Global: Other Reusable Styles (buttons, forms, etc.)
 >>================================================================================>
 */
 
 /*
-All Resolutions 
+All Resolutions
 >>------------->
 */
 
@@ -259,7 +221,7 @@ Desktop
 */
 
 @media screen and (min-width: $breakpoint_desktop) {
-
+    
 }
 
 /*
@@ -268,7 +230,7 @@ Mobile
 */
 
 @media screen and (max-width: $breakpoint_mobile) {
-
+    
 }
 
 /*

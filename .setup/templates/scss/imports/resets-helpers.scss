@@ -79,7 +79,7 @@ body {
         visibility: hidden;
     }
 
-    &.scroll-inactive {
+    &.modal-active {
         height: 100vh;
         overflow-y: hidden
     }
@@ -170,11 +170,6 @@ Desktop
 @media screen and (min-width: $breakpoint_desktop) {
     .mobile-only {
         display: none;
-    }
-
-    .has-columns {
-        display: flex;
-        flex-wrap: wrap;
     }
 }
 
