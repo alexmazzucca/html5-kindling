@@ -94,7 +94,7 @@ function promptForEmailURL(cb){
 }
 
 function promptForDevURL(cb){
-	if(settings.type == 'wordpress' || settings.type == 'static'){
+	if(settings.type == 'static' || settings.type == 'wordpress'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
 			{
@@ -400,16 +400,16 @@ function copyTemplateFilesToDist(cb){
 	cb();
 }
 
-function cloneWP(cb){
-	if(settings.type == 'wordpress'){
-		git.clone('https://github.com/WordPress/WordPress/', {args: './dist'}, function(err){
-			if(err) throw err;
-		});
-		cb();
-	}else{
-		cb();
-	}
-}
+// function cloneWP(cb){
+// 	if(settings.type == 'wordpress'){
+// 		git.clone('https://github.com/WordPress/WordPress/', {args: './dist'}, function(err){
+// 			if(err) throw err;
+// 		});
+// 		cb();
+// 	}else{
+// 		cb();
+// 	}
+// }
 
 function changeNotificationIcon(cb){
 	return gulp
@@ -504,7 +504,7 @@ const setupProject = gulp.series(
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
-	cloneWP,
+	// cloneWP,
 	changeNotificationIcon,
 	updateBuildTasks,
 	updateREADME,
