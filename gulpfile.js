@@ -94,7 +94,7 @@ function promptForEmailURL(cb){
 }
 
 function promptForDevURL(cb){
-	if(settings.type == 'static'){
+	if(settings.type == 'wordpress' || settings.type == 'static'){
 		return gulp.src('./package.json')
 			.pipe(prompt.prompt([
 			{
