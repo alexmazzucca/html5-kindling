@@ -400,17 +400,6 @@ function copyTemplateFilesToDist(cb){
 	cb();
 }
 
-// function cloneWP(cb){
-// 	if(settings.type == 'wordpress'){
-// 		git.clone('https://github.com/WordPress/WordPress/', {args: './dist'}, function(err){
-// 			if(err) throw err;
-// 		});
-// 		cb();
-// 	}else{
-// 		cb();
-// 	}
-// }
-
 function changeNotificationIcon(cb){
 	return gulp
 		.src('./.setup/Terminal.icns')
@@ -504,7 +493,6 @@ const setupProject = gulp.series(
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,
 	copyTemplateFilesToDist,
-	// cloneWP,
 	changeNotificationIcon,
 	updateBuildTasks,
 	updateREADME,
