@@ -247,7 +247,7 @@ Section: Main Header
     */
 
     .site-logo {
-        margin: 0;
+        display: block;
 
         span {
             @include hidden();

@@ -68,11 +68,9 @@
 
 			<header id="main-header">
 				<div class="container">
-					<h1 class="site-logo">
-						<a href="/">
-							<img src="<?php echo get_template_directory_uri() . '/img/logo.svg'; ?>" alt="Site Name">
-							<span>Site Name</span>
-						</a>
-					</h1>
+					<a href="/" title="← Back to the homepage">
+						<img src="<?php echo get_template_directory_uri() . '/img/logo.svg'; ?>" alt="Site Name">
+						<span>Site Name</span>
+					</a>
 				</div>
 			</header>

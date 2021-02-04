@@ -4,7 +4,7 @@
         >>================================================================================>
         -->
     
-        <footer class="main">
+        <footer id="main-footer">
             <div class="container">
                 
             </div>
