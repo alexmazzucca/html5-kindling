@@ -211,10 +211,12 @@ Mixins
     */
 
     @media screen and (min-width: 768px) {
-        margin: 0 (-($gutter / 2));
+        margin-left: (-($gutter / 2));
+        margin-right: (-($gutter / 2));
 
         > * {
-            margin: 0 ($gutter / 2);
+            margin-left: ($gutter / 2);
+            margin-right: ($gutter / 2);
         }
 
         > .col-50 {
