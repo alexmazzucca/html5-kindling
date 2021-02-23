@@ -78,18 +78,18 @@ Resets and Helper Classes
 @import 'imports/resets-helpers';
 
 ::-moz-selection {
-    background: $color_black;
-    color: $color_white;
+    background: $color_highlighted_text_background;
+    color: $color_highlighted_text;
 }
 
 ::selection {
-    background: $color_black;
-    color: $color_white;
+    background: $color_highlighted_text_background;
+    color: $color_highlighted_text;
 }
 
 ::-moz-selection {
-    background: $color_black;
-    color: $color_white;
+    background: $color_highlighted_text_background;
+    color: $color_highlighted_text;
 }
 
 body {
