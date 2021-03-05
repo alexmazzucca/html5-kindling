@@ -40,17 +40,6 @@
 			'menu' => 'Primary'
 		)); ?>
 
-		<!--
-		>>================================================================================>
-		Burger
-		>>================================================================================>
-		-->
-
-		<button id="burger" aria-label="Click to expand full site navigation">
-			<span class="line"></span>
-			<span class="line"></span>
-			<span class="line"></span>
-		</button>
 
 		<!--
 		>>================================================================================>
@@ -68,9 +57,12 @@
 
 			<header id="main-header">
 				<div class="container">
-					<a href="/" title="← Back to the homepage">
-						<img src="<?php echo get_template_directory_uri() . '/img/logo.svg'; ?>" alt="Site Name">
-						<span>Site Name</span>
-					</a>
+					<a href="/" class="site-logo" title="← Back to the homepage">
+	                    <img src="<?php echo get_template_directory_uri() . '/img/logo.svg'; ?>" alt="Site Name">
+	                    <span>Site Name</span>
+	                </a>
+	                <button id="burger" aria-label="Click to expand full site navigation">
+	                    <span></span>
+	                </button>
 				</div>
 			</header>

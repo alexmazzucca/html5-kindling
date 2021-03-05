@@ -199,8 +199,7 @@ Mixins
  * Outputs necessary styles for implementation of columns
  */
 
- @mixin has_columns($gutter) {
-
+ @mixin has_columns($count,$gutter) {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -217,48 +216,19 @@ Mixins
         > * {
             margin-left: ($gutter / 2);
             margin-right: ($gutter / 2);
-        }
+            width: calc(#{100 / $count}% - #{($gutter)});
 
-        > .col-50 {
-            width: calc(50% - #{($gutter)});
-
-            &:nth-child(n+3) {
-                margin-top: $gutter;
-            }
-        }
-    }
-
-    @media screen and (min-width: 1024px) {
-        .col-33 {
-            width: calc(33.333% - #{($gutter)});
-
-            &:nth-child(n+4) {
-                margin-top: $gutter;
-            }
-        }
-
-        > .col-25 {
-            width: calc(25% - #{($gutter)});
-
-            &:nth-child(n+5) {
+            &:nth-child(n + #{($count + 1)}) {
                 margin-top: $gutter;
             }
         }
     }
 
     @media screen and (max-width: 1023px) and (min-width: 768px) {
-        .col-33 {
-            width: calc(50% - #{($gutter)});
+        @if $count > 2 {
+            width: calc(#{100 / $count}% - #{($gutter)});
 
-            &:nth-child(n+3) {
-                margin-top: $gutter;
-            }
-        }
-
-        > .col-25 {
-            width: calc(50% - #{($gutter)});
-
-            &:nth-child(n+3) {
+            &:nth-child(n + #{($count + 1)}) {
                 margin-top: $gutter;
             }
         }

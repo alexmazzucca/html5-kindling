@@ -43,10 +43,16 @@
 
         <header id="main-header">
             <div class="container">
-                <h1 class="site-logo">
-                    <img src="img/site-logo.svg" alt="Site Name">
+                <a href="/" class="site-logo" title="← Back to the homepage">
+                    <picture>
+                        <source srcset="/img/site-logo.png, /img/site-logo@2x.png 2x">
+                        <img src="/img/site-logo.png" alt="">
+                    </picture>
                     <span>Site Name</span>
-                </h1>
+                </a>
+                <button id="burger" aria-label="Click to expand full site navigation">
+                    <span></span>
+                </button>
             </div>
         </header>
 
