@@ -59,16 +59,11 @@ function initialPromptForProjectInfo(cb){
 			type: 'input',
 			name: 'title',
 			message: 'Project title:'
-		},
-		{
-			type: 'input',
-			name: 'description',
-			message: 'Project description:'
 		}
 		], function(res){
 			settings.title = res.title;
 			settings.type = res.type;
-			settings.description = res.description;
+			settings.description = 'Repo for the development of ' + res.title;
 			cb();
 		}))
 		.pipe(gulp.dest('./'))

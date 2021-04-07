@@ -196,13 +196,14 @@ Mixins
 /*
  * Mixin: @has_columns
  * --------------------------
- * Outputs necessary styles for implementation of columns
+ * Creates columns within selected parent elements
+ * Options for number of columns, gutter size, and wrapping (boolean)
  */
 
- @mixin has_columns($count,$gutter) {
+ @mixin has_columns($count, $gutter, $wrap) {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
 
     /*
     Desktop
@@ -225,11 +226,15 @@ Mixins
     }
 
     @media screen and (max-width: 1023px) and (min-width: 768px) {
-        @if $count > 2 {
-            width: calc(#{100 / $count}% - #{($gutter)});
-
-            &:nth-child(n + #{($count + 1)}) {
-                margin-top: $gutter;
+        @if $wrap not false {
+            @if $count > 2 {
+                > * {
+                    width: calc(#{100 / $count}% - #{($gutter)});
+    
+                    &:nth-child(n + #{($count + 1)}) {
+                        margin-top: $gutter;
+                    }
+                }
             }
         }
     }

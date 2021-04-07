@@ -54,6 +54,10 @@ function openModal(e){
     $('body').addClass('modal-active');
     $modal.addClass('active');
 	$(window).on('resize', modalOverflowCheck).trigger('resize');
+	setTimeout(function(){
+		$(document).on('click', outsideClick);
+		$(document).on('keyup', escapePress);
+	},300)
 }
 
 function closeModal(){
@@ -61,6 +65,8 @@ function closeModal(){
     $modal.removeClass('active');
 	$('body').removeClass('modal-active');
 	$(window).off('resize', modalOverflowCheck);
+	$(document).off('click', outsideClick);
+	$(document).off('keyup', escapePress);
 }
 
 function modalOverflowCheck(){
@@ -68,6 +74,20 @@ function modalOverflowCheck(){
 		$('body').addClass('modal-overflow');
 	}else{
 		$('body').removeClass('modal-overflow');
+	}
+}
+
+function outsideClick(event){
+	var $target = $(event.target);
+	console.log($target)
+	if(!$target.closest('.modal.active .window').length) {
+		closeModal();
+	}        
+}
+
+function escapePress(event){
+	if (event.keyCode === 27) {
+		closeModal();
 	}
 }
 
