@@ -1,5 +1,5 @@
 {
-    "Creates new SASS ruleset": {
+    "SASS ruleset": {
 		"scope": "scss",
         "prefix": "Kindling: Ruleset",
         "body": [
@@ -35,7 +35,7 @@
             "    }",
             "}"
         ],
-        "description": "Creates new SASS ruleset"
+        "description": "SASS ruleset"
     },
 	"Insert and configure has_columns mixin": {
 		"scope": "scss",
@@ -45,7 +45,7 @@
         ],
         "description": "Insert and configure has_columns mixin"
     },
-    "Creates HTML for new section": {
+    "HTML markup for section": {
 		"scope": "html",
         "prefix": "Kindling: Section",
         "body": [
@@ -59,9 +59,9 @@
             "    <div class=\"container\"></div>",
             "</section>"
         ],
-        "description": "Creates HTML for new section"
+        "description": "HTML markup for section"
     },
-    "Creates HTML for high-resolution image": {
+    "HTML markup for high-resolution image": {
 		"scope": "html",
         "prefix": "Kindling: Image 2x",
         "body": [
@@ -70,6 +70,6 @@
 		    "	<img src=\"${1:Standard Resolution Path}\" alt=\"${3:Alt Tag}\">",
 		    "</picture>"
         ],
-        "description": "Creates HTML for high-resolution image"
+        "description": "HTML markup for high-resolution image"
     }
 }
