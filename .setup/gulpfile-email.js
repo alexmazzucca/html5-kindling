@@ -22,7 +22,6 @@ var gutil = require( 'gulp-util' );
 var ftp = require( 'vinyl-ftp' );
 var prompt = require('gulp-prompt');
 
-const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
 const del = require("del");
 const imagemin = require("gulp-imagemin");
@@ -35,126 +34,24 @@ const notifier = require('node-notifier');
 * >>========================================>
 */
 
-var pathToTheme = "";
-
-if(settings.theme != "") {
-	pathToTheme = "wp-content/themes/" + settings.theme + '/';
-}
-
 const paths = {
-	scripts: {
-		src: [
-			"./node_modules/jquery/dist/jquery.js",
-			"./node_modules/gsap/src/uncompressed/TweenMax.js",
-			"./src/js/vendor/*.js",
-			"./src/js/main.js"
-		],
-		dest: "./dist/" + pathToTheme + "js/"
-	},
 	styles: {
 		src: [
 			"./src/scss/*.scss",
 		],
-		dest: "./dist/" + pathToTheme + "css/"
-	},
-	wp_styles: {
-		src: [
-			"./src/scss/*.scss",
-		],
-		dest: "./dist/" + pathToTheme
+		dest: "./dist/css/"
 	},
 	dom: {
 		src: [
-			"./src/**/*.html",
-			"./src/**/*.php"
+			"./src/**/*.html"
 		],
-		dest: "./dist/" + pathToTheme
+		dest: "./dist/"
 	},
 	images: {
 		src: "./src/img/**",
-		dest: "./dist/" + pathToTheme + "img/"
+		dest: "./dist/img/"
 	}
 };
-
-/*
-* >>========================================>
-* Database Tasks
-* >>========================================>
-*/
-
-function backupDatabase(cb){
-	if(settings.database != '') {
-		return mysqldump({
-			connection: {
-				host: 'localhost',
-				user: 'root',
-				password: 'root',
-				database: settings.database
-			},
-			dump: {
-				data: {
-					format : false
-				}
-			},
-			dumpToFile: settings.database + '.sql'
-		});
-	}
-
-	cb();
-}
- 
-/*
-* >>========================================>
-* Script (JS) Tasks
-* >>========================================>
-*/
-
-function compressJS(cb) {
-	return gulp
-		.src(paths.scripts.src)
-		.on("error", function(err) {
-			notify({
-				title: 'Kindling',
-				icon: 'undefined',
-				contentImage: 'undefined'
-			}).write(err);
-			this.emit('end');
-		})
-		.pipe(concat("main.js"))
-		.pipe(uglify())
-		.pipe(notify({
-			title: 'Kindling',
-			message: 'Javascript compression complete',
-			icon: 'undefined',
-			contentImage: 'undefined'
-		}))
-		.pipe(gulp.dest(paths.scripts.dest));
-
-	cb();
-}
-
-function combineJS(cb) {
-	return gulp
-		.src(paths.scripts.src)
-		.on("error", function(err) {
-			notify({
-				title: 'Kindling',
-				icon: 'undefined',
-				contentImage: 'undefined'
-			}).write(err);
-			this.emit('end');
-		})
-		.pipe(concat("main.js"))
-		.pipe(notify({
-			title: 'Kindling',
-			message: 'Javascript concatenation complete',
-			icon: 'undefined',
-			contentImage: 'undefined'
-		}))
-		.pipe(gulp.dest(paths.scripts.dest));
-
-	cb();
-}
 
 /*
 * >>========================================>
@@ -162,19 +59,41 @@ function combineJS(cb) {
 * >>========================================>
 */
 
-function compressDOM(cb) {
+function compressEmailDOM(cb){
 	return gulp
-		.src(paths.dom.src)
+		.src('./src/index.html')
 		.pipe(
 			htmlmin({
 				collapseWhitespace: true,
 				conservativeCollapse: true,
 				preserveLineBreaks: true,
-				removeComments: true
+				removeComments: true,
+				keepClosingSlash: true,
+				removeEmptyAttributes: false
 			})
 		)
+		.pipe(prettyHtml())
+		.pipe(gulp.dest(paths.dom.dest));
+	
+	cb();
+}
+
+function copyEmailDOM(cb){
+	return gulp
+		.src('./src/index.html')
 		.pipe(gulp.dest(paths.dom.dest));
 
+	cb();
+}
+
+function updateEmailImagePaths(cb){
+	if(settings.url != '') {
+		return gulp
+			.src('./dist/index.html')
+			.pipe(replace('src="img/', 'src="' + settings.url))
+			.pipe(gulp.dest(paths.dom.dest));
+	}
+	
 	cb();
 }
 
@@ -229,14 +148,11 @@ function compressSASS(cb) {
 	cb();
 }
 
-function compressWPSASS(cb) {
+function compileEmailSASS(cb){
 	return gulp
-		.src(paths.wp_styles.src)
-		.pipe(sourcemaps.init())
+		.src('./src/scss/email.scss')
 		.pipe(
-			sass({
-				outputStyle: "compressed"
-			})
+			sass()
 		)
 		.on("error", function(err) {
 			notify({
@@ -246,24 +162,42 @@ function compressWPSASS(cb) {
 			}).write(err);
 			this.emit('end');
 		})
-		.pipe(autoprefixer())
-		.pipe(sourcemaps.write('.'))
-		.pipe(rename(
-			function(path){
-				if(path.basename == 'main') {
-					path.basename = "style";
-				}
-			}
-		))
 		.pipe(notify({
 			title: 'Kindling',
-			message: 'SASS compilation and compression complete',
+			message: 'SASS compilation complete',
 			icon: 'undefined',
-			contentImage: 'undefined',
-			onLast: true
+			contentImage: 'undefined'
 		}))
-		.pipe(gulp.dest(paths.wp_styles.dest))
+		.pipe(gulp.dest(paths.styles.dest))
 		.pipe(browserSync.stream());
+
+	cb();
+}
+
+function inlineStyles(cb) {
+	return gulp
+		.src('./dist/index.html')
+		.pipe(inlineCSS({
+			applyStyleTags: true,
+			applyLinkTags: true,
+			removeStyleTags: true,
+			removeLinkTags: true,
+			removeHtmlSelectors: true,
+			xmlMode: true,
+		}))
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'CSS inline complete',
+			icon: 'undefined',
+			contentImage: 'undefined'
+		}))
+		.pipe(gulp.dest(paths.dom.dest))
+
+	cb();
+}
+
+function delTempCSSDir(cb) {
+	return del(paths.styles.dest);
 
 	cb();
 }
@@ -302,7 +236,7 @@ function compressImg(cb) {
 */
 
 function startServer(cb) {
-	if(settings.url === '') {
+	if(settings.url === '' || settings.type == 'email') {
 		browserSync.init({
 			server: {
 				baseDir: "./dist/"
@@ -331,15 +265,8 @@ function startServer(cb) {
 */
 
 function watchForChanges() {
-	gulp.watch(paths.dom.src, gulp.series(compressDOM, liveReload));
-	gulp.watch(paths.scripts.src, gulp.series(combineJS, liveReload));
-
-	if(settings.type == 'wordpress'){
-		gulp.watch(paths.styles.src, gulp.series(compressWPSASS));
-	}else{
-		gulp.watch(paths.styles.src, gulp.series(compressSASS));
-	}
-	
+	gulp.watch(paths.dom.src, gulp.series(copyEmailDOM, liveReload));
+	gulp.watch(paths.styles.src, gulp.series(compressSASS));
 	gulp.watch(paths.images.src, {events: ['all']}, gulp.series(compressImg, liveReload));
 	gulp.watch(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/img/**', '!./src/**/*.html', '!./src/**/*.php'], {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
 }
@@ -431,35 +358,20 @@ function buildComplete(cb){
 	cb();
 }
 
-const buildTasks = gulp.series(
+const emailBuildTasks = gulp.series(
 	delDistDir,
-	copyFilesToDist,
 	gulp.parallel(
-		compressJS,
-		compressSASS,
-		compressDOM,
+		compileEmailSASS,
+		compressEmailDOM,
 		compressImg
 	),
+	updateEmailImagePaths,
+	inlineStyles,
+	delTempCSSDir,
 	buildComplete
 );
 
-const wpBuildTasks = gulp.series(
-	delDistDir,
-	copyFilesToDist,
-	gulp.parallel(
-		compressJS,
-		compressWPSASS,
-		compressDOM,
-		compressImg
-	),
-	buildComplete
-);
-
-if(settings.type == 'wordpress') {
-	gulp.task("build", wpBuildTasks);
-}else{
-	gulp.task("build", buildTasks);
-}
+gulp.task("build", emailBuildTasks);
 
 /*
 * >>========================================>
@@ -467,45 +379,16 @@ if(settings.type == 'wordpress') {
 * >>========================================>
 */
 
-const wpDevTasks = gulp.series(
+const emailDevTasks = gulp.series(
 	delDistDir,
-	copyFilesToDist,
-	combineJS,
-	compressWPSASS,
-	compressDOM,
-	compressImg,
-	startServer,
-	watchForChanges
-);
-
-const devTasks = gulp.series(
-	delDistDir,
-	copyFilesToDist,
-	combineJS,
 	compressSASS,
-	compressDOM,
+	copyEmailDOM,
 	compressImg,
 	startServer,
 	watchForChanges
 );
 
-if(settings.type == 'wordpress') {
-	gulp.task("develop", wpDevTasks);
-}else{
-	gulp.task("develop", devTasks);
-}
-
-/*
-* >>========================================>
-* Database Tasks
-* >>========================================>
-*/
-
-const databaseTasks = gulp.series(
-	backupDatabase
-);
-
-gulp.task("database", databaseTasks);
+gulp.task("develop", emailDevTasks);
 
 /*
 * >>========================================>
