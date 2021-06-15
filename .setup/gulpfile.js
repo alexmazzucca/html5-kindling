@@ -45,7 +45,7 @@ const paths = {
 	scripts: {
 		src: [
 			"./node_modules/jquery/dist/jquery.js",
-			"./node_modules/gsap/src/uncompressed/TweenMax.js",
+			"./node_modules/gsap/dist/gsap.min.js",
 			"./src/js/vendor/*.js",
 			"./src/js/main.js"
 		],

@@ -197,20 +197,27 @@ Mixins
  * Mixin: @has_columns
  * --------------------------
  * Creates columns within selected parent elements
- * Options for number of columns, gutter size, and wrapping (boolean)
+ * $count       : Number of columns
+ * $gutter      : Gutter size
+ * $wrap        : Wrap flex items (T/F)
+ * $show_mobile   : Use layout on mobile resolutions (T/F)
  */
 
- @mixin has_columns($count, $gutter, $wrap) {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-
+ @mixin has_columns($count, $gutter, $wrap, $show_mobile) {
+    
     /*
     Desktop
     >>------------->
     */
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: $breakpoint_desktop) {
+        display: flex;
+        justify-content: flex-start;
+
+        @if $wrap not false {
+            flex-wrap: wrap;
+        }
+
         margin-left: (-($gutter / 2));
         margin-right: (-($gutter / 2));
 
@@ -225,9 +232,9 @@ Mixins
         }
     }
 
-    @media screen and (max-width: 1023px) and (min-width: 768px) {
+    @media screen and (max-width: 1023px) and (min-width: $breakpoint_desktop) {
         @if $wrap not false {
-            @if $count > 2 {
+            @if $count > 3 {
                 > * {
                     width: calc(#{100 / $count}% - #{($gutter)});
     
@@ -244,14 +251,7 @@ Mixins
     >>------------->
     */
 
-    @media screen and (max-width: 767px) {
-        flex-wrap: nowrap;
-        flex-direction: column;
-
-        > * {
-            width: 100%;
-        }
-
+    @media screen and (max-width: $breakpoint_mobile) {
         > *:not(:last-child) {
             margin-bottom: $padding_mobile;
         }
