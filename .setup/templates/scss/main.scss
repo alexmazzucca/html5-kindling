@@ -109,10 +109,6 @@ legend {
     font-family: $font_primary;
 }
 
-.container {
-    max-width: $site_width + ($padding_desktop * 2);
-}
-
 /*
 >>================================================================================>
 Site Options
@@ -120,10 +116,11 @@ Site Options
 */
 
 // @include has_modals();
+// @include has_accordions();
 
 /*
 >>================================================================================>
-Global: Framework
+Global: Framework (Main Container)
 >>================================================================================>
 */
 
@@ -131,6 +128,10 @@ Global: Framework
 All Resolutions
 >>------------->
 */
+
+.container {
+    max-width: $site_width + ($padding_desktop * 2);
+}
 
 /*
 Desktop
@@ -156,57 +157,91 @@ Mobile
 
 /*
 >>================================================================================>
-Global: Typography (Heading, Copy, Lists, etc.)
+Global: Typography (Headings, Copy, Lists, etc.)
 >>================================================================================>
 */
 
 /*
-All Resolutions 
+Color Variations
 >>------------->
 */
 
+.black {
+    color: $color_black;
+}
+
+.white {
+    color: $color_white;
+}
+
+/*
+Standard Copy Styles
+>>------------------>
+*/
+
+@mixin standard_copy {
+    font-family: $font_primary;
+
+    @media screen and (min-width: $breakpoint_desktop) {
+
+    }
+
+    @media screen and (max-width: $breakpoint_mobile) {
+
+    }
+}
+
 main {
-    p,
-    li {
-        
+    p, li {
+        @include standard_copy;
+    }
+}
+
+/*
+Heading 1 Styles
+>>-------------->
+*/
+
+@mixin heading-1 {
+    font-family: $font_primary;
+
+    @media screen and (min-width: $breakpoint_desktop) {
+
+    }
+
+    @media screen and (max-width: $breakpoint_mobile) {
+
     }
 }
 
 .heading-1 {
-    
+    @include heading-1;
 }
 
 /*
-Desktop
->>------------->
+Heading 2 Styles
+>>-------------->
 */
 
-@media screen and (min-width: $breakpoint_desktop) {
-    main {
-        p,
-        li {
+@mixin heading-2 {
+    font-family: $font_primary;
 
-        }
+    @media screen and (min-width: $breakpoint_desktop) {
+
+    }
+
+    @media screen and (max-width: $breakpoint_mobile) {
+
     }
 }
 
-/*
-Mobile
->>------------->
-*/
-
-@media screen and (max-width: $breakpoint_mobile) {
-    main {
-        p,
-        li {
-            
-        }
-    }
+.heading-2 {
+    @include heading-2;
 }
 
 /*
 >>================================================================================>
-Global: Other Reusable Styles (buttons, forms, etc.)
+Global: Site-Wide GUI Elements (Buttons, Forms, etc.)
 >>================================================================================>
 */
 

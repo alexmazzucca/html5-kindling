@@ -38,7 +38,7 @@ $(window).on('load', function(){
 * >>========================================>
 */
 
-$('.burger').on('click', function(){
+$('#burger').on('click', function(){
     $('body').toggleClass('menu-active');
 });
 
@@ -97,33 +97,43 @@ $('*[data-modal]').on('click', openModal)
 
 /*
 * >>========================================>
-* Expandable Content
+* Accordion
 * >>========================================>
 */
 
-$('.expandable-item .trigger').on('click', expandableItem);
+$('.accordion').each(function(){
+	var $accordion = $(this),
+		$trigger = $accordion.find('.accordion-trigger'),
+		$content = $accordion.find('.accordion-content'),
+		$content_container = $content.find('> div'),
+		accordionActive = false;
 
-function expandableItem($element){
-	if(event != undefined && event.type == 'click') {
-		$item = $(this).closest('.expandable-item');
-	}else{
-		$item = $element;
-	}
-	
-	$content = $item.find('.content'),
-	content_height = $content.find('> div').outerHeight();
+	$trigger.on('click', function(){
+		var content_height = $content_container.outerHeight();
 
-	$item.toggleClass('active');
+		$accordion.parent().find('.accordion.active').not($accordion).find('.trigger').trigger('click')
 
-	if($item.hasClass('active')){
-		TweenMax.fromTo($content, .3, {height:0}, {height: content_height, ease:Power1.easeInOut, onComplete:function(){
-			$content.attr('style', '').addClass('expanded');
-		}});
-	}else{
-		$content.removeClass('expanded');
-		TweenMax.fromTo($content, .3, {height: content_height}, {height: 0, ease:Power3.easeInOut});
-	}
-}
+		if(!accordionActive){
+			itemActive = true;
+			$accordion.addClass('active');
+			
+			var start_height = $content.outerHeight();
+
+			TweenMax.fromTo($content, .3, {height: start_height}, {height: content_height, ease:Power1.easeInOut, onComplete:function(){
+				$content.attr('style', '').addClass('expanded');
+			}});
+			
+		}else{
+			accordionActive = false;
+			$accordion.removeClass('active');
+			
+			var start_height = $content.outerHeight();
+
+			$content.removeClass('expanded');
+			TweenMax.fromTo($content, .3, {height: start_height}, {height: 0, ease:Power1.easeInOut});
+		}
+	})
+});
 
 /*
 * >>========================================>
