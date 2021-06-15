@@ -37,13 +37,13 @@
         ],
         "description": "SASS ruleset"
     },
-	"Insert and configure has_columns mixin": {
+	"Configure 'has_columns' SASS mixin": {
 		"scope": "scss",
         "prefix": "Kindling: Columns",
         "body": [
             "@include has_columns(${1:Columns}, ${2:Gutter}px"
         ],
-        "description": "Insert and configure has_columns mixin"
+        "description": "Configure 'has_column's SASS mixin"
     },
     "HTML markup for section": {
 		"scope": "html",
