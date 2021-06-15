@@ -349,11 +349,11 @@ function updateProjectSettings(cb){
 	cb();
 }
 
-function copyGulpFileToRoot(){
-	return gulp
-		.src('./.setup/gulpfile.js')
-		.pipe(gulp.dest('./'));
-}
+// function copyGulpFileToRoot(){
+// 	return gulp
+// 		.src('./.setup/gulpfile.js')
+// 		.pipe(gulp.dest('./'));
+// }
 
 function copyTemplateFilesToSrc(){
 	return gulp
@@ -439,6 +439,22 @@ function updateBuildTasks(cb){
 	}
 }
 
+function updateGulpFile(cb){
+	if(settings.type == 'email'){
+		return gulp
+			.src('./.setup/gulpfile-email.json')
+			.pipe(rename(function (path) {
+				path.basename = 'gulpfile';
+			}))
+			.pipe(gulp.dest('./'))
+		cb();
+	}else {
+		return gulp
+			.src('./.setup/gulpfile.js')
+			.pipe(gulp.dest('./'));
+	}
+}
+
 function updateREADME(cb){
 	return gulp.src(['./.setup/README.md'])
 		.pipe(replace('<title>', settings.title))
@@ -483,7 +499,7 @@ const setupProject = gulp.series(
 	removeWorkspaceFile,
 	updatePackageInfo,
 	updateProjectSettings,
-	copyGulpFileToRoot,
+	updateGulpFile,
 	delTempSrcFiles,
 	copyTemplateAssetsToSrc,
 	copyTemplateFilesToSrc,

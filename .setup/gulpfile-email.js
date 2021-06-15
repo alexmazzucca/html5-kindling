@@ -268,7 +268,7 @@ function watchForChanges() {
 	gulp.watch(paths.dom.src, gulp.series(copyEmailDOM, liveReload));
 	gulp.watch(paths.styles.src, gulp.series(compressSASS));
 	gulp.watch(paths.images.src, {events: ['all']}, gulp.series(compressImg, liveReload));
-	gulp.watch(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/img/**', '!./src/**/*.html', '!./src/**/*.php'], {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
+	gulp.watch(['./src/**', '!./src/scss/**', '!./src/img/**', '!./src/**/*.html'], {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
 }
 
 function liveReload(cb) {
