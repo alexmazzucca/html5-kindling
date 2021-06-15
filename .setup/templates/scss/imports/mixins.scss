@@ -200,7 +200,7 @@ Mixins
  * $count           : Number of columns
  * $gutter          : Gutter size
  * $wrap            : Wrap flex items (T/F)
- * $show_mobile     : Use layout on mobile resolutions (T/F)
+ * $show_mobile     : Mobile resolutions (T/F)
  */
 
  @mixin has_columns($count, $gutter, $wrap, $show_mobile) {

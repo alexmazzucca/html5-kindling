@@ -60,5 +60,12 @@
 		    "</picture>"
         ],
         "description": "Creates markup for retina image"
+    },
+    "Insert columns mixin in SCSS documents": {
+        "prefix": "Kindling: Columns Mixin",
+        "body": [
+            "@include has_columns(${1:Number of columns}, ${2:Gutter size}px, ${3:Wrap flex items (T/F)}, ${4:Mobile resolutions (T/F)}"
+        ],
+        "description": "Insert columns mixin in SCSS documents"
     }
 }
