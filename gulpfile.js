@@ -264,11 +264,13 @@ function updateAdditionalProjectInfo(cb){
 }
 
 function renameWorkspaceFile(){
-	return gulp.src('./start-here.code-workspace')
+	return gulp
+		.src('./.setup/workspace.code-workspace')
 		.pipe(rename(function (path) {
 			path.basename = settings.repo;
 		}))
 		.pipe(gulp.dest('./'))
+	cb();
 }
 
 function updatePackageInfo(){
@@ -291,8 +293,6 @@ function updatePackageInfo(){
 		}))
 		.pipe(gulp.dest('./'))
 }
-
-const removeWorkspaceFile = () => del(['./start-here.code-workspace']);
 
 function updateProjectSettings(cb){
 	return gulp.src('./.setup/settings.json')
