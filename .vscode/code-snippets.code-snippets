@@ -39,7 +39,7 @@
     },
 	"Insert and configure has_columns mixin": {
 		"scope": "scss",
-        "prefix": "Kindling: Columns Mixin",
+        "prefix": "Kindling: Columns",
         "body": [
             "@include has_columns(${1:Columns}, ${2:Gutter}px"
         ],
@@ -63,7 +63,7 @@
     },
     "Creates HTML for high-resolution image": {
 		"scope": "html",
-        "prefix": "Kindling: High-Resolution Image",
+        "prefix": "Kindling: Image",
         "body": [
             "<picture>",
 		    "	<source srcset=\"${1:Standard Resolution Path}, ${2:High Resolution Path} 2x\">",
