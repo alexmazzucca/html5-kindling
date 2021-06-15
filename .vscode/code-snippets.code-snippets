@@ -1,6 +1,7 @@
 {
-    "Creates SASS markup for new element": {
-        "prefix": "Kindling: Style Block",
+    "Creates new SASS ruleset": {
+		"scope": "scss",
+        "prefix": "Kindling: New Ruleset",
         "body": [
             "/*",
             ">>================================================================================>",
@@ -34,10 +35,19 @@
             "    }",
             "}"
         ],
-        "description": "Creates SASS markup for new DOM element"
+        "description": "Creates new SASS ruleset"
     },
-    "Block DOM": {
-        "prefix": "Kindling: DOM Block",
+	"Insert and configure has_columns mixin": {
+		"scope": "scss",
+        "prefix": "Kindling: Columns Mixin",
+        "body": [
+            "@include has_columns(${1:Number of columns}, ${2:Gutter}px, ${3:Wrap (true/false)}, ${4:Mobile (true/false)})"
+        ],
+        "description": "Insert and configure has_columns mixin"
+    },
+    "Creates HTML for new section": {
+		"scope": "html",
+        "prefix": "Kindling: Section",
         "body": [
             "<!--",
             ">>================================================================================>",
@@ -49,23 +59,17 @@
             "    <div class=\"container\"></div>",
             "</section>"
         ],
-        "description": "Creates HTML markup for new DOM element"
+        "description": "Creates HTML for new section"
     },
-    "Creates markup for retina image": {
-        "prefix": "Kindling: Retina Image",
+    "Creates HTML for high-resolution image": {
+		"scope": "html",
+        "prefix": "Kindling: High-Resolution Image",
         "body": [
             "<picture>",
 		    "	<source srcset=\"${1:Standard Resolution Path}, ${2:High Resolution Path} 2x\">",
 		    "	<img src=\"${1:Standard Resolution Path}\" alt=\"${3:Alt Tag}\">",
 		    "</picture>"
         ],
-        "description": "Creates markup for retina image"
-    },
-    "Insert columns mixin in SCSS documents": {
-        "prefix": "Kindling: Columns Mixin",
-        "body": [
-            "@include has_columns(${1:Number of columns}, ${2:Gutter size}px, ${3:Wrap flex items (T/F)}, ${4:Mobile resolutions (T/F)})"
-        ],
-        "description": "Insert columns mixin in SCSS documents"
+        "description": "Creates HTML for high-resolution image"
     }
 }

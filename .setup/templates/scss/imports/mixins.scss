@@ -23,28 +23,6 @@ Mixins
 }
 
 /*
- * Mixin: @centered
- * --------------------------
- * Absolutely-positioned elements become centered
- */
-
-@mixin centered($axis) {
-    position: absolute;
-    
-    @if $axis == 'y' {
-        top: 50%;
-        transform: translateY(-50%);
-    } @else if $axis == 'x' {
-        left: 50%;
-        transform: translateX(-50%);
-    } @else if $axis == 'xy' {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-    }
-}
-
-/*
  * Mixin: @scrollable
  * --------------------------
  * Applies some styles that make scrollable elements behave a little better
@@ -54,28 +32,6 @@ Mixins
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
-}
-
-/*
- * Mixin:; @bgimg
- * --------------------------
- * Attaches a background image
- * User-defined width and height
- * Includes a boolean for 2x resolution
- * Ability to specify file extension
- */
-
-@mixin bgimg($image, $width, $height, $retina, $extension) {
-    background-image: url('../img/' + $image + '.' + $extension);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: $width + px $height + px;
-
-    @if $retina == true {
-        @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6/2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
-            background-image: url('../img/' + $image  + '@2x' + '.' + $extension);
-        }
-    }
 }
 
 /*
@@ -204,13 +160,62 @@ Mixins
  */
 
  @mixin has_columns($count, $gutter, $wrap, $show_mobile) {
-    
-    /*
-    Desktop
-    >>------------->
-    */
 
-    @media screen and (min-width: $breakpoint_desktop) {
+    @if $show_mobile == false {
+        
+        /*
+        Desktop
+        >>------------->
+        */
+
+        @media screen and (min-width: $breakpoint_desktop) {
+            display: flex;
+            justify-content: flex-start;
+
+            @if $wrap not false {
+                flex-wrap: wrap;
+            }
+
+            margin-left: (-($gutter / 2));
+            margin-right: (-($gutter / 2));
+
+            > * {
+                margin-left: ($gutter / 2);
+                margin-right: ($gutter / 2);
+                width: calc(#{100 / $count}% - #{($gutter)});
+
+                &:nth-child(n + #{($count + 1)}) {
+                    margin-top: $gutter;
+                }
+            }
+        }
+
+        @media screen and (max-width: 1023px) and (min-width: $breakpoint_desktop) {
+            @if $wrap not false {
+                @if $count > 3 {
+                    > * {
+                        width: calc(#{100 / $count}% - #{($gutter)});
+        
+                        &:nth-child(n + #{($count + 1)}) {
+                            margin-top: $gutter;
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
+        Mobile
+        >>------------->
+        */
+
+        @media screen and (max-width: $breakpoint_mobile) {
+            > *:not(:last-child) {
+                margin-bottom: $padding_mobile;
+            }
+        }
+        
+    } @else {
         display: flex;
         justify-content: flex-start;
 
@@ -229,31 +234,6 @@ Mixins
             &:nth-child(n + #{($count + 1)}) {
                 margin-top: $gutter;
             }
-        }
-    }
-
-    @media screen and (max-width: 1023px) and (min-width: $breakpoint_desktop) {
-        @if $wrap not false {
-            @if $count > 3 {
-                > * {
-                    width: calc(#{100 / $count}% - #{($gutter)});
-    
-                    &:nth-child(n + #{($count + 1)}) {
-                        margin-top: $gutter;
-                    }
-                }
-            }
-        }
-    }
-
-    /*
-    Mobile
-    >>------------->
-    */
-
-    @media screen and (max-width: $breakpoint_mobile) {
-        > *:not(:last-child) {
-            margin-bottom: $padding_mobile;
         }
     }
 }
