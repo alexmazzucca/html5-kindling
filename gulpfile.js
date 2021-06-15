@@ -496,7 +496,6 @@ const setupProject = gulp.series(
 	promptForWordpressDetails,
 	updateAdditionalProjectInfo,
 	renameWorkspaceFile,
-	removeWorkspaceFile,
 	updatePackageInfo,
 	updateProjectSettings,
 	updateGulpFile,
