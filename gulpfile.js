@@ -442,7 +442,7 @@ function updateBuildTasks(cb){
 function updateGulpFile(cb){
 	if(settings.type == 'email'){
 		return gulp
-			.src('./.setup/gulpfile-email.json')
+			.src('./.setup/gulpfile-email.js')
 			.pipe(rename(function (path) {
 				path.basename = 'gulpfile';
 			}))
