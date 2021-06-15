@@ -155,84 +155,34 @@ Mixins
  * Creates columns within selected parent elements
  * $count           : Number of columns
  * $gutter          : Gutter size
- * $wrap            : Wrap flex items (T/F)
- * $show_mobile     : Mobile resolutions (T/F)
  */
 
- @mixin has_columns($count, $gutter, $wrap, $show_mobile) {
+ @mixin has_columns($count, $gutter) {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 
-    @if $show_mobile == false {
-        
-        /*
-        Desktop
-        >>------------->
-        */
+    margin-left: (-($gutter / 2));
+    margin-right: (-($gutter / 2));
 
-        @media screen and (min-width: $breakpoint_desktop) {
-            display: flex;
-            justify-content: flex-start;
+    > * {
+        margin-left: ($gutter / 2);
+        margin-right: ($gutter / 2);
+        width: calc(#{100 / $count}% - #{($gutter)});
 
-            @if $wrap not false {
-                flex-wrap: wrap;
-            }
+        &:nth-child(n + #{($count + 1)}) {
+            margin-top: $gutter;
+        }
+    }
 
-            margin-left: (-($gutter / 2));
-            margin-right: (-($gutter / 2));
-
+    @media screen and (max-width: 1023px) {
+        @if $count > 3 {
             > * {
-                margin-left: ($gutter / 2);
-                margin-right: ($gutter / 2);
                 width: calc(#{100 / $count}% - #{($gutter)});
 
                 &:nth-child(n + #{($count + 1)}) {
                     margin-top: $gutter;
                 }
-            }
-        }
-
-        @media screen and (max-width: 1023px) and (min-width: $breakpoint_desktop) {
-            @if $wrap not false {
-                @if $count > 3 {
-                    > * {
-                        width: calc(#{100 / $count}% - #{($gutter)});
-        
-                        &:nth-child(n + #{($count + 1)}) {
-                            margin-top: $gutter;
-                        }
-                    }
-                }
-            }
-        }
-
-        /*
-        Mobile
-        >>------------->
-        */
-
-        @media screen and (max-width: $breakpoint_mobile) {
-            > *:not(:last-child) {
-                margin-bottom: $padding_mobile;
-            }
-        }
-        
-    } @else {
-        display: flex;
-        justify-content: flex-start;
-
-        @if $wrap not false {
-            flex-wrap: wrap;
-        }
-
-        margin-left: (-($gutter / 2));
-        margin-right: (-($gutter / 2));
-
-        > * {
-            margin-left: ($gutter / 2);
-            margin-right: ($gutter / 2);
-            width: calc(#{100 / $count}% - #{($gutter)});
-
-            &:nth-child(n + #{($count + 1)}) {
-                margin-top: $gutter;
             }
         }
     }

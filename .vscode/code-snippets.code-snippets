@@ -1,7 +1,7 @@
 {
     "Creates new SASS ruleset": {
 		"scope": "scss",
-        "prefix": "Kindling: New Ruleset",
+        "prefix": "Kindling: Ruleset",
         "body": [
             "/*",
             ">>================================================================================>",
@@ -41,7 +41,7 @@
 		"scope": "scss",
         "prefix": "Kindling: Columns Mixin",
         "body": [
-            "@include has_columns(${1:Number of columns}, ${2:Gutter}px, ${3:Wrap (true/false)}, ${4:Mobile (true/false)})"
+            "@include has_columns(${1:Columns}, ${2:Gutter}px"
         ],
         "description": "Insert and configure has_columns mixin"
     },
