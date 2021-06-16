@@ -349,12 +349,6 @@ function updateProjectSettings(cb){
 	cb();
 }
 
-// function copyGulpFileToRoot(){
-// 	return gulp
-// 		.src('./.setup/gulpfile.js')
-// 		.pipe(gulp.dest('./'));
-// }
-
 function copyTemplateFilesToSrc(){
 	return gulp
 		.src([
