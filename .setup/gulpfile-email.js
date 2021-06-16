@@ -108,7 +108,7 @@ function copyFilesToDist(cb){
 			contentImage: 'undefined',
 			onLast: true
 		}))
-		.pipe(gulp.dest('./dist/' + pathToTheme));
+		.pipe(gulp.dest('./dist/'));
 }
 
 /*
@@ -389,7 +389,7 @@ function gitPush(cb){
 */
 
 function delDistDir(cb) {
-	return del('./dist/' + pathToTheme);
+	return del('./dist/');
 
 	cb();
 }
