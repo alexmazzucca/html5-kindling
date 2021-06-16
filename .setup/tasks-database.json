@@ -11,7 +11,7 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Build",
+			"label": "Build & Commit",
 			"type": "gulp",
 			"task": "build",
 			"group": "build",
@@ -21,6 +21,13 @@
 			"label": "Backup Database",
 			"type": "gulp",
 			"task": "database",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "Commit",
+			"type": "gulp",
+			"task": "commit",
 			"group": "build",
 			"problemMatcher": []
 		}

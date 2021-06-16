@@ -21,6 +21,7 @@ var notify = require("gulp-notify");
 var gutil = require( 'gulp-util' );
 var ftp = require( 'vinyl-ftp' );
 var prompt = require('gulp-prompt');
+var git = require('gulp-git');
 
 const htmlmin = require("gulp-htmlmin");
 const del = require("del");
@@ -55,7 +56,7 @@ const paths = {
 
 /*
 * >>========================================>
-* DOM Tasks
+* DOM
 * >>========================================>
 */
 
@@ -112,7 +113,7 @@ function copyFilesToDist(cb){
 
 /*
 * >>========================================>
-* SASS/CSS Tasks
+* SASS/CSS
 * >>========================================>
 */
 
@@ -204,7 +205,7 @@ function delTempCSSDir(cb) {
 
 /*
 * >>========================================>
-* Image Tasks
+* Images
 * >>========================================>
 */
 
@@ -279,7 +280,7 @@ function liveReload(cb) {
 
 /*
 * >>========================================>
-* Deployment Tasks
+* Deployment
 * >>========================================>
 */
 
@@ -368,6 +369,10 @@ const emailBuildTasks = gulp.series(
 	updateEmailImagePaths,
 	inlineStyles,
 	delTempCSSDir,
+	promptForSummary,
+	gitAdd,
+	gitCommit,
+	gitPush,
 	buildComplete
 );
 
@@ -389,6 +394,21 @@ const emailDevTasks = gulp.series(
 );
 
 gulp.task("develop", emailDevTasks);
+
+/*
+* >>========================================>
+* Git Tasks
+* >>========================================>
+*/
+
+const gitTasks = gulp.series(
+	promptForSummary,
+	gitAdd,
+	gitCommit,
+	gitPush
+);
+
+gulp.task("commit", gitTasks);
 
 /*
 * >>========================================>

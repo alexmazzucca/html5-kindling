@@ -21,6 +21,7 @@ var notify = require("gulp-notify");
 var gutil = require( 'gulp-util' );
 var ftp = require( 'vinyl-ftp' );
 var prompt = require('gulp-prompt');
+var git = require('gulp-git');
 
 const mysqldump = require('mysqldump')
 const htmlmin = require("gulp-htmlmin");
@@ -78,7 +79,7 @@ const paths = {
 
 /*
 * >>========================================>
-* Database Tasks
+* Database
 * >>========================================>
 */
 
@@ -105,7 +106,7 @@ function backupDatabase(cb){
  
 /*
 * >>========================================>
-* Script (JS) Tasks
+* Script (JS)
 * >>========================================>
 */
 
@@ -158,7 +159,7 @@ function combineJS(cb) {
 
 /*
 * >>========================================>
-* DOM Tasks
+* DOM
 * >>========================================>
 */
 
@@ -193,7 +194,7 @@ function copyFilesToDist(cb){
 
 /*
 * >>========================================>
-* SASS/CSS Tasks
+* SASS/CSS
 * >>========================================>
 */
 
@@ -215,10 +216,41 @@ function compressSASS(cb) {
 			this.emit('end');
 		})
 		.pipe(autoprefixer())
-		.pipe(sourcemaps.write('.'))
 		.pipe(notify({
 			title: 'Kindling',
 			message: 'SASS compilation and compression complete',
+			icon: 'undefined',
+			contentImage: 'undefined',
+			onLast: true
+		}))
+		.pipe(gulp.dest(paths.styles.dest))
+		.pipe(browserSync.stream());
+
+	cb();
+}
+
+function compileSASS(cb) {
+	return gulp
+		.src(paths.styles.src)
+		.pipe(sourcemaps.init())
+		.pipe(
+			sass({
+				outputStyle: "expanded"
+			})
+		)
+		.on("error", function(err) {
+			notify({
+				title: 'Kindling',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}).write(err);
+			this.emit('end');
+		})
+		.pipe(autoprefixer())
+		.pipe(sourcemaps.write('.'))
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'SASS compilation complete',
 			icon: 'undefined',
 			contentImage: 'undefined',
 			onLast: true
@@ -247,7 +279,6 @@ function compressWPSASS(cb) {
 			this.emit('end');
 		})
 		.pipe(autoprefixer())
-		.pipe(sourcemaps.write('.'))
 		.pipe(rename(
 			function(path){
 				if(path.basename == 'main') {
@@ -268,9 +299,48 @@ function compressWPSASS(cb) {
 	cb();
 }
 
+function compileWPSASS(cb) {
+	return gulp
+		.src(paths.wp_styles.src)
+		.pipe(sourcemaps.init())
+		.pipe(
+			sass({
+				outputStyle: "expanded"
+			})
+		)
+		.on("error", function(err) {
+			notify({
+				title: 'Kindling',
+				icon: 'undefined',
+				contentImage: 'undefined'
+			}).write(err);
+			this.emit('end');
+		})
+		.pipe(autoprefixer())
+		.pipe(sourcemaps.write('.'))
+		.pipe(rename(
+			function(path){
+				if(path.basename == 'main') {
+					path.basename = "style";
+				}
+			}
+		))
+		.pipe(notify({
+			title: 'Kindling',
+			message: 'SASS compilation complete',
+			icon: 'undefined',
+			contentImage: 'undefined',
+			onLast: true
+		}))
+		.pipe(gulp.dest(paths.wp_styles.dest))
+		.pipe(browserSync.stream());
+
+	cb();
+}
+
 /*
 * >>========================================>
-* Image Tasks
+* Images
 * >>========================================>
 */
 
@@ -278,8 +348,8 @@ function compressImg(cb) {
 	return gulp
 		.src(paths.images.src)
 		.pipe(cache(imagemin([
-			imageminMozjpeg({quality: 85}),
-			imagemin.optipng({optimizationLevel: 5})
+			imageminMozjpeg({quality: 75}),
+			imagemin.optipng({optimizationLevel: 6})
 		], {
 			verbose: true
 		})))
@@ -340,8 +410,7 @@ function watchForChanges() {
 		gulp.watch(paths.styles.src, gulp.series(compressSASS));
 	}
 	
-	gulp.watch(paths.images.src, {events: ['all']}, gulp.series(compressImg, liveReload));
-	gulp.watch(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/img/**', '!./src/**/*.html', '!./src/**/*.php'], {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
+	gulp.watch(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/**/*.html', '!./src/**/*.php'], {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
 }
 
 function liveReload(cb) {
@@ -352,7 +421,7 @@ function liveReload(cb) {
 
 /*
 * >>========================================>
-* Deployment Tasks
+* Deployment
 * >>========================================>
 */
 
@@ -410,6 +479,52 @@ function deployToServer(){
 
 /*
 * >>========================================>
+* Git
+* >>========================================>
+*/
+
+var commitSummary = '';
+
+function promptForSummary(cb){
+	return gulp.src('./*')
+		.pipe(prompt.prompt([
+		{
+			type: 'input',
+			name: 'summary',
+			message: 'Summary of changes:'
+		}
+		], function(res){
+			commitSummary = res.summary;
+		}))
+
+	cb();
+}
+
+
+function gitAdd(cb){
+	return gulp.src('./')
+		.pipe(git.add());
+}
+
+function gitCommit(cb){
+	return gulp.src('./')
+		.pipe(git.commit(commitSummary));
+}
+
+function gitPush(cb){
+	git.revParse({args:'--abbrev-ref HEAD'}, function (err, branch) {
+		currentBranch = branch;
+
+		git.push('origin', branch, function (err) {
+			//if (err) ...
+		});
+
+		cb();
+	});
+}
+
+/*
+* >>========================================>
 * Build Tasks
 * >>========================================>
 */
@@ -440,6 +555,10 @@ const buildTasks = gulp.series(
 		compressDOM,
 		compressImg
 	),
+	promptForSummary,
+	gitAdd,
+	gitCommit,
+	gitPush,
 	buildComplete
 );
 
@@ -452,6 +571,10 @@ const wpBuildTasks = gulp.series(
 		compressDOM,
 		compressImg
 	),
+	promptForSummary,
+	gitAdd,
+	gitCommit,
+	gitPush,
 	buildComplete
 );
 
@@ -471,9 +594,8 @@ const wpDevTasks = gulp.series(
 	delDistDir,
 	copyFilesToDist,
 	combineJS,
-	compressWPSASS,
+	compileWPSASS,
 	compressDOM,
-	compressImg,
 	startServer,
 	watchForChanges
 );
@@ -482,7 +604,7 @@ const devTasks = gulp.series(
 	delDistDir,
 	copyFilesToDist,
 	combineJS,
-	compressSASS,
+	compileSASS,
 	compressDOM,
 	compressImg,
 	startServer,
@@ -494,6 +616,21 @@ if(settings.type == 'wordpress') {
 }else{
 	gulp.task("develop", devTasks);
 }
+
+/*
+* >>========================================>
+* Git Tasks
+* >>========================================>
+*/
+
+const gitTasks = gulp.series(
+	promptForSummary,
+	gitAdd,
+	gitCommit,
+	gitPush
+);
+
+gulp.task("commit", gitTasks);
 
 /*
 * >>========================================>
@@ -519,3 +656,4 @@ const deploymentTasks = gulp.series(
 );
 
 gulp.task("deploy", deploymentTasks);
+
