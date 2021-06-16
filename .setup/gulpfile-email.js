@@ -338,6 +338,52 @@ function deployToServer(){
 
 /*
 * >>========================================>
+* Git
+* >>========================================>
+*/
+
+var commitSummary = '';
+
+function promptForSummary(cb){
+	return gulp.src('./*')
+		.pipe(prompt.prompt([
+		{
+			type: 'input',
+			name: 'summary',
+			message: 'Summary of changes:'
+		}
+		], function(res){
+			commitSummary = res.summary;
+		}))
+
+	cb();
+}
+
+
+function gitAdd(cb){
+	return gulp.src('./')
+		.pipe(git.add());
+}
+
+function gitCommit(cb){
+	return gulp.src('./')
+		.pipe(git.commit(commitSummary));
+}
+
+function gitPush(cb){
+	git.revParse({args:'--abbrev-ref HEAD'}, function (err, branch) {
+		currentBranch = branch;
+
+		git.push('origin', branch, function (err) {
+			//if (err) ...
+		});
+
+		cb();
+	});
+}
+
+/*
+* >>========================================>
 * Build Tasks
 * >>========================================>
 */
