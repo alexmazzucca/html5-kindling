@@ -416,20 +416,10 @@ function updateBuildTasks(cb){
 			cb();
 		}
 	}else {
-		if(settings.database != ''){
-			return gulp
-				.src('./.setup/tasks-database.json')
-				.pipe(rename(function (path) {
-					path.basename = 'tasks';
-				}))
-				.pipe(gulp.dest('./.vscode/'))
-			cb();
-		}else{
-			return gulp
-				.src('./.setup/tasks.json')
-				.pipe(gulp.dest('./.vscode/'))
-			cb();
-		}
+		return gulp
+			.src('./.setup/tasks.json')
+			.pipe(gulp.dest('./.vscode/'))
+		cb();
 	}
 }
 
