@@ -11,7 +11,7 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Build & Commit",
+			"label": "Build",
 			"type": "gulp",
 			"task": "build",
 			"group": "build",
