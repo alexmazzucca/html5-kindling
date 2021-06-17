@@ -505,8 +505,9 @@ function gitAdd(cb){
 		.pipe(git.add());
 }
 
-var buildDate = new Date(),
-	buildDate = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) + " " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2);
+var buildDate = new Date()
+
+buildDate = buildDate.getFullYear() + "-" + ('0' + (buildDate.getMonth() + 1)).slice(-2) + "-" + ('0' + buildDate.getDate()).slice(-2) + " " + ('0' + buildDate.getHours()).slice(-2) + ":" + ('0' + buildDate.getMinutes()).slice(-2) + ":" + ('0' + buildDate.getSeconds()).slice(-2);
 
 function gitCommitWithAutoSummary(cb){
 	return gulp.src('./')
@@ -562,7 +563,6 @@ const buildTasks = gulp.series(
 		compressDOM,
 		compressImg
 	),
-	promptForSummary,
 	gitAdd,
 	gitCommitWithAutoSummary,
 	gitPush,
@@ -578,7 +578,6 @@ const wpBuildTasks = gulp.series(
 		compressDOM,
 		compressImg
 	),
-	promptForSummary,
 	gitAdd,
 	gitCommitWithAutoSummary,
 	gitPush,
