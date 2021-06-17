@@ -28,17 +28,13 @@ Once the setup process is complete, the following tasks will be enabled dependin
 
 ### `gulp build`
 
-This task will appear as "Build" in the VSCode build task menu. Once executed, this command will compile and compress project files (CSS, JS, PNG, JPG, etc.) and prompt you for a summary of the changes. Once submitted, the changes will be synced and committed to the repo.
+This task will appear as "Build" in the VSCode build task menu. Once executed, this command will compile and compress project files (CSS, JS, PNG, JPG, etc.). A copy of the project's database (if available) will export to the root directory. All changes will be automatically committed with a timestamp and synced to the project's git repository.
 
 ### `gulp develop`
 
-This task will appear as "Start Server" in the VSCode build task menu. Once executed, this command will start a local development server. It will concatenate and compile JS files, but it will not compress them, allowing for faster load times and readility for debugging. Images will not be compressed. SASS will be compiled without compression, and a sourcemap will be created.
+This task will appear as "Start Server" in the VSCode build task menu. Once executed, this command will start a local development server. It will concatenate and compile JS files, but it will not compress them, allowing for faster load times and readility for debugging. SASS will be compiled without compression, and a sourcemap will be created for debugging purposes. Images will not be compressed.
 
 Gulp will then watch for changes in the ".src/" directory and process them accordingly. Your browser will be automatically refreshed when a change is detected.
-
-### `gulp database`
-
-This task will appear as "Backup Database" in the VSCode build task menu. Once executed, this command will export a copy of the project's database to the root folder of your project.
 
 ### `gulp deploy`
 
