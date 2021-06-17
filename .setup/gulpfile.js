@@ -563,6 +563,7 @@ const buildTasks = gulp.series(
 		compressDOM,
 		compressImg
 	),
+	backupDatabase,
 	gitAdd,
 	gitCommitWithAutoSummary,
 	gitPush,
@@ -578,6 +579,7 @@ const wpBuildTasks = gulp.series(
 		compressDOM,
 		compressImg
 	),
+	backupDatabase,
 	gitAdd,
 	gitCommitWithAutoSummary,
 	gitPush,
