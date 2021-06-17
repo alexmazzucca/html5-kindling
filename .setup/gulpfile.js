@@ -500,13 +500,20 @@ function promptForSummary(cb){
 	cb();
 }
 
-
 function gitAdd(cb){
 	return gulp.src('./')
 		.pipe(git.add());
 }
 
-function gitCommit(cb){
+var buildDate = new Date(),
+	buildDate = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) + " " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2);
+
+function gitCommitWithAutoSummary(cb){
+	return gulp.src('./')
+		.pipe(git.commit('Build: ' + buildDate));
+}
+
+function gitCommitWithUserSummary(cb){
 	return gulp.src('./')
 		.pipe(git.commit(commitSummary));
 }
@@ -557,7 +564,7 @@ const buildTasks = gulp.series(
 	),
 	promptForSummary,
 	gitAdd,
-	gitCommit,
+	gitCommitWithAutoSummary,
 	gitPush,
 	buildComplete
 );
@@ -573,7 +580,7 @@ const wpBuildTasks = gulp.series(
 	),
 	promptForSummary,
 	gitAdd,
-	gitCommit,
+	gitCommitWithAutoSummary,
 	gitPush,
 	buildComplete
 );
@@ -626,7 +633,7 @@ if(settings.type == 'wordpress') {
 const gitTasks = gulp.series(
 	promptForSummary,
 	gitAdd,
-	gitCommit,
+	gitCommitWithUserSummary,
 	gitPush
 );
 
