@@ -16,13 +16,6 @@
 			"task": "build",
 			"group": "build",
 			"problemMatcher": []
-		},
-		{
-			"label": "Commit",
-			"type": "gulp",
-			"task": "commit",
-			"group": "build",
-			"problemMatcher": []
 		}
 	]
 }
