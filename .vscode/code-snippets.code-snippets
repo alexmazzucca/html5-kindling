@@ -46,7 +46,7 @@
         "description": "Configure 'has_column's SASS mixin"
     },
     "HTML markup for section": {
-		"scope": "html",
+		"scope": "html,php",
         "prefix": "Kindling: Section",
         "body": [
             "<!--",
@@ -62,7 +62,7 @@
         "description": "HTML markup for section"
     },
     "HTML markup for high-resolution image": {
-		"scope": "html",
+		"scope": "html,php",
         "prefix": "Kindling: Image 2x",
         "body": [
             "<picture>",
