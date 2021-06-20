@@ -30,7 +30,7 @@ Once the setup process is complete, the following tasks will be enabled dependin
 
 ### `gulp build`
 
-This task will appear as "Build" in the VSCode build task menu. Once executed, this command will compile and compress project files (CSS, JS, PNG, JPG, etc.). A copy of the project's database (if available) will export to the root directory. All changes will be automatically timestamped and committed to the project's Git repo. The timestamped commit will be automatically pushed.
+This task will appear as "Build" in the VSCode build task menu. Once executed, this command will compile and compress project files (CSS, JS, PNG, JPG, etc.). A copy of the project's database (if available) will export to the root directory. All changes will be automatically timestamped and committed to the project's Git repo. The timestamped commit will then be automatically pushed.
 
 ### `gulp develop`
 
