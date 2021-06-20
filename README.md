@@ -18,6 +18,8 @@ This command will lead you through a series of prompts which will help you set u
 
 This command will create appropriate template files for your new project depending on the project type that you select. These template files will be moved to the [./src](/src) and [./dist](/dist) directories where appropriate.
 
+Once the setup process has been completed, the project will be automatically committed with a summary of "Initial commit" and pushed to the project's Git repo.
+
 **A note about working with email projects:**
 
 During the setup process, you can specify an absolute path for images by providing a "Development URL" when prompted. This will update all image paths in your compiled HTML automatically when the project is built. For example, by specifying `'http://yoursite.com/images/'` as the URL, image source attributes will change from `src="img/spacer.gif"` to `src="http://yoursite.com/images/spacer.gif"`.
@@ -28,7 +30,7 @@ Once the setup process is complete, the following tasks will be enabled dependin
 
 ### `gulp build`
 
-This task will appear as "Build" in the VSCode build task menu. Once executed, this command will compile and compress project files (CSS, JS, PNG, JPG, etc.). A copy of the project's database (if available) will export to the root directory. All changes will be automatically committed with a timestamp and synced to the project's git repository.
+This task will appear as "Build" in the VSCode build task menu. Once executed, this command will compile and compress project files (CSS, JS, PNG, JPG, etc.). A copy of the project's database (if available) will export to the root directory. All changes will be automatically timestamped and committed to the project's Git repo. The timestamped commit will be automatically pushed.
 
 ### `gulp develop`
 
