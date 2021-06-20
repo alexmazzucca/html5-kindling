@@ -217,6 +217,7 @@ function promptForLiveDeployentDetails(cb){
 		cb();
 	}
 }
+
 function promptForStagingDeployentDetails(cb){
 	if(settings.staging == 'yes'){
 		return gulp.src('./package.json')
@@ -464,6 +465,40 @@ function setupComplete(cb){
 
 /*
 * >>========================================>
+* Git
+* >>========================================>
+*/
+
+var commitSummary = '';
+
+function gitAdd(cb){
+	return gulp.src('./')
+		.pipe(git.add());
+}
+
+var buildDate = new Date()
+
+buildDate = buildDate.getFullYear() + "-" + ('0' + (buildDate.getMonth() + 1)).slice(-2) + "-" + ('0' + buildDate.getDate()).slice(-2) + " " + ('0' + buildDate.getHours()).slice(-2) + ":" + ('0' + buildDate.getMinutes()).slice(-2) + ":" + ('0' + buildDate.getSeconds()).slice(-2);
+
+function gitInitialCommit(cb){
+	return gulp.src('./')
+		.pipe(git.commit('Initial commit'));
+}
+
+function gitPush(cb){
+	git.revParse({args:'--abbrev-ref HEAD'}, function (err, branch) {
+		currentBranch = branch;
+
+		git.push('origin', branch, function (err) {
+			//if (err) ...
+		});
+
+		cb();
+	});
+}
+
+/*
+* >>========================================>
 * Setup Task Series
 * >>========================================>
 */
@@ -491,6 +526,9 @@ const setupProject = gulp.series(
 	updateBuildTasks,
 	updateREADME,
 	delSetupFiles,
+	gitAdd,
+	gitInitialCommit,
+	gitPush,
 	setupComplete
 );
 
