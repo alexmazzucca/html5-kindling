@@ -482,7 +482,7 @@ buildDate = buildDate.getFullYear() + "-" + ('0' + (buildDate.getMonth() + 1)).s
 
 function gitInitialCommit(cb){
 	return gulp.src('./')
-		.pipe(git.commit('Initial commit'));
+		.pipe(git.commit('Setup complete'));
 }
 
 function gitPush(cb){
