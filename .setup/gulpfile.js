@@ -614,7 +614,6 @@ const devTasks = gulp.series(
 	combineJS,
 	compileSASS,
 	compressDOM,
-	compressImg,
 	startServer,
 	watchForChanges
 );
