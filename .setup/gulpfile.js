@@ -401,7 +401,6 @@ function startServer(cb) {
 */
 
 function watchForChanges() {
-	gulp.watch(paths.dom.src, gulp.series(compressDOM, liveReload));
 	gulp.watch(paths.scripts.src, gulp.series(combineJS, liveReload));
 
 	if(settings.type == 'wordpress'){
@@ -410,7 +409,7 @@ function watchForChanges() {
 		gulp.watch(paths.styles.src, gulp.series(compressSASS));
 	}
 	
-	gulp.watch(['./src/**', '!./src/js/**', '!./src/scss/**', '!./src/**/*.html', '!./src/**/*.php'], {events: ['add']}, gulp.series(copyFilesToDist, liveReload));
+	gulp.watch(['./src/**', '!./src/js/**', '!./src/scss/**'], {events: ['all']}, gulp.series(copyFilesToDist, liveReload));
 }
 
 function liveReload(cb) {
@@ -603,7 +602,6 @@ const wpDevTasks = gulp.series(
 	copyFilesToDist,
 	combineJS,
 	compileWPSASS,
-	compressDOM,
 	startServer,
 	watchForChanges
 );
@@ -613,7 +611,6 @@ const devTasks = gulp.series(
 	copyFilesToDist,
 	combineJS,
 	compileSASS,
-	compressDOM,
 	startServer,
 	watchForChanges
 );
